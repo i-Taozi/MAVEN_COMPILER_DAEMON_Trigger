@@ -1,46 +1,32 @@
 language: java
 
-sudo: required
-dist: trusty
+dist: xenial
 
-services:
-  - postgresql
+sudo: false
 
-addons:
-  apt:
-    packages:
-    - mysql-server-5.6
-    - mysql-client-core-5.6
-    - mysql-client-5.6
-
-matrix:
-  include:
-    - jdk: oraclejdk9
-      install: . ./.travis/install-jdk-9.sh
-      script: mvn package -B -Pjdk19,dev9
-    - jdk: oraclejdk8
-      script:  mvn package javadoc:javadoc -B -Pdev && mvn -P travis,!dev -DserviceName=travis-ci jacoco:report coveralls:report
-    - jdk: openjdk7
-      script:  mvn package javadoc:javadoc -B
-      install: . ./.travis/install-jdk-7.sh
-    - script:  mvn package -B -Pjdk19,dev9
-      install: . ./.travis/install-jdk-11.sh
-    - script:  mvn package -B -Pjdk19,dev9
-      install: . ./.travis/install-jdk-12.sh
-    - script:  mvn package -B -Pjdk19,dev9
-      install: . ./.travis/install-jdk-13.sh
-    - script:  mvn package -B -Pjdk19,dev9
-      install: . ./.travis/install-jdk-14.sh
+jdk:
+  - openjdk8
 
 env:
-  - MAVEN_SKIP_RC=true TRAVISBUILD=true
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "nn4GGXnlQpRlt4IcgeEgmMKSA4byJu42P2Tf3h7fSnbX4LmacecAXn8Z3gvkSu1RWKbmMAKW3y7I2NASy8npyy4MM2/3a56Wm8TXCH44kndt24V5pXcgsogU/lDDz2wRuoIo371ZUylf6yezf4Dbc1cphxKRazDulxJH3Kp1wKI="
 
-before_install:
-  - echo "127.0.0.1    $HOSTNAME" | sudo tee -a /etc/hosts
+addons:
+  coverity_scan:
+    # https://docs.travis-ci.com/user/coverity-scan/
+    project:
+      name: "senbox-org/s2tbx"
+      description: "Build submitted via Travis CI"
+    notification_email: stb-coverity@thor.si.c-s.fr
+    #build_command_prepend: "mvn clean"
+    build_command:   "mvn -DskipTests=true clean compile"
+    branch_pattern: coverity_scan
 
-  
-before_script:
-  - mysql --verbose -u root -e 'create database sfm;'
-  - mysql --verbose -u root -e "CREATE USER 'sfm'@'localhost';"
-  - mysql --verbose -u root -e "GRANT ALL ON sfm.* TO 'sfm'@'localhost';"
-  - psql -c 'create database sfm;' -U postgres
+install:
+  - true
+
+script:
+  - mvn clean install -B -V
+
