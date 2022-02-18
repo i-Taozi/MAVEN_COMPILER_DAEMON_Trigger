@@ -1,19 +1,25 @@
-*.class
+# Maven
 target/
 
-# IDE files
-.idea/
-*.iml
+# Eclipse
 .classpath
 .project
 .settings/
-out/
+META-INF/
+build.properties
+plugin.xml
 
-logs/
+#intelliJ
+*.iws
+*.ipr
+.idea
+*.iml
+build/
 
-velocity.log.*
-*.log
+_site
+_views
+_posts
+_menus
+assets
+installation
 
-dependency-reduced-pom.xml
-
-.protegedata/

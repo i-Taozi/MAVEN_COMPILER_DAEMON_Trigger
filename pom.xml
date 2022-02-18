@@ -1,463 +1,580 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>edu.stanford.protege</groupId>
-    <artifactId>webprotege</artifactId>
-    <version>5.0.0-SNAPSHOT</version>
+    <artifactId>protege-parent</artifactId>
+    <version>5.6.0-beta-1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <guava.version>28.0</guava.version>
-        <dagger.version>2.20</dagger.version>
-        <owlapi.version>4.5.13</owlapi.version>
-        <widgetmap.version>4.0.1</widgetmap.version>
-        <graphtree.version>1.1.1</graphtree.version>
-        <autovalue.version>1.7.1</autovalue.version>
-        <jackson.version>2.11.0</jackson.version>
-        <commons.io.version>2.7</commons.io.version>
-        <!-- WebProtege Specific Properties -->
-        <mail.smtp.host/>
-        <mail.smtp.auth/>
-        <mail.smtp.port/>
-        <application.analytics/>
-        <build.timestamp>${maven.build.timestamp}</build.timestamp>
-        <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
-        <auto-factory.version>1.0-beta7</auto-factory.version>
-        <junit.version>4.12</junit.version>
-        <commonmark.version>0.11.0</commonmark.version>
-    </properties>
+    <name>protege-parent</name>
+	<description>Protege is a free, open source ontology editor that supports the full OWL 2 standard.</description>
+	<url>http://protege.stanford.edu</url>
+	<inceptionYear>1987</inceptionYear>
+	<organization>
+		<name>Stanford Center for Biomedical Informatics Research</name>
+		<url>http://bmir.stanford.edu/</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>BSD 2-Clause License</name>
+			<url>http://opensource.org/licenses/BSD-2-Clause</url>
+		</license>
+	</licenses>
+	
+	<!-- Alphabetical by last name -->
+	<developers>
+		<developer>
+			<id>matthewhorridge</id>
+			<name>Matthew Horridge</name>
+			<email>matthew.horridge@stanford.edu</email>
+		</developer>
+		<developer>
+			<id>csnyulas</id>
+			<name>Csongor Nyulas</name>
+			<email>csongor.nyulas@stanford.edu</email>
+		</developer>
+		<developer>
+			<id>stdotjohn</id>
+			<name>Timothy Redmond</name>
+			<email>tredmond@stanford.edu</email>
+		</developer>
+		<developer>
+			<id>tudorache</id>
+			<name>Tania Tudorache</name>
+			<email>tudorache@stanford.edu</email>
+		</developer>
+		<developer>
+			<id>jvendetti</id>
+			<name>Jennifer Vendetti</name>
+			<email>vendetti@stanford.edu</email>
+		</developer>
+	</developers>
+	
+	<contributors>
+		<contributor>
+			<name>Nick Drummond</name>
+			<email>nickdrummond@yahoo.com</email>
+		</contributor>
+	</contributors>
+	
+	<mailingLists>
+		<!-- For end users of Protege Desktop. -->
+		<mailingList>
+			<name>protege-user</name>
+			<subscribe>https://mailman.stanford.edu/mailman/listinfo/protege-user</subscribe>
+			<unsubscribe>https://mailman.stanford.edu/mailman/listinfo/protege-user</unsubscribe>
+			<post>protege-user@lists.stanford.edu</post>
+			<archive>http://protege-project.136.n4.nabble.com/</archive>
+			<otherArchives>
+				<otherArchive>https://mailman.stanford.edu/pipermail/protege-user/</otherArchive>
+			</otherArchives>
+		</mailingList>
+		
+		<!-- For developers with questions about source code, developing Protege Desktop plug-ins, and/or programmatic access of ontologies.  -->
+		<mailingList>
+			<name>protege-dev</name>
+			<subscribe>https://mailman.stanford.edu/mailman/listinfo/protege-dev</subscribe>
+			<unsubscribe>https://mailman.stanford.edu/mailman/listinfo/protege-dev</unsubscribe>
+			<post>protege-dev@lists.stanford.edu</post>
+			<archive>http://protege-project.136.n4.nabble.com/</archive>
+			<otherArchives>
+				<otherArchive>https://mailman.stanford.edu/pipermail/protege-dev/</otherArchive>
+			</otherArchives>
+		</mailingList>
+	</mailingLists>
+		
+	<modules>
+		<module>protege-launcher</module>
+		<module>protege-common</module>
+		<module>protege-editor-core</module>
+		<module>protege-editor-owl</module>
+		<module>protege-desktop</module>
+	</modules>
+	
+	<scm>
+		<connection>scm:git:git@github.com:protegeproject/protege.git</connection>
+		<developerConnection>scm:git:git@github.com:protegeproject/protege.git</developerConnection>
+		<url>https://github.com/protegeproject/protege</url>
+	  <tag>HEAD</tag>
+	</scm>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/protegeproject/protege/issues</url>
+	</issueManagement>
 
-    <scm>
-        <connection>scm:git:https://github.com/protegeproject/webprotege.git</connection>
-        <url>https://github.com/webprotege/webprotege.git</url>
-    </scm>
+	<repositories>
+		<repository>
+			<id>oss</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases><enabled>false</enabled></releases>
+			<snapshots><enabled>true</enabled></snapshots>
+		</repository>
+	</repositories>
+	
+	<!-- Protege libraries are hosted on Sonatype OSSRH (OSS Repository Hosting Service). -->
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+	
+	<properties>
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
+		<slf4j.version>1.7.12</slf4j.version>
+		<logback.version>1.1.3</logback.version>
+		<lib.location>target/lib</lib.location>
+		<jackson.version>2.9.8</jackson.version>
+	</properties>
+	
+	<dependencyManagement>
+		<dependencies>
 
-    <prerequisites>
-        <maven>3.5.0</maven>
-    </prerequisites>
+			<dependency>
+				<groupId>net.sourceforge.owlapi</groupId>
+				<artifactId>owlapi-osgidistribution</artifactId>
+				<version>4.5.19</version>
+			</dependency>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.google.gwt</groupId>
-                <artifactId>gwt</artifactId>
-                <version>2.8.2</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>3.1.0</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>2.6</version>
-            </dependency>
-            <dependency>
-                <groupId>org.ow2.asm</groupId>
-                <artifactId>asm</artifactId>
-                <version>7.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.ow2.asm</groupId>
-                <artifactId>asm-commons</artifactId>
-                <version>7.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.ow2.asm</groupId>
-                <artifactId>asm-analysis</artifactId>
-                <version>7.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.ow2.asm</groupId>
-                <artifactId>asm-tree</artifactId>
-                <version>7.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.ow2.asm</groupId>
-                <artifactId>asm-util</artifactId>
-                <version>7.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.ow2.asm</groupId>
-                <artifactId>asm-xml</artifactId>
-                <version>7.0</version>
-            </dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.main</artifactId>
+				<version>5.4.0</version>
+			</dependency>
 
-            <dependency>
-                <groupId>edu.stanford.protege</groupId>
-                <artifactId>graphtree</artifactId>
-                <version>1.1.1</version>
-            </dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
 
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
 
-            <!-- Use specific version of guava for all subprojects -->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}-jre</version>
-            </dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava-gwt</artifactId>
-                <version>${guava.version}-jre</version>
-            </dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
 
-            <!-- Dependency Injection via Dagger -->
-            <dependency>
-                <groupId>com.google.dagger</groupId>
-                <artifactId>dagger</artifactId>
-                <version>${dagger.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>com.google.dagger</groupId>
-                <artifactId>dagger-spi</artifactId>
-                <version>${dagger.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>3.0.1</version>
+			</dependency>
 
-            <dependency>
-                <groupId>com.google.dagger</groupId>
-                <artifactId>dagger-compiler</artifactId>
-                <version>${dagger.version}</version>
-                <scope>provided</scope>
-            </dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>18.0</version>
+			</dependency>
 
-            <dependency>
-                <groupId>com.github.ben-manes.caffeine</groupId>
-                <artifactId>caffeine</artifactId>
-                <version>2.7.0</version>
-            </dependency>
+			<dependency>
+				<groupId>com.googlecode.mdock</groupId>
+				<artifactId>mdock</artifactId>
+				<version>2.0.1</version>
+			</dependency>
 
-            <!-- Testing Dependencies -->
+			<dependency>
+				<groupId>org.eclipse.equinox</groupId>
+				<artifactId>org.eclipse.equinox.common</artifactId>
+				<version>3.6.0.v20100503</version>
+			</dependency>
 
-            <dependency>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>jsr305</artifactId>
-                <version>3.0.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-all</artifactId>
-                <version>1.3</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>2.23.0</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.hamcrest</groupId>
-                        <artifactId>hamcrest-core</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+			<dependency>
+				<groupId>org.eclipse.equinox</groupId>
+				<artifactId>org.eclipse.equinox.registry</artifactId>
+				<version>3.5.0.v20100503</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.eclipse.equinox</groupId>
+				<artifactId>org.eclipse.equinox.supplement</artifactId>
+				<version>1.3.0.20100503</version>
+			</dependency>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
+			<dependency>
+				<groupId>org.apache.servicemix.bundles</groupId>
+				<artifactId>org.apache.servicemix.bundles.aopalliance</artifactId>
+				<version>1.0_6</version>
+			</dependency>
 
-    <repositories>
-        <repository>
-            <id>oss-sonatype</id>
-            <name>OSS Sonatype Snapshot Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <snapshots>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>edu.protege.stanford</id>
-            <name>Protege Project Maven Repo</name>
-            <url>https://github.com/protegeproject/mvn-repo/raw/master/releases</url>
-            <snapshots>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
+			<dependency>
+				<groupId>org.apache.servicemix.bundles</groupId>
+				<artifactId>org.apache.servicemix.bundles.javax-inject</artifactId>
+				<version>1_2</version>
+			</dependency>
 
-    <build>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-artifact</artifactId>
+				<version>3.3.9</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.4</version>
+			</dependency>
 
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.0.0-M2</version>
-                </plugin>
-                <plugin>
-                    <groupId>edu.stanford.protege</groupId>
-                    <artifactId>webprotege-maven-plugin</artifactId>
-                    <version>1.1.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>buildnumber-maven-plugin</artifactId>
-                    <version>1.4</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.0.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
-                    <configuration>
-                        <release>11</release>
-                        <forceJavacCompilerUse>true</forceJavacCompilerUse>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.2.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-maven-plugin</artifactId>
-                    <version>9.4.12.v20180830</version>
-                </plugin>
-                <plugin>
-                    <groupId>net.ltgt.gwt.maven</groupId>
-                    <artifactId>gwt-maven-plugin</artifactId>
-                    <version>1.0.0</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <sourceLevel>1.8</sourceLevel>
-                        <failOnError>true</failOnError>
-                        <classpathScope>compile+runtime</classpathScope>
-                        <moduleName>edu.stanford.bmir.protege.web.client.WebProtege</moduleName>
-                        <startupUrls>WebProtege.jsp</startupUrls>
-                        <launcherDir>${project.build.directory}/gwt/launcherDir</launcherDir>
-                        <style>DETAILED</style>
-                        <devmodeArgs>
-                            <arg>-style</arg><arg>DETAILED</arg>
-                        </devmodeArgs>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>3.0.1</version>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <phase>process-classes</phase>
-                            <!--<phase>package</phase>-->
-                            <goals>
-                                <goal>jar-no-fork</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.1.1</version>
-                </plugin>
+			<dependency>
+				<groupId>edu.stanford.protege</groupId>
+				<artifactId>org.protege.xmlcatalog</artifactId>
+				<version>1.0.5</version>
+				<exclusions>
+					<exclusion>
+						<groupId>net.sourceforge.owlapi</groupId>
+						<artifactId>owlapi-osgidistribution</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>log4j</groupId>
+						<artifactId>log4j</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.eclipse.jgit</groupId>
+				<artifactId>org.eclipse.jgit</artifactId>
+				<version>4.8.0.201706111038-r</version>
+			</dependency>
 
-                <plugin>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>3.2.2</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.tomcat.maven</groupId>
-                    <artifactId>tomcat7-maven-plugin</artifactId>
-                    <version>2.2</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.1</version>
-                    <configuration>
-                        <argLine>
-                            --illegal-access=permit
-                        </argLine>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.22.0</version>
-                    <configuration>
-                        <argLine>
-                            --illegal-access=permit
-                        </argLine>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+			<dependency>
+				<groupId>com.googlecode.javaewah</groupId>
+				<artifactId>JavaEWAH</artifactId>
+				<version>1.1.6</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
 
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                	<fork>true</fork>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <generateBackupPoms>false</generateBackupPoms>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <configuration>
-                    <rules>
-                        <requireMavenVersion>
-                            <version>3.0</version>
-                        </requireMavenVersion>
-                    </rules>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <attach>true</attach>
-                    <shortRevisionLength>7</shortRevisionLength>
-                    <doCheck>false</doCheck>
-                    <doUpdate>false</doUpdate>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>parse-version</id>
-                        <goals>
-                            <goal>parse-version</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>net.ltgt.gwt.maven</groupId>
-                <artifactId>gwt-maven-plugin</artifactId>
-                <inherited>false</inherited>
-                <configuration>
-                    <moduleName>edu.stanford.bmir.protege.web.WebProtege</moduleName>
-                    <launcherDir>${project.build.directory}/gwt/launcherDir</launcherDir>
-                    <classpathScope>compile+runtime</classpathScope>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit-dep</artifactId>
+				<version>4.11</version>
+				<scope>test</scope>
+			</dependency>
 
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-all</artifactId>
+				<version>1.3</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>1.9.5</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>2.0.2-beta</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.auto.value</groupId>
+				<artifactId>auto-value-annotations</artifactId>
+				<version>1.6.3rc1</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.auto.value</groupId>
+				<artifactId>auto-value</artifactId>
+				<version>1.6.3rc1</version>
+				<scope>provided</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+				
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.0</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+							
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<descriptors>
+							<descriptor>protege-distribution/src/main/assembly/protege-as-directory.xml</descriptor>
+							<descriptor>protege-distribution/src/main/assembly/protege-as-app.xml</descriptor>
+						</descriptors>
+					</configuration>
+				</plugin>
+				
+				<plugin>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.3</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.scm</groupId>
+							<artifactId>maven-scm-provider-gitexe</artifactId>
+							<version>1.9</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+						<tagNameFormat>v@{project.version}</tagNameFormat>
+						<releaseProfiles>release</releaseProfiles>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>maven-bundle-plugin</artifactId>
+					<version>2.4.0</version>
+					<extensions>true</extensions>
+					<configuration>
+						<instructions>							
+							<Bundle-Vendor>The Protege Development Team</Bundle-Vendor>
+							<Embed-Directory>${lib.location}</Embed-Directory>							
+						</instructions>
+					</configuration>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+	</build>
+	
+	<!-- Generate source and Javadoc JAR files, and sign artifacts.  Required by Sonatype OSSRH for deployment. -->
     <profiles>
-        <!-- Profile for local development of WebProtege -->
-        <profile>
-            <id>development</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <data.directory>/srv/webprotege</data.directory>
-            </properties>
+		<profile>
+			<id>release</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+		
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9.1</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+								<configuration>
+									<failOnError>false</failOnError>
+									<quiet>true</quiet>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+		
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 
-        </profile>
-        <profile>
-            <id>skip-gwt-compilation</id>
-            <properties>
-                <gwt.skipCompilation>true</gwt.skipCompilation>
-            </properties>
-        </profile>
-        <!-- Profile for producing a deployment on a particular machine -->
-        <profile>
-            <id>deployment</id>
-            <properties>
-                <data.directory>/srv/webprotege</data.directory>
-            </properties>
-        </profile>
-        <!-- Profile for producing a release of WebProtege that people can download and install locally -->
-        <profile>
-            <id>webprotege.release</id>
-            <properties>
-                <data.directory>/srv/webprotege</data.directory>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>3.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <!-- Profile for deployment of WebProtege to webprotege.stanford.edu -->
-        <profile>
-            <id>webprotege.stanford.edu</id>
-            <properties>
-                <!-- Insert the code for google analytics.  This code is not inserted by default. -->
-                <application.analytics>
-                    <![CDATA[
-                    <script type="text/javascript">
-                        var _gaq = _gaq || [];
-                        _gaq.push(['_setAccount', 'UA-32498293-1']);
-                        _gaq.push(['_trackPageview']);
-                        (function() {
-                        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                        })();
-                    </script>
-                    ]]>
-                </application.analytics>
-            </properties>
-        </profile>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.6</version>
+						<extensions>true</extensions>
+						<executions>
+							<execution>
+								<id>default-deploy</id>
+								<phase>deploy</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>ide</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<!-- Including this plug-in eliminates the "maven-dependency-plugin 
+							(goals "copy-dependencies", "unpack") is not supported by m2e" Eclipse error. -->
+						<!-- See stackoverflow for full discussion: http://stackoverflow.com/q/8706017. -->
+						<!-- This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>1.0.0</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.apache.maven.plugins</groupId>
+												<artifactId>maven-dependency-plugin</artifactId>
+												<versionRange>[2.1,)</versionRange>
+												<goals>
+													<goal>copy-dependencies</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.felix</groupId>
+							<artifactId>maven-bundle-plugin</artifactId>
+							<extensions>true</extensions>
+							<configuration>
+								<manifestLocation>META-INF</manifestLocation>
+								<instructions>
+								<Bundle-ClassPath>.,target/dependency</Bundle-ClassPath>
+								</instructions>
+							</configuration>
+						</plugin>
+						<!-- Copy all Maven dependencies so that it is possible to run Protege 
+							in Eclipse (PDE + m2e + OSGi Framework launcher). -->
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-dependency-plugin</artifactId>
+							<version>2.8</version>
+							<executions>
+								<execution>
+									<id>copy-provided-dependencies</id>
+									<phase>package</phase>
+									<goals>
+										<goal>unpack-dependencies</goal>
+									</goals>
+								</execution>
+							</executions>
+							<configuration>
+								<includeScope>provided</includeScope>
+								<outputDirectory>${project.build.directory}/dependency</outputDirectory>
+							</configuration>
+						</plugin>
+						<!-- Copy plugin.xml where PDE in Eclipse can find it (PDE + m2e + 
+							OSGi Framework launcher). -->
+						<plugin>
+							<artifactId>maven-resources-plugin</artifactId>
+							<version>2.7</version>
+							<executions>
+								<execution>
+									<id>copy-resources</id>
+									<phase>validate</phase>
+									<goals>
+										<goal>copy-resources</goal>
+									</goals>
+									<configuration>
+										<outputDirectory>${basedir}</outputDirectory>
+										<resources>
+											<resource>
+												<directory>src/main/resources</directory>
+												<includes>
+													<include>plugin.xml</include>
+												</includes>
+											</resource>
+										</resources>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+						<!-- Remove META-INF and plugin.xml from project root, placed there 
+							when this profile is active. -->
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-clean-plugin</artifactId>
+							<version>2.5</version>
+							<configuration>
+								<filesets>
+									<fileset>
+										<directory>META-INF</directory>
+									</fileset>
+									<fileset>
+										<directory>${basedir}</directory>
+										<includes>
+											<include>plugin.xml</include>
+										</includes>
+										<followSymlinks>false</followSymlinks>
+									</fileset>
+								</filesets>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
     </profiles>
-
-    <modules>
-        <module>webprotege-shared</module>
-        <module>webprotege-server-api</module>
-        <module>webprotege-server-core</module>
-        <module>webprotege-server</module>
-        <module>webprotege-client</module>
-        <module>webprotege-shared-core</module>
-        <module>webprotege-cli</module>
-        <module>webprotege-server-lucene</module>
-    </modules>
 </project>

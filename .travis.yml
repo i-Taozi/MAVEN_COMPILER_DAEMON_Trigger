@@ -1,8 +1,20 @@
 language: java
+
 jdk:
-  - oraclejdk11
-before_script:
-  - sudo mkdir /var/log/webprotege && sudo chown travis /var/log/webprotege
-script: mvn verify
-sudo: false
-services: mongodb
+  - openjdk8
+
+notifications:
+  email:
+    recipients:
+      - horridge@stanford.edu
+    on_success: never
+    on_failure: always
+
+before_install:
+  - "export DISPLAY=:99.0"
+
+services:
+  - xvfb
+
+script: 
+  - mvn verify -B
