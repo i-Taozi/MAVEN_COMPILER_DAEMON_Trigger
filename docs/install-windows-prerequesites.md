@@ -1,1 +1,0 @@
-# Tanaguru Windows installation: prerequesites
