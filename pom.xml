@@ -429,6 +429,7 @@
 				<configuration>
 					<source>${version.java}</source>
 					<target>${version.java}</target>
+					<fork>true</fork>
 				</configuration>
 			</plugin>
 
