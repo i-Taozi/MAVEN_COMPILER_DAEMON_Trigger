@@ -1,0 +1,3251 @@
+{
+	"info": {
+		"_postman_id": "6763e457-b134-40e7-824e-566216098f4a",
+		"name": "Sentilo API Rest Testing 1.9.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Catalog",
+			"item": [
+				{
+					"name": "00. Catalog - delete all with DELETE method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"function pausecomp(millis)",
+									" {",
+									"  var date = new Date();",
+									"  var curDate = null;",
+									"  do { curDate = new Date(); }",
+									"  while(curDate-date < millis);",
+									"}",
+									"",
+									"pausecomp(10000);",
+									""
+								],
+								"id": "8736d56b-9200-4617-84d7-a57076717ff7"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "01. Catalog - invalid credential",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 401\"] = responseCode.code === 401;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"JSON Validation: code is 401\"] = jsonData.code === 401;",
+									"tests[\"JSON Validation: message is 'Invalid credential null'\"] = jsonData.message === \"Invalid credential null\";",
+									""
+								],
+								"id": "b7d02825-8951-4181-8285-b7a244dea5ac"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02. Catalog - empty response body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body is empty",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"JSON Validation: empty\"] = JSON.stringify(jsonData) === JSON.stringify({});",
+									""
+								],
+								"id": "27d699e2-f724-4ae6-b6dc-ffa5ac90bc00"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03. Catalog - create sensors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "e1e17893-e0c5-4f2c-82d1-a6302d1b6054"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sensors\": [{\r\n    \"sensor\":\"TEST_SENSOR_001\",\r\n      \"description\":\"Test sensor 001\",\r\n      \"type\":\"humidity\", \r\n      \"dataType\":\"number\",\r\n      \"unit\":\"%\",\r\n      \"component\":\"TEST_COMPONENT_001\", \r\n      \"componentType\":\"meteo\",\r\n      \"componentDesc\":\"Test component\",\r\n      \"location\":\"41.39479 2.148768\",\r\n      \"timeZone\":\"CET\" \r\n  },{\r\n    \"sensor\":\"TEST_SENSOR_002\",\r\n      \"description\":\"Test sensor 002\",\r\n      \"type\":\"humidity\", \r\n      \"dataType\":\"number\",\r\n      \"unit\":\"%\",\r\n      \"component\":\"TEST_COMPONENT_001\", \r\n      \"componentType\":\"meteo\",\r\n      \"componentDesc\":\"Test component\",\r\n      \"location\":\"41.39479 2.148768\",\r\n      \"timeZone\":\"CET\" \r\n  },{\r\n    \"sensor\":\"TEST_SENSOR_003\",\r\n      \"description\":\"Test sensor 003\",\r\n      \"type\":\"humidity\", \r\n      \"dataType\":\"number\",\r\n      \"unit\":\"%\",\r\n      \"component\":\"TEST_COMPONENT_001\", \r\n      \"componentType\":\"meteo\",\r\n      \"componentDesc\":\"Test component\",\r\n      \"location\":\"41.39479 2.148768\",\r\n      \"timeZone\":\"CET\" \r\n  },{\r\n    \"sensor\":\"TEST_SENSOR_004\",\r\n      \"description\":\"Test sensor 004\",\r\n      \"type\":\"humidity\", \r\n      \"dataType\":\"number\",\r\n      \"unit\":\"%\",\r\n      \"component\":\"TEST_COMPONENT_001\", \r\n      \"componentType\":\"meteo\",\r\n      \"componentDesc\":\"Test component\",\r\n      \"location\":\"41.39479 2.148768\",\r\n      \"timeZone\":\"CET\" \r\n  },{\r\n    \"sensor\":\"TEST_SENSOR_005\",\r\n      \"description\":\"Test sensor 005\",\r\n      \"type\":\"humidity\", \r\n      \"dataType\":\"number\",\r\n      \"unit\":\"%\",\r\n      \"component\":\"TEST_COMPONENT_001\", \r\n      \"componentType\":\"meteo\",\r\n      \"componentDesc\":\"Test component\",\r\n      \"location\":\"41.39479 2.148768\",\r\n      \"timeZone\":\"CET\",\r\n      \"additionalInfo\": {\r\n        \"accuracy\":\"4.5%\",\r\n        \"voltage\":\"2.1-3.6\"\r\n      },\r\n      \"componentAdditionalInfo\": {\r\n        \"altitude\":\"525 m.\"\r\n      }\r\n  },{\r\n    \"sensor\":\"TEST_SENSOR_010\",\r\n      \"description\":\"Test sensor 010\",\r\n      \"type\":\"humidity\", \r\n      \"dataType\":\"number\",\r\n      \"unit\":\"%\",\r\n      \"component\":\"TEST_COMPONENT_010\", \r\n      \"componentType\":\"meteo\",\r\n      \"componentDesc\":\"Test component\",\r\n      \"location\":\"41.39479 2.148768\",\r\n      \"timeZone\":\"CET\" \r\n  },{\r\n    \"sensor\":\"TEST_SENSOR_011\",\r\n      \"description\":\"Test sensor 011\",\r\n      \"type\":\"humidity\", \r\n      \"dataType\":\"number\",\r\n      \"unit\":\"%\",\r\n      \"component\":\"TEST_COMPONENT_010\", \r\n      \"componentType\":\"meteo\",\r\n      \"componentDesc\":\"Test component\",\r\n      \"location\":\"41.39479 2.148768\",\r\n      \"timeZone\":\"CET\" \r\n  },{\r\n    \"sensor\":\"TEST_SENSOR_012\",\r\n      \"description\":\"Test sensor 012\",\r\n      \"type\":\"humidity\", \r\n      \"dataType\":\"number\",\r\n      \"unit\":\"%\",\r\n      \"component\":\"TEST_COMPONENT_010\", \r\n      \"componentType\":\"meteo\",\r\n      \"componentDesc\":\"Test component\",\r\n      \"location\":\"41.39479 2.148768\",\r\n      \"timeZone\":\"CET\" \r\n  }]\r\n}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04. Catalog - get sensors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the catalog response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var providersList = jsonData.providers;",
+									"var existsOneProvider = providersList !== undefined && providersList !== null && providersList.constructor === Array && providersList.length === 1;",
+									"",
+									"tests[\"Exists one provider\"] = existsOneProvider === true ;",
+									"",
+									"var existsSensor001 = false;",
+									"var existsSensor002 = false;",
+									"var existsSensor003 = false;",
+									"var existsSensor004 = false;",
+									"var existsSensor005 = false;",
+									"var existsSensor010 = false;",
+									"var existsSensor011 = false;",
+									"var existsSensor012 = false;",
+									"",
+									"if (existsOneProvider) {",
+									"    var testProvider = providersList[0];",
+									"    var sensorsList = testProvider.sensors;",
+									"    var existsSensors = sensorsList !== undefined && sensorsList !== null && sensorsList.constructor === Array && sensorsList.length === 8;",
+									"    ",
+									"    tests[\"Exists eight sensors\"] = existsSensors === true;",
+									"",
+									"    if (existsSensors) {",
+									"        ",
+									"        for(var s=0; s<sensorsList.length; s++) {",
+									"            var sensor = sensorsList[s];",
+									"            if (sensor !== undefined && sensor !== null) {",
+									"                if (sensor.sensor === 'TEST_SENSOR_001') {",
+									"                    existsSensor001 = true;",
+									"                } else if (sensor.sensor === 'TEST_SENSOR_002') {",
+									"                    existsSensor002 = true;",
+									"                } else if (sensor.sensor === 'TEST_SENSOR_003') {",
+									"                    existsSensor003 = true;",
+									"                } else if (sensor.sensor === 'TEST_SENSOR_004') {",
+									"                    existsSensor004 = true;",
+									"                } else if (sensor.sensor === 'TEST_SENSOR_005') {",
+									"                    existsSensor005 = true;",
+									"                    tests[\"Test fifth sensor has additionalInfo\"] = sensor.additionalInfo !== undefined;",
+									"                } else if (sensor.sensor === 'TEST_SENSOR_010') {",
+									"                    existsSensor010 = true;",
+									"                } else if (sensor.sensor === 'TEST_SENSOR_011') {",
+									"                    existsSensor011 = true;",
+									"                } else if (sensor.sensor === 'TEST_SENSOR_012') {",
+									"                    existsSensor012 = true;",
+									"                }  ",
+									"            }",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"tests[\"Exists TEST_SENSOR_001\"] = existsSensor001 === true;",
+									"tests[\"Exists TEST_SENSOR_002\"] = existsSensor002 === true;",
+									"tests[\"Exists TEST_SENSOR_003\"] = existsSensor003 === true;",
+									"tests[\"Exists TEST_SENSOR_004\"] = existsSensor004 === true;",
+									"tests[\"Exists TEST_SENSOR_005\"] = existsSensor005 === true;",
+									"tests[\"Exists TEST_SENSOR_010\"] = existsSensor010 === true;",
+									"tests[\"Exists TEST_SENSOR_011\"] = existsSensor011 === true;",
+									"tests[\"Exists TEST_SENSOR_012\"] = existsSensor012 === true;",
+									""
+								],
+								"id": "5369d832-ec47-4068-aefa-4776b1f3bc5e"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05. Catalog - update sensors data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "72def9cd-fa32-4f84-9961-94fe1e8fd7b0"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sensors\":[{\r\n    \"sensor\":\"TEST_SENSOR_001\",\r\n    \"description\":\"Test sensor 001 has been updated!\",\r\n    \"type\": \"noise\",\r\n    \"unit\": \"dB\"\r\n  },{\r\n    \"sensor\":\"TEST_SENSOR_003\",\r\n    \"description\":\"Test sensor 003 has been updated!\",\r\n    \"type\": \"noise\",\r\n    \"unit\": \"dB\"\r\n  }]\r\n  \r\n}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "06. Catalog - test update sensors data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the catalog response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var providersList = jsonData.providers;",
+									"var existsProvider = providersList !== undefined && providersList !== null && providersList.constructor === Array && providersList.length > 0;",
+									"",
+									"tests[\"Exists provider\"] = existsProvider === true ;",
+									"",
+									"var updated = false;",
+									"if (existsProvider) {",
+									"    for (p = 0; p < providersList.length; p++) { ",
+									"        var provider = providersList[p];",
+									"        var sensorsList = provider.sensors;",
+									"        for (s = 0; s < sensorsList.length; s++) { ",
+									"            var sensor = sensorsList[s];",
+									"            if (sensor.sensor === \"TEST_SENSOR_001\") {",
+									"                updated = sensor.description === \"Test sensor 001 has been updated!\"",
+									"                tests[\"Test TEST_SENSOR_001 data was updated correctly\"] = updated === true;",
+									"            }",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"tests[\"Test TEST_SENSOR_001 data was updated \"] = updated === true;",
+									""
+								],
+								"id": "ee26986e-b2d2-4b79-b2cd-ec94dde2f1c5"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "07. Catalog - update component data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "c4e5ba94-1f2f-4979-b36d-6e27ec0958b1"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"components\":[{\r\n    \"component\": \"TEST_COMPONENT_001\",\r\n    \"location\": \"41.4051143 2.132012\",\r\n    \"componentType\": \"generic\",\r\n    \"componentAdditionalInfo\": {\r\n      \"altitude\": \"530 m.\"\r\n    }\r\n  }\r\n]}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "08. Catalog - test update component data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the catalog response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var providersList = jsonData.providers;",
+									"var existsProvider = providersList !== undefined && providersList !== null && providersList.constructor === Array && providersList.length > 0;",
+									"",
+									"tests[\"Exists provider\"] = existsProvider === true ;",
+									"",
+									"var updated = true;",
+									"if (existsProvider) {",
+									"    for (p = 0; p < providersList.length; p++) { ",
+									"        var provider = providersList[p];",
+									"        var sensorsList = provider.sensors;",
+									"        for (s = 0; s < sensorsList.length; s++) { ",
+									"            var componentAdditionalInfoo = sensorsList[s].componentAdditionalInfo;",
+									"            if (componentAdditionalInfoo !== undefined && componentAdditionalInfoo !== null) {",
+									"                var componentLocation = sensorsList[s].location;",
+									"                updated = updated && componentAdditionalInfoo.altitude === \"530 m.\" && componentLocation === \"41.4051143 2.132012\";",
+									"            }",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"tests[\"Test TEST_COMPONENT_001 data was updated \"] = updated === true;",
+									""
+								],
+								"id": "823f4f25-29ce-42f3-839b-0d87e48c317d"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "09. Catalog - get sensors by type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the catalog response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var providersList = jsonData.providers;",
+									"var existsProvider = providersList !== undefined && providersList !== null && providersList.constructor === Array && providersList.length > 0;",
+									"",
+									"tests[\"Exists provider\"] = existsProvider === true ;",
+									"",
+									"var finded = true;",
+									"if (existsProvider) {",
+									"    for (p = 0; p < providersList.length; p++) { ",
+									"        if (providersList[p].provider === 'api_test_provider') {",
+									"            var sensorsList = providersList[p].sensors;",
+									"            tests[\"Exists sensors\"] = sensorsList.length === 2;",
+									"            if (sensorsList.length === 2) {",
+									"                for (s = 0; s < sensorsList.length; s++) { ",
+									"                    finded = finded && sensorsList[s].type === \"noise\"",
+									"                }",
+									"            }",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"tests[\"Test sensor types noise was finded\"] = finded === true;",
+									""
+								],
+								"id": "54a1a3bf-0886-4fdd-91e9-2f33a4e01ba2"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog?type=noise",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "noise"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Catalog - get components by type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the catalog response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var existsComponents = JSON.stringify(jsonData) !== JSON.stringify({}) && JSON.stringify(jsonData.providers) !== JSON.stringify({}) && jsonData.providers.length > 0;",
+									"",
+									"tests[\"Exists the components\"] = existsComponents === true;",
+									""
+								],
+								"id": "c305a651-9ea5-4ad3-bd09-2a0fccdfcc32"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog?componentType=generic",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog"
+							],
+							"query": [
+								{
+									"key": "componentType",
+									"value": "generic"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Data",
+			"item": [
+				{
+					"name": "00. Data - invalid credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 401\"] = responseCode.code === 401;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"JSON Validation: code is 401\"] = jsonData.code === 401;",
+									"tests[\"JSON Validation: message is 'Invalid credential null'\"] = jsonData.message === \"Invalid credential null\";",
+									""
+								],
+								"id": "9f53777d-6800-4d2e-a594-87e1b8f61155"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "01. Data - publish observation of a sensor (request)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "1fc966af-93b5-4824-a89b-fa640357ba1b"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}/TEST_SENSOR_001/12.6",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}",
+								"TEST_SENSOR_001",
+								"12.6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02. Data - publish observation of a sensor (body)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "13818e96-a99c-41c1-960b-21f3bb70ed1f"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"observations\":[{\"value\":\"12.3\"}]}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}/TEST_SENSOR_001/",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}",
+								"TEST_SENSOR_001",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03. Data - publish several observations of a sensor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "268faa0a-968f-4454-a58d-afd5a2c0ab8c"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"observations\":[{\r\n    \"value\":\"10.1\"\r\n   },{\r\n    \"value\":\"11.2\"\r\n   },{\r\n    \"value\":\"12.3\"\r\n   }\r\n]}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}/TEST_SENSOR_001/",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}",
+								"TEST_SENSOR_001",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04. Data - publish several observations of a sensor from a provider",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "d4843af4-ee92-4985-9621-61972279f87c"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"sensors\":[\r\n   {\r\n    \"sensor\":\"TEST_SENSOR_001\",\r\n    \"observations\":[\r\n      {\"value\":\"1.1\"},\r\n      {\"value\":\"1.2\",\"timestamp\":\"17/09/2012T12:34:45CET\"},\r\n      {\"value\":\"1.3\",\"timestamp\":\"17/09/2012T10:34:45CET\"},\r\n      {\"value\":\"1.4\"},\r\n      {\"value\":\"1.5\"}\r\n    ]\r\n   },{\r\n    \"sensor\":\"TEST_SENSOR_002\",\r\n    \"location\":\"41.12345 2.12354\",\r\n    \"observations\":[\r\n      {\"value\":\"2.1\"},\r\n      {\"value\":\"2.2\",\"timestamp\":\"16/09/2012T15:43:21CET\"},\r\n      {\"value\":\"2.3\",\"timestamp\":\"16/09/2012T10:43:21CET\"}\r\n    ]\r\n   }\r\n]}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05. Data - read last observation from of all provider's sensors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the data response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var sensors = jsonData.sensors;",
+									"",
+									"// Test exists sensors data",
+									"var exists = sensors !== undefined && sensors !== null && sensors.constructor === Array && sensors.length === 2;",
+									"tests[\"Exists sensors data\"] = exists === true;",
+									"",
+									"// Only one observation foreach sensor",
+									"var onlyOneObsPerSensor = true;",
+									"var lastObsAreCorrect = true;",
+									"for(var s=0; s<2; s++) {",
+									"    var sensor = sensors[s];",
+									"    onlyOneObsPerSensor = onlyOneObsPerSensor && sensor.observations !== undefined && sensor.observations.constructor === Array && sensor.observations.length === 1;",
+									"    if (sensor.sensor === 'TEST_SENSOR_001') {",
+									"        lastObsAreCorrect = lastObsAreCorrect && sensor.observations[0].value === \"1.5\";",
+									"    } else if (sensor.sensor === 'TEST_SENSOR_002') {",
+									"        lastObsAreCorrect = lastObsAreCorrect && sensor.observations[0].value === \"2.1\";",
+									"    }",
+									"}",
+									"",
+									"tests[\"For all sensors retrieve only one (last) observation\"] = onlyOneObsPerSensor === true;",
+									"tests[\"Last observations was as spected\"] = lastObsAreCorrect === true;",
+									""
+								],
+								"id": "a6ee931a-60d5-43f5-8a08-dd95a1b8ef45"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "06. Data - read last observation from of a sensor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the data response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var observations = jsonData.observations;",
+									"",
+									"// Test exists sensors data",
+									"var exists = observations !== undefined && observations !== null && observations.constructor === Array && observations.length === 1;",
+									"tests[\"Exists sensor observation\"] = exists === true;",
+									"",
+									"// Test data",
+									"var observation = observations[0];",
+									"var valid = observation !== 'undefined' && observation.value === \"1.5\";",
+									"tests[\"Sensor last observation is 1.5\"] = valid === true;",
+									""
+								],
+								"id": "8275e370-5fcd-4e69-ae95-f7c4ba9478a6"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}/TEST_SENSOR_001",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}",
+								"TEST_SENSOR_001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "07. Data - read last 10 observations from of a sensor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the data response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var observations = jsonData.observations;",
+									"",
+									"// Test exists sensors data",
+									"var exists = observations !== undefined && observations !== null && observations.constructor === Array && observations.length === 10;",
+									"tests[\"Exists 10 sensor observations\"] = exists === true;",
+									""
+								],
+								"id": "78cac625-28f7-471c-8b6f-5881b5179c75"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}/TEST_SENSOR_001?limit=10",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}",
+								"TEST_SENSOR_001"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "08. Data - read last 10 observations from all provider's sensors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the data response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var sensors = jsonData.sensors;",
+									"",
+									"// Test exists sensors",
+									"var existsSensors = sensors !== undefined && sensors !== null && sensors.constructor === Array && sensors.length === 2;",
+									"tests[\"Exists 2 sensors with observations\"] = existsSensors === true;",
+									"",
+									"if (existsSensors === true) {",
+									"    // Test exists sensors data",
+									"    for (var s=0; s<2; s++) {",
+									"        var sensor = sensors[s];",
+									"        if (sensor.sensor !== 'undefined' && sensor.sensor === 'TEST_SENSOR_001') {",
+									"            var observations = sensor.observations;",
+									"            var obsAreCorrect = observations !== undefined && observations !== null && observations.constructor === Array && observations.length === 10;",
+									"            tests[\"Sensor TEST_SENSOR_001 observations are correct\"] = obsAreCorrect === true;",
+									"        } else if (sensor.sensor !== 'undefined' && sensor.sensor === 'TEST_SENSOR_002') {",
+									"            var observations = sensor.observations;",
+									"            var obsAreCorrect = observations !== undefined && observations !== null && observations.constructor === Array && observations.length === 3;",
+									"            tests[\"Sensor TEST_SENSOR_002 observations are correct\"] = obsAreCorrect === true;",
+									"        }",
+									"    }",
+									"}",
+									""
+								],
+								"id": "452f288a-1c4c-418c-9def-38ced5513ec3"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}/?limit=10",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "09. Data - read observations from of a sensor from/to date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the data response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var observations = jsonData.observations;",
+									"",
+									"// Test exists sensors data",
+									"var exists = observations !== undefined && observations !== null && observations.constructor === Array && observations.length === 2;",
+									"tests[\"Exists 2 sensor observations\"] = exists === true;",
+									"",
+									"var dataIsCorrect = observations[0] !== 'undefined' && observations[0].value === \"1.2\" && observations[0].timestamp === \"17/09/2012T11:34:45\" &&",
+									"                    observations[1] !== 'undefined' && observations[1].value === \"1.3\" && observations[1].timestamp === \"17/09/2012T09:34:45\";",
+									"                    ",
+									"tests[\"Sensor observations are as spected\"] = dataIsCorrect === true;",
+									""
+								],
+								"id": "31c52413-5d94-4461-81ff-fd00d2304b6f"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}/TEST_SENSOR_001?from=17/09/2012T00:00:00&to=17/09/2012T23:59:59&limit=10",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}",
+								"TEST_SENSOR_001"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "17/09/2012T00:00:00"
+								},
+								{
+									"key": "to",
+									"value": "17/09/2012T23:59:59"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Data - read observations from all provider's sensors from/to date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the data response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var sensors = jsonData.sensors;",
+									"",
+									"// Test exists sensors data",
+									"var exists = sensors !== undefined && sensors !== null && sensors.constructor === Array && sensors.length === 1;",
+									"tests[\"Exists 1 sensor with filtered observations\"] = exists === true;",
+									"",
+									"var observations = sensors[0].observations;",
+									"",
+									"var dataIsCorrect = observations !== undefined && observations !== null && observations.constructor === Array && observations.length === 2 &&",
+									"                    observations[0] !== undefined && observations[0].value === \"1.2\" && observations[0].timestamp === \"17/09/2012T11:34:45\" &&",
+									"                    observations[1] !== undefined && observations[1].value === \"1.3\" && observations[1].timestamp === \"17/09/2012T09:34:45\";",
+									"                    ",
+									"tests[\"Sensor observations are as spected\"] = dataIsCorrect === true;",
+									""
+								],
+								"id": "d3daac12-d416-4ac8-a3ab-13fccd0f03ce"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}/?from=17/09/2012T00:00:00&to=17/09/2012T23:59:59&limit=10",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}",
+								""
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "17/09/2012T00:00:00"
+								},
+								{
+									"key": "to",
+									"value": "17/09/2012T23:59:59"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Data - delete last observation from a sensor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "2236c329-1acd-4069-9da6-1a68e989c7c7"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}/TEST_SENSOR_001",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}",
+								"TEST_SENSOR_001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12. Data - delete last observation from all the provider's sensors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "00214b00-61da-4606-8216-28bc213d9caf"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/data/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"data",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Alert",
+			"item": [
+				{
+					"name": "00. Alert - invalid credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 401\"] = responseCode.code === 401;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"JSON Validation: code is 401\"] = jsonData.code === 401;",
+									"tests[\"JSON Validation: message is 'Invalid credential null'\"] = jsonData.message === \"Invalid credential null\";",
+									""
+								],
+								"id": "a4c918ff-90a6-4413-859e-ff797def3b17"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/alert/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"alert",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "01. Alert - Adding multiple external alerts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "858ee58b-eca7-4a89-bdc4-74ff57720029"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"alerts\":[\r\n    {\r\n      \"id\":\"TEST_ALERT_001\",\r\n        \"name\":\"TEST_ALERT_001\",\r\n        \"description\":\"External test alert 001\",\r\n        \"type\":\"EXTERNAL\"\r\n     },{\r\n      \"id\":\"TEST_ALERT_002\",\r\n        \"name\":\"TEST_ALERT_002\",\r\n        \"description\":\"External test alert 002\",\r\n        \"type\":\"EXTERNAL\"\r\n     },{\r\n      \"id\":\"TEST_ALERT_003\",\r\n        \"name\":\"TEST_ALERT_003\",\r\n        \"description\":\"External test alert 003\",\r\n        \"type\":\"EXTERNAL\"\r\n     },{\r\n      \"id\":\"TEST_ALERT_004\",\r\n        \"name\":\"TEST_ALERT_004\",\r\n        \"description\":\"External test alert 004\",\r\n        \"type\":\"EXTERNAL\"\r\n     },{\r\n      \"id\":\"TEST_ALERT_005\",\r\n        \"name\":\"TEST_ALERT_005\",\r\n        \"description\":\"External test alert 005\",\r\n        \"type\":\"EXTERNAL\"\r\n     }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/alert/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"alert",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02. Alert - Adding one external alert (ERROR: Already exists)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 400\"] = responseCode.code === 400;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"JSON Validation: code is 400\"] = jsonData.code === 400;",
+									"tests[\"JSON Validation: message is 'Bad request data. Alerts have not been inserted. Please review the following errors'\"] = jsonData.message === \"Bad request data. Alerts have not been inserted. Please review the following errors\";",
+									"tests[\"JSON Validation: errorDetails = 'Alert TEST_ALERT_001 : alert with the same id already exists.'\"] = ",
+									"    jsonData.errorDetails !== undefined && jsonData.errorDetails !== null && jsonData.errorDetails.constructor === Array &&",
+									"    jsonData.errorDetails.length === 1 && jsonData.errorDetails[0] === 'Alert TEST_ALERT_001 : alert with the same id already exists.';",
+									"    "
+								],
+								"id": "72604a35-a8a4-451b-bb60-c07ca27da48f"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"alerts\":[\r\n    {\r\n      \"id\":\"TEST_ALERT_001\",\r\n        \"name\":\"TEST_ALERT_001\",\r\n        \"description\":\"External test alert 001\",\r\n        \"type\":\"EXTERNAL\"\r\n     }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/alert/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"alert",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03. Alert - Update one external alert",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "b3023310-7af3-4c4a-8db5-3cdb4c557946"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"alerts\":[\r\n    {\r\n      \"id\":\"TEST_ALERT_001\",\r\n        \"name\":\"TEST_ALERT_011\",\r\n        \"description\":\"External test alert 001 has been modified to 011\",\r\n        \"type\":\"EXTERNAL\"\r\n     }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/alert/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"alert",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04. Alert - Request to retrieve all the authorized alerts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"var alerts = jsonData.alerts;",
+									"var existsAlerts = alerts !== undefined && alerts !== null && alerts.constructor === Array && alerts.length === 5;",
+									"tests[\"Exists 5 alerts\"] = existsAlerts === true;",
+									"",
+									"var existsAlert001 = false;",
+									"var existsAlert002 = false;",
+									"var existsAlert003 = false;",
+									"var existsAlert004 = false;",
+									"var existsAlert005 = false;",
+									"",
+									"if (existsAlerts === true) {",
+									"    for(var a=0; a<alerts.length; a++) {",
+									"        var alert = alerts[a];",
+									"        if (alert.id === \"TEST_ALERT_001\") {",
+									"            existsAlert001 = alert.name === 'TEST_ALERT_011' && alert.description === 'External test alert 001 has been modified to 011';",
+									"        } else if (alert.id === \"TEST_ALERT_002\") {",
+									"            existsAlert002 = true;",
+									"        } else if (alert.id === \"TEST_ALERT_003\") {",
+									"            existsAlert003 = true;",
+									"        } else if (alert.id === \"TEST_ALERT_004\") {",
+									"            existsAlert004 = true;",
+									"        } else if (alert.id === \"TEST_ALERT_005\") {",
+									"            existsAlert005 = true;",
+									"        }  ",
+									"    }",
+									"}",
+									"",
+									"tests[\"Exists TEST_ALERT_001 and it was modified successfully\"] = existsAlert001 === true;",
+									"tests[\"Exists TEST_ALERT_002\"] = existsAlert002 === true;",
+									"tests[\"Exists TEST_ALERT_003\"] = existsAlert003 === true;",
+									"tests[\"Exists TEST_ALERT_004\"] = existsAlert004 === true;",
+									"tests[\"Exists TEST_ALERT_005\"] = existsAlert005 === true;",
+									""
+								],
+								"id": "a3ada9e9-96c4-4822-8c18-10cdb121738a"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/alert/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"alert",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Alarm",
+			"item": [
+				{
+					"name": "00. Alarm - invalid credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 401\"] = responseCode.code === 401;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"JSON Validation: code is 401\"] = jsonData.code === 401;",
+									"tests[\"JSON Validation: message is 'Invalid credential null'\"] = jsonData.message === \"Invalid credential null\";",
+									""
+								],
+								"id": "1fda0616-d8ae-4b24-85c8-b1586d105951"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/alarm/TEST_ALERT_001",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"alarm",
+								"TEST_ALERT_001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "01. Alarm - Post a new alarm associated with an alert (ERROR)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"JSON Validation: code is 404\"] = jsonData.code === 404;",
+									"tests[\"JSON Validation: message is 'Alert [TEST_ALERT_011] not found on Sentilo (404.1).'\"] = jsonData.message === \"Alert [TEST_ALERT_011] not found on Sentilo (404.1).\";",
+									""
+								],
+								"id": "f8b0a129-f4f2-4089-84d7-68fe75711d77"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"message\":\"Threshold limit exceeded: 32\"} "
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/alarm/TEST_ALERT_011",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"alarm",
+								"TEST_ALERT_011"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02. Alarm - Post a new alarm associated with an alert",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "9dbe2de9-e9e7-416c-bccf-8d00599530c1"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"message\":\"This is a test alarm over the TEST_ALERT_002\"} "
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/alarm/TEST_ALERT_002",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"alarm",
+								"TEST_ALERT_002"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03. Alarm - Retrieve the last alarm",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"var alarms = jsonData.alarms;",
+									"var existsAlarms = alarms !== undefined && alarms !== null && alarms.constructor === Array && alarms.length > 0;",
+									"tests[\"Exists alarms\"] = existsAlarms === true;",
+									"",
+									"var lastAlarmAsSpected = false;",
+									"if (existsAlarms === true) {",
+									"    var alarm = alarms[0];",
+									"    lastAlarmAsSpected = alarm !== undefined && alarm !== null && alarm.message === \"This is a test alarm over the TEST_ALERT_002\";",
+									"}",
+									"",
+									"tests[\"Last alarm for TEST_ALERT_002 as spected\"] = lastAlarmAsSpected === true;",
+									""
+								],
+								"id": "d2948b4c-4437-4793-a8ca-a1ab551787d5"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/alarm/TEST_ALERT_002",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"alarm",
+								"TEST_ALERT_002"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04. Alarm - Post a new alarm associated with an alert (1.before list test)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "10f0d5f7-70fa-4ee9-be3b-6a1ce30b90d5"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"message\":\"This is a test alarm over the TEST_ALERT_002, (I)\"} "
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/alarm/TEST_ALERT_002",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"alarm",
+								"TEST_ALERT_002"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05. Alarm - Post a new alarm associated with an alert (2.before list test)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "ee20e40f-0150-48f3-9fd5-bf132bbdab59"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"message\":\"This is a test alarm over the TEST_ALERT_002, (II)\"} "
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/alarm/TEST_ALERT_002",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"alarm",
+								"TEST_ALERT_002"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "06. Alarm - Post a new alarm associated with an alert (3.before list test)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "75c1b65a-6812-4317-ac07-8d4956e1932d"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"message\":\"This is a test alarm over the TEST_ALERT_002, (III)\"} "
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/alarm/TEST_ALERT_002",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"alarm",
+								"TEST_ALERT_002"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "07. Alarm - Recover N alarms",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"var alarms = jsonData.alarms;",
+									"var existsAlarms = alarms !== undefined && alarms !== null && alarms.constructor === Array && alarms.length === 3;",
+									"tests[\"Retrieved 3 alarms\"] = existsAlarms === true;",
+									""
+								],
+								"id": "c76eaf45-a104-403d-8276-c217d2059f6a"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/alarm/TEST_ALERT_002?limit=3",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"alarm",
+								"TEST_ALERT_002"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "08. Alarm - Retrieve N alarms in a given period (empty)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"var alarms = jsonData.alarms;",
+									"var existsAlarms = alarms !== undefined && alarms !== null && alarms.constructor === Array && alarms.length === 0;",
+									"tests[\"Retrieved 0 alarms\"] = existsAlarms === true;",
+									""
+								],
+								"id": "0e4e4060-7553-4e2a-8a6c-868de208849e"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/alarm/TEST_ALERT_002?limit=3&from=01/01/1999T00:00:00&to=31/12/1999T23:59:59",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"alarm",
+								"TEST_ALERT_002"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "from",
+									"value": "01/01/1999T00:00:00"
+								},
+								{
+									"key": "to",
+									"value": "31/12/1999T23:59:59"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "09. Alarm - Retrieve N alarms in a given period",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"var alarms = jsonData.alarms;",
+									"var existsAlarms = alarms !== undefined && alarms !== null && alarms.constructor === Array && alarms.length === 3;",
+									"tests[\"Retrieved 3 alarms\"] = existsAlarms === true;",
+									""
+								],
+								"id": "7c79793c-2b5f-4614-b138-e672bb6d7ca5"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var now = new Date();  ",
+									"var before = now.getDate() + \"/\" + (now.getMonth()+1) + \"/\" + now.getFullYear() + \"T00:00:00\";",
+									"var after = now.getDate() + \"/\" + (now.getMonth()+1) + \"/\" + now.getFullYear() + \"T23:59:59\";",
+									"",
+									"console.log(before);",
+									"console.log(after);",
+									" ",
+									"postman.setEnvironmentVariable(\"before\", before);",
+									"postman.setEnvironmentVariable(\"after\", after);"
+								],
+								"id": "3faa5376-92e4-4234-a62b-87e7353984a9"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/alarm/TEST_ALERT_002?limit=3&from={{before}}&to={{after}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"alarm",
+								"TEST_ALERT_002"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "from",
+									"value": "{{before}}"
+								},
+								{
+									"key": "to",
+									"value": "{{after}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Alert - Request to delete a set of alerts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "be16f03c-b5f8-42ac-a28e-f686997b7c2d"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"alertsIds\":[\n    \"TEST_ALERT_001\",\n    \"TEST_ALERT_003\",\n    \"TEST_ALERT_005\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/alert/{{provider}}?method=delete",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"alert",
+								"{{provider}}"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "delete"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Alert - Request to retrieve all the authorized alerts after delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"var alerts = jsonData.alerts;",
+									"var existsAlerts = alerts !== undefined && alerts !== null && alerts.constructor === Array && alerts.length === 2;",
+									"tests[\"Exists 2 alerts (3 were deleted before this test)\"] = existsAlerts === true;",
+									""
+								],
+								"id": "18ad4d1d-fd27-4157-b747-0e700ffb6b4a"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/alert/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"alert",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "00. Order - invalid credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 401\"] = responseCode.code === 401;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"JSON Validation: code is 401\"] = jsonData.code === 401;",
+									"tests[\"JSON Validation: message is 'Invalid credential null'\"] = jsonData.message === \"Invalid credential null\";",
+									""
+								],
+								"id": "070b533c-17a8-44f7-9223-35f893232c1d"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/order{{provider}}/TEST_SENSOR_001/",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"order{{provider}}",
+								"TEST_SENSOR_001",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "01. Order - Publish an order to a sensor/actuator",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "316a28cd-2753-4923-b466-d689c170475f"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"order\":\"Start\"}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/order/{{provider}}/TEST_SENSOR_001",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"order",
+								"{{provider}}",
+								"TEST_SENSOR_001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02. Order - Publish an order to a non existing sensor/actuator",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test json data",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Response: error code\"] = jsonData.code === 404;",
+									"tests[\"Response: error message\"] = jsonData.message === \"Events associated with resources [TEST_SENSOR_021] have been rejected. See the error details to know about what went wrong in each case\";",
+									"tests[\"Response: error errorDetails\"] = jsonData.errorDetails !== undefined && jsonData.errorDetails !== null && jsonData.errorDetails.constructor === Array && ",
+									"                                        jsonData.errorDetails.length === 1 && jsonData.errorDetails[0] === \"Sensor [TEST_SENSOR_021] not found on Sentilo (404.1).\";",
+									""
+								],
+								"id": "74fce11a-855a-4bbb-919b-b0b9e0c959bd"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"order\":\"Start\"}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/order/{{provider}}/TEST_SENSOR_021/",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"order",
+								"{{provider}}",
+								"TEST_SENSOR_021",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03. Order - Publish an order to all the provider's sensors/actuators",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "ab1afefc-03d1-4244-8246-5223df5a0a59"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"order\":\"Start TEST_SENSOR_001, TEST_SENSOR_002, TEST_SENSOR_003, TEST_SENSOR_004, TEST_SENSOR_005\"}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/order/{{provider}}/",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"order",
+								"{{provider}}",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Subscription",
+			"item": [
+				{
+					"name": "00. Subscription - invalid credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 401\"] = responseCode.code === 401;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"JSON Validation: code is 401\"] = jsonData.code === 401;",
+									"tests[\"JSON Validation: message is 'Invalid credential null'\"] = jsonData.message === \"Invalid credential null\";",
+									""
+								],
+								"id": "0e581af7-2dcd-4c85-b43e-47af460de758"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/subscription",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"subscription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "01. Subscription - Request to subscribe to a sensor's data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "8cef3ca0-6c22-4285-b82c-87f832ed5441"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"endpoint\":\"http://my-test-server/sentilo/sensor/data/endpoint\"}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/subscribe/data/{{provider}}/TEST_SENSOR_001/",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"subscribe",
+								"data",
+								"{{provider}}",
+								"TEST_SENSOR_001",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02. Subscription - Request to subscribe to provider's data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "bd26308d-6a4a-48f3-beca-17ddfb20d0b6"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"endpoint\":\"http://my-test-server/sentilo/provider/data/endpoint\"}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/subscribe/data/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"subscribe",
+								"data",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03. Subscription - Request to subscribe to orders for a sensor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "0fb99382-1a21-429b-9ad0-23ab719b11d9"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"endpoint\":\"http://my-test-server/sentilo/sensor/order/endpoint\"}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/subscribe/order/{{provider}}/TEST_SENSOR_001/",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"subscribe",
+								"order",
+								"{{provider}}",
+								"TEST_SENSOR_001",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04. Subscription - Request to subscribe to orders for a provider",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "ae33f862-2568-46d6-b52b-41aa7678560e"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"endpoint\":\"http://my-test-server/sentilo/provider/order/endpoint\"}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/subscribe/order/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"subscribe",
+								"order",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05. Subscription - Request to subscribe to alert's alarms",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "8d41dd38-b332-4ad3-aac8-58dd94c06187"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"endpoint\":\"http://my-test-server/sentilo/alarm/alert/endpoint\"}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/subscribe/alarm/TEST_ALERT_002",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"subscribe",
+								"alarm",
+								"TEST_ALERT_002"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "06. Subscription - Request to retrieve all active subscriptions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the catalog response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var subscriptions = jsonData.subscriptions;",
+									"",
+									"var existsSubscriptions = subscriptions !== undefined && subscriptions !== null && subscriptions.constructor === Array && subscriptions.length === 5;",
+									"tests[\"Exists 4 subscriptions\"] = existsSubscriptions === true;",
+									"",
+									"if (existsSubscriptions === true) {",
+									"    var existsSensorDataSubscription = false;",
+									"    var existsProviderDataSubscription = false;",
+									"    var existsSensorOrderSubscription = false;",
+									"    var existsProviderOrderSubscription = false;",
+									"    var existsAlertAlarmSubscription = false;",
+									"",
+									"    for(var s=0; s<subscriptions.length; s++) {",
+									"        var subscription = subscriptions[s];",
+									"        if (subscription !== 'undefined' && subscription !== null) {",
+									"            if (subscription.type === 'DATA') {",
+									"                if (subscription.endpoint === 'http://my-test-server/sentilo/sensor/data/endpoint') {",
+									"                    existsSensorDataSubscription = true;",
+									"                } else if (subscription.endpoint === 'http://my-test-server/sentilo/provider/data/endpoint') {",
+									"                    existsProviderDataSubscription = true;",
+									"                }",
+									"            } else if (subscription.type === 'ORDER') {",
+									"                if (subscription.endpoint === 'http://my-test-server/sentilo/sensor/order/endpoint') {",
+									"                    existsSensorOrderSubscription = true;",
+									"                } else if (subscription.endpoint === 'http://my-test-server/sentilo/provider/order/endpoint') {",
+									"                    existsProviderOrderSubscription = true;",
+									"                }",
+									"            } else if (subscription.type === 'ALARM') {",
+									"                if (subscription.endpoint === 'http://my-test-server/sentilo/alarm/alert/endpoint') {",
+									"                    existsAlertAlarmSubscription = true;",
+									"                } ",
+									"            }",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"tests[\"Exists sensor DATA subscription\"] = existsSensorDataSubscription === true;",
+									"tests[\"Exists provider DATA subscription\"] = existsProviderDataSubscription === true;",
+									"tests[\"Exists sensor ORDER subscription\"] = existsSensorOrderSubscription === true;",
+									"tests[\"Exists provider ORDER subscription\"] = existsProviderOrderSubscription === true;",
+									"tests[\"Exists alert ALARM subscription\"] = existsAlertAlarmSubscription === true;",
+									""
+								],
+								"id": "18f8977c-8b7c-4595-acf7-f9b5f20c8900"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/subscribe",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"subscribe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "07. Subscription - Request to cancel subscriptions for a specific resource",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "b74d52b3-e83d-4ab1-9ce8-facb18b6dee6"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/subscribe/data/{{provider}}/TEST_SENSOR_001",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"subscribe",
+								"data",
+								"{{provider}}",
+								"TEST_SENSOR_001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "08. Subscription - Request to cancel subscriptions for a specific event type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "e8c4d46b-2b92-49e9-bfe9-4f9a832fc293"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/subscribe/order",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"subscribe",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "09. Subscription - Request to cancel all subscriptions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "1df8beaf-e52e-44f9-ba4e-cb98014857a6"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/subscribe",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"subscribe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Subscription - Request to retrieve all active subscriptions (empty)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the catalog response",
+									"var jsonData = JSON.parse(responseBody);",
+									"var subscriptions = jsonData.subscriptions;",
+									"",
+									"var existsSubscriptions = subscriptions !== undefined && subscriptions !== null && subscriptions.constructor === Array && subscriptions.length === 0;",
+									"tests[\"Exists 0 subscriptions\"] = existsSubscriptions === true;",
+									""
+								],
+								"id": "4439acdb-cb16-474f-a567-339a833e2062"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/subscribe",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"subscribe"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Clean",
+			"item": [
+				{
+					"name": "00. Catalog - Request to delete a set of sensors of the catalog",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "9f5ed14d-3892-4ee7-bcd5-795b2b8ff445"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"sensors\":[\"TEST_SENSOR_001\",\"TEST_SENSOR_003\",\"TEST_SENSOR_005\"]}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/{{provider}}?method=delete",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"{{provider}}"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "delete"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "01. Catalog - Request to delete a set of components of the catalog",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "4e5e60af-2a17-44e8-8feb-72a35d140a64"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"components\":[\"TEST_COMPONENT_001\"]}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/{{provider}}?method=delete",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"{{provider}}"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "delete"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02. Catalog - Request to delete the remaining component of a provider",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "d9a17ff7-d918-4e2c-bd24-3b03d6a29908"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"components\":[\"TEST_COMPONENT_001\"]}"
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03. Catalog - test empty catalog for provider",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test the catalog response",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"JSON Validation: empty\"] = JSON.stringify(jsonData) === JSON.stringify({});",
+									""
+								],
+								"id": "a95f7af5-8ee6-43b3-8aff-d0a98ea1a931"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04. Alert - Request to delete all alerts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"id": "3a54c8a9-28a5-4d37-a2ac-1cbc7ee16b9d"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/alert/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"alert",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05. Alert - Request to retrieve all the authorized alerts after full delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Test response",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") && postman.getResponseHeader(\"Content-Type\").indexOf(\"application/json\") !== -1;",
+									"",
+									"// Test response body",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"JSON Validation: empty\"] = JSON.stringify(jsonData) === JSON.stringify({});",
+									""
+								],
+								"id": "8ae1dc90-876c-46d3-83a6-31b9a9fa7482"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "identity_key",
+								"value": "{{provider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/catalog/alert/{{provider}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"catalog",
+								"alert",
+								"{{provider}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "34683aac-bf4d-44c9-a162-6de93f725725",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "1978fb6f-9421-4131-ab03-d350cfa6ce2f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
