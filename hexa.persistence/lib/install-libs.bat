@@ -1,1 +1,0 @@
-mvn install:install-file -Dfile=antlr3.2-gwt-module.jar -DgroupId=org.antlr -DartifactId=antlr -Dversion=1.0-SNAPSHOT -Dpackaging=jar
