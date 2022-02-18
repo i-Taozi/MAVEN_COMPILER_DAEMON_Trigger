@@ -146,6 +146,7 @@
                         <source>${java.version}</source>
                         <target>${java.version}</target>
                         <encoding>Cp1252</encoding>
+                    	<fork>true</fork>
                     </configuration>
                 </plugin>
                 <plugin>
