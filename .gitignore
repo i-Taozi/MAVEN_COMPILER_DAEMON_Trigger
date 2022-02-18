@@ -1,16 +1,9 @@
-.settings
-target
-.classpath
-.factorypath
-.project
-.idea
-*~
+target/
+settings.xml
 *.iml
-*.ipr
-*.iws
-logback-classic/jdbc:hsqldb:mem:test.log
-logback-classic/jdbc:hsqldb:mem:test.properties
-logback-classic/jdbc:hsqldb:mem:test.script
-cobertura.ser
-# ignore files with pound characters
-\#*\#
+*.idea
+
+# Eclipse metadata
+.classpath
+.settings
+.project

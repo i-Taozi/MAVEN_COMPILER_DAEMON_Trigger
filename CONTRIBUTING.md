@@ -1,221 +1,149 @@
-# Bug reports / GitHub pull-requests
+# Contributing to the AWS SDK for Java
+Thank you for your interest in contributing the AWS SDK for Java! We work hard
+to provide a high quality and useful SDK for our customers, and we appreciate
+your interest in helping us and the rest of our community of users. We welcome
+bug reports, feature requests, and code contributions.
 
-When reporting a bug or submitting a pull request, make sure you search
-[JIRA](http://jira.qos.ch/browse/LOGBACK) and
-[GitHub pull requests](https://github.com/qos-ch/logback/pulls)
-for the same/similar issues. If you find one, feel free to add a `+1` comment
-with any additional information that may help us solve the issue.
+__Jump To:__
+* [Bug Reports](#bug-reports)
+* [Feature Requests](#feature-requests)
+* [Code Contributions](#code-contributions)
 
-When creating a new bug report, be sure to state the following:
+## Bug Reports
+Bug reports are accepted through the [Issues][issues] page.
 
-* Detailed steps to reproduce the bug
-* The version of logback and SLF4J you are using
-* Operating system and its version, any other relevant environment details
+The following labels are used to track bug related issues: [bug][label-bug],
+[documentation][label-doc-issue].
 
+### Before Submitting a Bug Report
+Before submitting a bug report, please do the following:
 
-# Submitting a pull-request
+1. Do a search through the existing issues to make sure it has not already been
+   reported. If there's an existing one, be sure give a +1 reaction which will
+   help us prioritize which issues to address first.
 
-## Before you begin
-Is this the right place for the PR?
+2. If possible, upgrade to the latest release of the SDK. The SDK has a near
+   daily release cadence so it's possible the bug has already been fixed in the
+   latest version. We maintain a strong backwards compatibility guarantee
+   between patch version releases so you can be confident that your application
+   will continue to work as expected with the newer version.
 
-YES:
- * If it's a **bug fix** for logback proper (`logback-core`,
-   `logback-classic`, `logback-access`)
- * If it's a **new feature** (such as an appender), and you're willing to
-   submit a [signed CLA](http://logback.qos.ch/cla.txt)
+If, after doing the above steps, you determine that you need to submit a bug
+report, refer to the next section.
 
-NO:
- * If it's a **new feature**, but you prefer not to submit a signed CLA
- * If it's a **new feature**, and you wish to see it released sooner than
-   logback's release schedule
+### Submitting a Bug Report
+So that we are able to assist you as effectively as possible with the issue,
+please ensure that your bug report has the following:
 
-If your PR falls into the *NO* category, please submit it to either
-[`logback-extensions`](https://github.com/qos-ch/logback-extensions)
-(no CLA required, shorter release cycles than logback, Apache License)
-or [`logback-contrib`](https://github.com/qos-ch/logback-contrib)
-(CLA required, shorter release cycles than logback, same license as logback).
+* A short, descriptive title. Ideally, other community members should be able
+  to get a good idea of the issue just from reading the title.
+* A succint, detailed description of the problem you're experiencing. This
+  should include:
+  * Expected behavior of the SDK and the actual behavior exhibited.
+  * Any details of your application environment that may be relevant. At
+    minimum, this should include the __SDK version__ and __JRE version__.
+  * If applicable, the exception stacktrace.
+  * If you are able to create one, include a [Minimal Working Example][mwe]
+    that reproduces the issue.
+* [Markdown][markdown] formatting as appropriate to make the report easier to
+  read; for example use code blocks when pasting a code snippet and exception
+  stacktraces.
 
-**Please note that not every pull-request will be accepted even if it
-meets all requirements outlined in this document.**
+## Feature Requests
+Like bug reports, feature requests are submitted through the [Issues][issues]
+page.
 
-## Instructions
- 1. [Fork](https://help.github.com/articles/fork-a-repo) the repo on GitHub.
- 2. Make a [topic branch](https://github.com/dchelimsky/rspec/wiki/Topic-Branches#using-topic-branches-when-contributing-patches)
-    and start hacking.
- 3. If your branch becomes several commits behind master, be sure to rebase
-    your change *on top* of master to avoid a merge conflict.
- 3. Submit a pull-request based off your topic branch, following the patch
-    rules below.
- 4. If your patch is non-trivial and you haven't submitted a [signed CLA](http://logback.qos.ch/cla.txt),
-    please email it to ceki@qos.ch and tony19@gmail.com with **\[logback]
-    signed CLA** in the subject line. Trivial bug fixes (less than ~30 lines)
-    do not require a CLA.
+As with Bug Reports, please do a search of the open requests first before
+submitting a new one to avoid duplicates. If you find an existing one, give it
+a +1.
 
-## Patch rules
+__NOTE:__ If this is a feature you intend to implement, please be sure to
+submit the feature request *before* working on any code changes. This will
+allow members on the SDK team to have a discussion with you to ensure that it's
+the right design and that it makes sense to include in the SDK. Keep in mind
+that other concerns like source and binary compatibility will also play a
+deciding factor.
 
- **P1.** The patch MUST follow the [general logback code style](#general-style-notes).
-     Disable your IDE's auto-formatting for logback files (unless you're using
-     the logback [`codeStyle.xml`](https://github.com/qos-ch/logback/blob/master/codeStyle.xml)
-     file in Eclipse).
+Feature requests are labeled with [feature-request][label-feature-request].
 
- **P2.** Small focused patches are preferred. The patch MUST NOT mix new features
-     and bug fixes in the same pull-request. Also exclude reformatting from
-     the pull-request (move that to its own commit or another pull-request).
+### Submitting a Feature Request
+Open an [issue][issues] with the following:
 
- **P3.** Large changes to the code SHOULD be discussed with the core team first.
-     Create an issue, explaining your plan, and see what we say.
+* A short, descriptive title. Ideally, other community members should be able
+  to get a good idea of the feature just from reading the title.
+* A detailed description of the the proposed feature. Include justification for
+  why it should be added to the SDK, and possibly example code to illustrate
+  how it should work.
+* [Markdown][markdown] formatting as appropriate to make the request easier to
+  read.
+* If you intend to implement this feature, indicate that you'd like to the
+  issue to be assigned to you
 
- **P4.** The commit message SHOULD be formatted as described in http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
-     and indicate the appropriate JIRA key.
+## Code Contributions
+Code contributions to the SDK are done through [Pull Requests][pull-requests].
+Please keep the following in mind when considering a code contribution:
 
- **P5.** Pull-requests MUST NOT contain intermediate commits (e.g., bug fixes to
-     your own patch, refactoring of your own patch), which should be [squashed and
-     then force-pushed to your branch](https://github.com/edx/edx-platform/wiki/How-to-Rebase-a-Pull-Request).
-     Generally, fewer commits are better. However, it's acceptable for a PR to have
-     multiple commits, each implementing specific distinct changes. For example:
-     
-    * def5678 Add support for Foo
-    * abc1234 Add unit tests for Foo
-    * aaa5678 Update documentation for Foo
+* The SDK is released under the [Apache 2.0 License][license].
 
- **P6.** Unit tests MUST be included for behavioral changes (especially bug fixes) or new features. 
+   Any code you submit will be released under this license. If you are
+   contributing a large/substantial feature, you may be asked to sign a
+   Contributor License Agreement (CLA).
+* For anything but very small or quick changes, you should always start by
+  checking the [Issues][issues] page to see if the work is already being done
+  by another person.
 
- **P7.** Pull-requests (especially bug fixes and new features) MUST include
-     an update to the release notes that clearly describe your changes and
-     the appropriate JIRA key. This will likely mimic your commit message.
-     Don't modify the actual [release-notes file](https://github.com/qos-ch/logback/blob/master/logback-site/src/site/pages/news.html)
-     since this potentially causes a merge conflict. Instead, copy your release
-     notes (in raw HTML) into a comment in the PR, and a logback developer will
-     take care of it.
+  If you're working on a bug fix, check to see if the bug has already been
+  reported. If it has but no one is assigned to it, ask one of the maintainers
+  to assign it to you before beginning work.  If you're confident the bug
+  hasn't been reported yet, create a new [Bug Report](#bug-reports) then ask to
+  be assigned to it.
 
- **P8.** Pull-requests MUST include updates to logback's documentation pages,
-     where necessary. Examples where this would be required:
- * adding/removing a configuration flag to `SyslogAppender`
- * adding a new appender to `logback-classic`
- 
-# General style notes
+  If you are thinking about adding entirely new functionality, open a [Feature
+  Request](#feature-requests) or [ping][gitter] the maintainers to ask for
+  feedback first before beginning work; again this is to make sure that no one
+  else is already working on it, and also that it makes sense to be included in
+  the SDK.
+* All code contributions must be accompanied with new or modified tests that
+  verify that the code works as expected; i.e. that the issue has been fixed or
+  that the functionality works as intended.
 
-Please note that most of the formatting rules are provided in
-[codeStyle.xml](https://github.com/qos-ch/logback/blob/master/codeStyle.xml)
-in the root directory of logback.
+### Pull Request Readiness
+Before submitting your pull request, refer to the pull request readiness
+checklist below:
 
-> **When in Rome, code like the Romans do**.
+* [ ] Includes tests to exercise the new behavior
+* [ ] Code is documented, especially public and user-facing constructs
+* [ ] Local run of `mvn install` succeeds
+* [ ] Git commit message is detailed and includes context behind the change
+* [ ] If the change is related to an existing Bug Report or Feature Request,
+  the issue number is referenced
 
- **S1.** Use 2-space indents.
+__Note__: Some changes have additional requirements. Refer to the section below
+to see if your change will require additional work to be accepted.
 
- ```java
-// bad
-class Foo {
-   public static void main(String[] args) {
-       System.out.println("hello world!");
-   }
-}
+### Additional Pull Request Requirements
+#### Getting Your Pull Request Merged
+All Pull Requests must be approved by at least one member of the SDK team
+before it can be merged in. The members only have limited bandwidth to review
+Pull Requests so it's not unusual for a Pull Request to go unreviewed for a few
+days, especially if it's a large or complex one. If, after a week, your Pull
+Request has not had any engagement from the SDK team, feel free to ping a
+member to ask for a review.
 
-// good
-class Foo {
-  public static void main(String[] args) {
-    System.out.println("hello world!");
-  }
-}
- ```
+If your branch has more than one commit when it's approved, you will also be
+asked to [squash][git-rewriting-history] them into a single commit before it is
+merged in.
 
- **S2.** Closing-curly bracket should be on its own line. Opening-curly bracket
-     should not.
+## Getting in Contact
+* Come chat with us on [Gitter][gitter]!
 
- ```java
-// bad
-if (foo)
-{
-  ...
-}
-
-// bad
-if (foo)
-{ ... }
-
-// bad
-if (foo) {
-  ... }
-
-// good
-if (foo) {
-  ...
-}
- ```
-
- **S3.** Delimit keywords and brackets with a space.
-
- ```java
-// bad
-try{
-  ...
-}catch(Exception e){
-  ...
-}
-
-// good
-try {
-  ...
-} catch (Exception e) {
-  ...
-}
- ```
-
- **S4.** Add logback's standard file-header to any new files.
-
- ```java
-/**
- * Logback: the reliable, generic, fast and flexible logging framework.
- * Copyright (C) <year>, QOS.ch. All rights reserved.
- *
- * This program and the accompanying materials are dual-licensed under
- * either the terms of the Eclipse Public License v1.0 as published by
- * the Eclipse Foundation
- *
- *   or (per the licensee's choosing)
- *
- * under the terms of the GNU Lesser General Public License version 2.1
- * as published by the Free Software Foundation.
- */
-  ```
-
-The following command will automatically apply/update the license-header comments for *all* Java/Groovy files. Since this command touches more than only your modified files, be sure to exclude unrelated files from your PR.
-
-```
-mvn -P license license:format
-```
-
- **S5.** Add javadoc for public functions (we won't fault you for skipping private
-     functions unless comments are warranted).
-
- **S6.** Code for maintainability. We would rather a function be a couple of lines
-     longer and have (for example) some [explaining variables](http://www.refactoring.com/catalog/extractVariable.html)
-     to aid readability.
-
- **S7.** If you find that a file has two different styles in use, defer to the
-     standard style notes here. You can submit a standalone PR to fix the formatting.
-
- **S8.** No extraneous new-lines. Only one line is necessary between elements.
- ```java
-// bad
-public foo() {
-  ...
-}
-
-
-
-public bar() {
-  ...
-}
-
-
-
-// good
-public foo() {
-  ...
-}
-
-public bar() {
-  ...
-}
-```
+[license]: ./LICENSE.txt
+[mwe]: https://en.wikipedia.org/wiki/Minimal_Working_Example
+[markdown]: https://guides.github.com/features/mastering-markdown/
+[issues]: https://github.com/aws/aws-sdk-java/issues
+[pull-requests]: https://github.com/aws/aws-sdk-java/pulls
+[label-bug]: https://github.com/aws/aws-sdk-java/labels/bug
+[label-doc-issue]: https://github.com/aws/aws-sdk-java/labels/documentation
+[label-feature-request]: https://github.com/aws/aws-sdk-java/labels/feature-request
+[git-rewriting-history]: https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
+[gitter]: https://gitter.im/aws/aws-sdk-java
