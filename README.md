@@ -1,91 +1,77 @@
-# Hibernate Validator
+[![Build Status](https://travis-ci.com/cpesch/RouteConverter.svg?branch=master)](https://travis-ci.com/cpesch/RouteConverter)
+[![Test Coverage](https://codecov.io/gh/cpesch/RouteConverter/branch/master/graph/badge.svg)](https://codecov.io/gh/cpesch/RouteConverter)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.cpesch.slash/RouteConverter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.cpesch.slash/RouteConverter)
+<a href="https://hosted.weblate.org/engage/routeconverter/?utm_source=widget"><img src="https://hosted.weblate.org/widgets/routeconverter/-/svg-badge.svg" alt="Translation status"/></a>
 
-*Version: 7.0.2.Final - 2021-12-14*
+What is RouteConverter?
+=======================
 
+RouteConverter is a popular open source tool to display, edit, enrich and convert
+routes, tracks and waypoints licensed under the GNU Public License.
+See http://www.routeconverter.com/about/ for details about features, supported formats
+and languages, screenshots, frequently asked questions and how you can help.
 
-## What is it?
+Downloads
+=========
 
-This is the reference implementation of [Jakarta Bean Validation 3.0](http://beanvalidation.org/).
-Jakarta Bean Validation defines a metadata model and API for JavaBean as well as method validation.
-The default metadata source are annotations, with the ability to override and extend
-the metadata through the use of XML validation descriptors.
+Stable releases are available at http://www.routeconverter.com/releases/
 
-## Documentation
+Prereleases are frequently offered at http://www.routeconverter.com/prereleases/
 
-The documentation for this release is included in the _docs_ directory of the distribution package or can be accessed [online](http://hibernate.org/validator/documentation/).
+If you want to contribute
+=========================
 
-## Release Notes
+Patches and pull requests are always welcome. If you minimize your diff, it's more
+likely that your contribution will be applied to the code base. Please stick to the
+code standards and formatting that you run across. And don't forget to add tests for
+your changes ;-)
 
-The full list of changes for this release can be found in changelog.txt.
+CONTRIBUTORS.txt provides a list of the people who helped developing RouteConverter.
 
-## System Requirements
+How to develop for RouteConverter
+=================================
 
-JDK 8 or above.
+1. Install a recent Java SDK, version 8 or later, from http://www.oracle.com/technetwork/java/javase/downloads/
 
-## Using Hibernate Validator
+2. Clone RouteConverter from github:
+   
+       git clone git://github.com/cpesch/RouteConverter.git
 
-* In case you use the distribution archive from the download site, copy _dist/hibernate-validator-&lt;version&gt;.jar_ together with all
-jar files from _dist/lib/required_ into the classpath of your application. For the purposes of logging, Hibernate Validator uses
-the JBoss Logging API, an abstraction layer which supports several logging solutions such (e.g. log4j or the logging framework
-provided by the JDK) as implementation. Just add a supported logging library to the classpath (e.g. _log4j-&lt;version&gt;.jar_) and JBoss
-Logging will delegate any log requests to that provider.
+3. Open RouteConverter sources in an Integrated Development Environment (IDE)
 
-* Add the following artifact to your Maven/Ivy/Gradle dependency list:
+   IntelliJ
+   * Install IntelliJ IDEA Community Edition from http://www.jetbrains.com/idea/download/
+   * Choose "File/Open Project..." and the root pom.xml.
 
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>7.0.2.Final</version>
-        </dependency>
+   Eclipse
+   * Install Eclipse IDE for Java Developers from http://www.eclipse.org/downloads/
+   * Install m2eclipse from http://m2eclipse.sonatype.org/sites/m2e/
+   * Choose "File/Import..." and "General/Maven Projects" and the root directory.
 
-  You also need an API and implementation of the Unified Expression Language. These dependencies must be explicitly added in an SE environment.
-  In a Jakarta EE environment, they are often already provided.
+   NetBeans
+   * Install NetBeans IDE Java SE from http://netbeans.org/downloads/
+   * Install Git via "My NetBeans > Install Plugins"
+   * Choose "Open Project..." and the root directory.
 
-        <dependency>
-           <groupId>org.glassfish</groupId>
-           <artifactId>jakarta.el</artifactId>
-           <version>4.0.1</version>
-        </dependency>
+4. Let JAVA_HOME refer to the Java SDK
+   
+       set JAVA_HOME=c:\Programm Files\Java\jdk1.8.0_271
 
-* Jakarta Bean Validation defines integration points with [CDI](http://jcp.org/en/jsr/detail?id=346). If your application runs
-in an environment which does not provide this integration out of the box, you may use the Hibernate Validator CDI portable
-extension by adding the following dependency:
+   Put JAVA_HOME into your PATH
 
-        <dependency>
-           <groupId>org.hibernate.validator</groupId>
-           <artifactId>hibernate-validator-cdi</artifactId>
-           <version>7.0.2.Final</version>
-        </dependency>
+       set %PATH%=%JAVA_HOME%:%PATH%
 
-* _hibernate-validator-annotation-processor-&lt;version&gt;.jar_ is an optional jar which can be integrated with your build
-environment respectively IDE to verify that constraint annotations are correctly used. Refer to the [online
-documentation](https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#validator-annotation-processor) for more information.
+5. Build RouteConverter with the Maven wrapper
+    
+       mvnw clean package
 
-## Licensing
+6. Run RouteConverter
+    
+       java -jar RouteConverterCmdLine/target/RouteConverterCmdLine.jar
+       java -jar RouteConverterLinuxOpenSource/target/RouteConverterLinuxOpenSource.jar
+       java -jar RouteConverterMacOpenSource/target/RouteConverterMacOpenSource.jar
+       java -jar RouteConverterWindowsOpenSource/target/RouteConverterWindowsOpenSource.jar
 
-Hibernate Validator itself as well as the Jakarta Bean Validation API and TCK are all provided and distributed under
-the Apache Software License 2.0. Refer to license.txt for more information.
+Have fun!
 
-## Build from Source
-
-You can build Hibernate Validator from source by cloning the git repository `git://github.com/hibernate/hibernate-validator.git`.
-You will also need a JDK 8+ and Maven 3 (>= 3.3.1). With these prerequisites in place you can compile the source via:
-
-    mvn clean install
-
-There are more build options available as well. For more information refer to [Contributing to Hibernate Validator](http://hibernate.org/validator/contribute/).
-
-## Continuous Integration
-
-The official Continuous Integration service for the project is hosted on [ci.hibernate.org](http://ci.hibernate.org/view/Validator/).
-
-We provide a `.travis.yml` file so that you can enable CI for your GitHub fork by enabling the build in [your Travis CI account](https://travis-ci.org/).
-
-## Hibernate Validator URLs
-
-* [Home Page](http://hibernate.org/validator/)
-* [Jakarta Bean Validation Home](http://beanvalidation.org/)
-* [Downloads](http://hibernate.org/validator/downloads/)
-* [Mailing Lists](http://hibernate.org/community/)
-* [Issue Tracking](https://hibernate.atlassian.net/browse/HV)
-* [Continuous Integration](http://ci.hibernate.org/view/Validator/) | [![Build Status](http://ci.hibernate.org/view/Validator/job/hibernate-validator-main/badge/icon)](http://ci.hibernate.org/view/Validator/job/hibernate-validator-main/)
+Christian
