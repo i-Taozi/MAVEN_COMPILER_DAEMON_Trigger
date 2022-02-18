@@ -1,149 +1,97 @@
-# Contributing to the AWS SDK for Java
-Thank you for your interest in contributing the AWS SDK for Java! We work hard
-to provide a high quality and useful SDK for our customers, and we appreciate
-your interest in helping us and the rest of our community of users. We welcome
-bug reports, feature requests, and code contributions.
+Guidelines for contributing to Hibernate Validator
+====
 
-__Jump To:__
-* [Bug Reports](#bug-reports)
-* [Feature Requests](#feature-requests)
-* [Code Contributions](#code-contributions)
+Contributions from the community are essential in keeping Hibernate Validator strong and successful.
+This guide focuses on how to contribute back to Hibernate Validator using GitHub pull requests.
+If you need help with cloning, compiling or setting the project up in an IDE please refer to
+[this page](http://hibernate.org/validator/contribute/).
 
-## Bug Reports
-Bug reports are accepted through the [Issues][issues] page.
+## Legal
 
-The following labels are used to track bug related issues: [bug][label-bug],
-[documentation][label-doc-issue].
+All original contributions to Hibernate Validator are licensed under the
+[Apache License version 2.0](https://www.apache.org/licenses/LICENSE-2.0),
+or, if another license is specified as governing the file or directory being
+modified, such other license. The Apache License text is included verbatim in the [license.txt](license.txt) file
+in the root directory of the repository.
 
-### Before Submitting a Bug Report
-Before submitting a bug report, please do the following:
+All contributions are subject to the [Developer Certificate of Origin (DCO)](https://developercertificate.org/).
+The DCO text is also included verbatim in the [dco.txt](dco.txt) file in the root directory of the repository.
 
-1. Do a search through the existing issues to make sure it has not already been
-   reported. If there's an existing one, be sure give a +1 reaction which will
-   help us prioritize which issues to address first.
+## Getting Started
 
-2. If possible, upgrade to the latest release of the SDK. The SDK has a near
-   daily release cadence so it's possible the bug has already been fixed in the
-   latest version. We maintain a strong backwards compatibility guarantee
-   between patch version releases so you can be confident that your application
-   will continue to work as expected with the newer version.
+If you are just getting started with Git, GitHub and/or contributing to Hibernate Validator there are a
+few prerequisite steps:
 
-If, after doing the above steps, you determine that you need to submit a bug
-report, refer to the next section.
+* Make sure you have a [Hibernate JIRA account](https://hibernate.atlassian.net)
+* Make sure you have a [GitHub account](https://github.com/signup/free)
+* [Fork](https://help.github.com/articles/fork-a-repo/) the Hibernate Validator [repository](https://github.com/hibernate/hibernate-validator).
+As discussed in the linked page, this also includes:
+    * [Setting](https://help.github.com/articles/set-up-git/) up your local git install
+    * Cloning your fork
 
-### Submitting a Bug Report
-So that we are able to assist you as effectively as possible with the issue,
-please ensure that your bug report has the following:
+## Create a test case
 
-* A short, descriptive title. Ideally, other community members should be able
-  to get a good idea of the issue just from reading the title.
-* A succint, detailed description of the problem you're experiencing. This
-  should include:
-  * Expected behavior of the SDK and the actual behavior exhibited.
-  * Any details of your application environment that may be relevant. At
-    minimum, this should include the __SDK version__ and __JRE version__.
-  * If applicable, the exception stacktrace.
-  * If you are able to create one, include a [Minimal Working Example][mwe]
-    that reproduces the issue.
-* [Markdown][markdown] formatting as appropriate to make the report easier to
-  read; for example use code blocks when pasting a code snippet and exception
-  stacktraces.
+If you have opened a JIRA issue but are not comfortable enough to contribute code directly, creating a self
+contained test case is a good first step towards contributing.
 
-## Feature Requests
-Like bug reports, feature requests are submitted through the [Issues][issues]
-page.
+As part of our efforts to simplify access to new contributors, we provide [test case templates for the Hibernate family
+projects](https://github.com/hibernate/hibernate-test-case-templates).
 
-As with Bug Reports, please do a search of the open requests first before
-submitting a new one to avoid duplicates. If you find an existing one, give it
-a +1.
+Just fork this repository, build your test case and attach it as an archive to a JIRA issue.
 
-__NOTE:__ If this is a feature you intend to implement, please be sure to
-submit the feature request *before* working on any code changes. This will
-allow members on the SDK team to have a discussion with you to ensure that it's
-the right design and that it makes sense to include in the SDK. Keep in mind
-that other concerns like source and binary compatibility will also play a
-deciding factor.
+## Create a topic branch
 
-Feature requests are labeled with [feature-request][label-feature-request].
+Create a "topic" branch on which you will work.  The convention is to name the branch
+using the JIRA issue key.  If there is not already a JIRA issue covering the work you
+want to do, create one.  Assuming you will be working from the main branch and working
+on the JIRA HV-123 :
 
-### Submitting a Feature Request
-Open an [issue][issues] with the following:
+     git checkout -b HV-123 main
 
-* A short, descriptive title. Ideally, other community members should be able
-  to get a good idea of the feature just from reading the title.
-* A detailed description of the the proposed feature. Include justification for
-  why it should be added to the SDK, and possibly example code to illustrate
-  how it should work.
-* [Markdown][markdown] formatting as appropriate to make the request easier to
-  read.
-* If you intend to implement this feature, indicate that you'd like to the
-  issue to be assigned to you
 
-## Code Contributions
-Code contributions to the SDK are done through [Pull Requests][pull-requests].
-Please keep the following in mind when considering a code contribution:
+## Code
 
-* The SDK is released under the [Apache 2.0 License][license].
+Code away...
 
-   Any code you submit will be released under this license. If you are
-   contributing a large/substantial feature, you may be asked to sign a
-   Contributor License Agreement (CLA).
-* For anything but very small or quick changes, you should always start by
-  checking the [Issues][issues] page to see if the work is already being done
-  by another person.
+## Formatting rules and style conventions
 
-  If you're working on a bug fix, check to see if the bug has already been
-  reported. If it has but no one is assigned to it, ask one of the maintainers
-  to assign it to you before beginning work.  If you're confident the bug
-  hasn't been reported yet, create a new [Bug Report](#bug-reports) then ask to
-  be assigned to it.
+The Hibernate family projects share the same style conventions. You can download the appropriate configuration
+files for your IDE from [the IDE codestyles GitHub repository](https://github.com/hibernate/hibernate-ide-codestyles).
 
-  If you are thinking about adding entirely new functionality, open a [Feature
-  Request](#feature-requests) or [ping][gitter] the maintainers to ask for
-  feedback first before beginning work; again this is to make sure that no one
-  else is already working on it, and also that it makes sense to be included in
-  the SDK.
-* All code contributions must be accompanied with new or modified tests that
-  verify that the code works as expected; i.e. that the issue has been fixed or
-  that the functionality works as intended.
+You can very quickly check that you have respected the formatting rules by running Checkstyle:
+```shell
+mvn checkstyle:check
+```
 
-### Pull Request Readiness
-Before submitting your pull request, refer to the pull request readiness
-checklist below:
+## Commit
 
-* [ ] Includes tests to exercise the new behavior
-* [ ] Code is documented, especially public and user-facing constructs
-* [ ] Local run of `mvn install` succeeds
-* [ ] Git commit message is detailed and includes context behind the change
-* [ ] If the change is related to an existing Bug Report or Feature Request,
-  the issue number is referenced
+* Make commits of logical units.
+* Be sure to start the commit messages with the JIRA issue key you are working on. This is how JIRA will pick
+up the related commits and display them on the JIRA issue.
+* Avoid formatting changes to existing code as much as possible: they make the intent of your patch less clear.
+* Make sure you have added the necessary tests for your changes.
+* Run _all_ the tests to assure nothing else was accidentally broken:
 
-__Note__: Some changes have additional requirements. Refer to the section below
-to see if your change will require additional work to be accepted.
+```shell
+mvn verify
+```
 
-### Additional Pull Request Requirements
-#### Getting Your Pull Request Merged
-All Pull Requests must be approved by at least one member of the SDK team
-before it can be merged in. The members only have limited bandwidth to review
-Pull Requests so it's not unusual for a Pull Request to go unreviewed for a few
-days, especially if it's a large or complex one. If, after a week, your Pull
-Request has not had any engagement from the SDK team, feel free to ping a
-member to ask for a review.
+_Prior to committing, if you want to pull in the latest upstream changes (highly
+appreciated by the way), please use rebasing rather than merging (see instructions below).  Merging creates
+"merge commits" that really muck up the project timeline._
 
-If your branch has more than one commit when it's approved, you will also be
-asked to [squash][git-rewriting-history] them into a single commit before it is
-merged in.
+Add the original Hibernate Validator repository as a remote repository called upstream:
+```shell
+git remote add upstream https://github.com/hibernate/hibernate-validator.git
+```
 
-## Getting in Contact
-* Come chat with us on [Gitter][gitter]!
+If you want to rebase your branch on top of the main branch, you can use the following git command:
+```shell
+git pull --rebase upstream main
+```
 
-[license]: ./LICENSE.txt
-[mwe]: https://en.wikipedia.org/wiki/Minimal_Working_Example
-[markdown]: https://guides.github.com/features/mastering-markdown/
-[issues]: https://github.com/aws/aws-sdk-java/issues
-[pull-requests]: https://github.com/aws/aws-sdk-java/pulls
-[label-bug]: https://github.com/aws/aws-sdk-java/labels/bug
-[label-doc-issue]: https://github.com/aws/aws-sdk-java/labels/documentation
-[label-feature-request]: https://github.com/aws/aws-sdk-java/labels/feature-request
-[git-rewriting-history]: https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
-[gitter]: https://gitter.im/aws/aws-sdk-java
+## Submit
+
+* Push your changes to a topic branch in your fork of the repository.
+* Initiate a [pull request](https://help.github.com/articles/creating-a-pull-request-from-a-fork/).
+* Update the JIRA issue, adding a comment including a link to the created pull request.

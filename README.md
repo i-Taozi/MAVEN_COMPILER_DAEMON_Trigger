@@ -1,167 +1,91 @@
-# AWS SDK for Java [![Build Status](https://travis-ci.org/aws/aws-sdk-java.png?branch=master)](https://travis-ci.org/aws/aws-sdk-java)
+# Hibernate Validator
 
-The **AWS SDK for Java** enables Java developers to easily work with [Amazon Web Services][aws] and
-build scalable solutions with Amazon S3, Amazon DynamoDB, Amazon Glacier, and more. You can get
-started in minutes using ***Maven*** or by downloading a [single zip file][install-jar].
+*Version: 7.0.2.Final - 2021-12-14*
 
-**Note**: A version 2.x of the SDK is available, see the [AWS SDK for Java 2.x](#aws-sdk-for-java-2x) section for more information.
 
-* [SDK Homepage][sdk-website]
-* [API Docs][docs-api]
-* [Developer Guide][docs-guide] ([source][docs-guide-source])
-* [Forum][sdk-forum]
-* [Issues][sdk-issues]
-* [SDK Blog][blog]
-* [Getting Help](#getting-help)
+## What is it?
 
-## Release Notes ##
-Changes to the SDK beginning with version 1.12.1 (June 2021) are tracked in [CHANGELOG.md][changes-file].
+This is the reference implementation of [Jakarta Bean Validation 3.0](http://beanvalidation.org/).
+Jakarta Bean Validation defines a metadata model and API for JavaBean as well as method validation.
+The default metadata source are annotations, with the ability to override and extend
+the metadata through the use of XML validation descriptors.
 
-Changes in the _retired_ 1.11.x series of the SDK, beginning with version 1.11.82, 
-are listed in the [CHANGELOG-1.11.x.md](./changelogs/CHANGELOG-1.11.x.md) file.
+## Documentation
 
-Release notes for versions prior to 1.11.82 can still be found on the [AWS Release Notes
-Website][release-notes-catalog].
+The documentation for this release is included in the _docs_ directory of the distribution package or can be accessed [online](http://hibernate.org/validator/documentation/).
 
-## Getting Started
+## Release Notes
 
-#### Sign up for AWS ####
+The full list of changes for this release can be found in changelog.txt.
 
-Before you begin, you need an AWS account. Please see the [Sign Up for AWS][docs-signup] section of
-the developer guide for information about how to create an AWS account and retrieve your AWS
-credentials.
+## System Requirements
 
-#### Minimum requirements ####
+JDK 8 or above.
 
-To run the SDK you will need **Java 1.7+**. For more information about the requirements and optimum
-settings for the SDK, please see the [Installing a Java Development Environment][docs-java-env]
-section of the developer guide.
+## Using Hibernate Validator
 
-#### Install the SDK ####
+* In case you use the distribution archive from the download site, copy _dist/hibernate-validator-&lt;version&gt;.jar_ together with all
+jar files from _dist/lib/required_ into the classpath of your application. For the purposes of logging, Hibernate Validator uses
+the JBoss Logging API, an abstraction layer which supports several logging solutions such (e.g. log4j or the logging framework
+provided by the JDK) as implementation. Just add a supported logging library to the classpath (e.g. _log4j-&lt;version&gt;.jar_) and JBoss
+Logging will delegate any log requests to that provider.
 
-The recommended way to use the AWS SDK for Java in your project is to consume it from Maven. Import
-the [aws-java-sdk-bom][] and specify the SDK Maven modules that your project needs in the
-dependencies.
+* Add the following artifact to your Maven/Ivy/Gradle dependency list:
 
-##### Importing the BOM #####
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>7.0.2.Final</version>
+        </dependency>
 
-```xml
-<dependencyManagement>
-  <dependencies>
-    <dependency>
-      <groupId>com.amazonaws</groupId>
-      <artifactId>aws-java-sdk-bom</artifactId>
-      <version>1.12.141</version>
-      <type>pom</type>
-      <scope>import</scope>
-    </dependency>
-  </dependencies>
-</dependencyManagement>
-```
+  You also need an API and implementation of the Unified Expression Language. These dependencies must be explicitly added in an SE environment.
+  In a Jakarta EE environment, they are often already provided.
 
-##### Using the SDK Maven modules #####
+        <dependency>
+           <groupId>org.glassfish</groupId>
+           <artifactId>jakarta.el</artifactId>
+           <version>4.0.1</version>
+        </dependency>
 
-```xml
-<dependencies>
-  <dependency>
-    <groupId>com.amazonaws</groupId>
-    <artifactId>aws-java-sdk-ec2</artifactId>
-  </dependency>
-  <dependency>
-    <groupId>com.amazonaws</groupId>
-    <artifactId>aws-java-sdk-s3</artifactId>
-  </dependency>
-  <dependency>
-    <groupId>com.amazonaws</groupId>
-    <artifactId>aws-java-sdk-dynamodb</artifactId>
-  </dependency>
-</dependencies>
-```
+* Jakarta Bean Validation defines integration points with [CDI](http://jcp.org/en/jsr/detail?id=346). If your application runs
+in an environment which does not provide this integration out of the box, you may use the Hibernate Validator CDI portable
+extension by adding the following dependency:
 
-See the [Set up the AWS SDK for Java][docs-setup] section of the developer guide for more
-information about installing the SDK through other means.
+        <dependency>
+           <groupId>org.hibernate.validator</groupId>
+           <artifactId>hibernate-validator-cdi</artifactId>
+           <version>7.0.2.Final</version>
+        </dependency>
 
-## Features
+* _hibernate-validator-annotation-processor-&lt;version&gt;.jar_ is an optional jar which can be integrated with your build
+environment respectively IDE to verify that constraint annotations are correctly used. Refer to the [online
+documentation](https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#validator-annotation-processor) for more information.
 
-* Provides easy-to-use HTTP clients for all supported AWS services, regions, and authentication
-    protocols.
+## Licensing
 
-* Client-Side Data Encryption for Amazon S3 - Helps improve the security of storing application data
-    in Amazon S3.
+Hibernate Validator itself as well as the Jakarta Bean Validation API and TCK are all provided and distributed under
+the Apache Software License 2.0. Refer to license.txt for more information.
 
-* Amazon DynamoDB Object Mapper - Uses Plain Old Java Object (POJOs) to store and retrieve Amazon
-    DynamoDB data.
+## Build from Source
 
-* Amazon S3 Transfer Manager - With a simple API, achieve enhanced the throughput, performance, and
-    reliability by using multi-threaded Amazon S3 multipart calls.
+You can build Hibernate Validator from source by cloning the git repository `git://github.com/hibernate/hibernate-validator.git`.
+You will also need a JDK 8+ and Maven 3 (>= 3.3.1). With these prerequisites in place you can compile the source via:
 
-* Amazon SQS Client-Side Buffering - Collect and send SQS requests in asynchronous batches,
-    improving application and network performance.
+    mvn clean install
 
-* Automatically uses [IAM Instance Profile Credentials][aws-iam-credentials] on configured Amazon
-    EC2 instances.
+There are more build options available as well. For more information refer to [Contributing to Hibernate Validator](http://hibernate.org/validator/contribute/).
 
-* And more!
+## Continuous Integration
 
-## Building From Source
+The official Continuous Integration service for the project is hosted on [ci.hibernate.org](http://ci.hibernate.org/view/Validator/).
 
-Once you check out the code from GitHub, you can build it using Maven. To disable the GPG-signing
-in the build, use:
+We provide a `.travis.yml` file so that you can enable CI for your GitHub fork by enabling the build in [your Travis CI account](https://travis-ci.org/).
 
-```sh
-mvn clean install -Dgpg.skip=true
-```
+## Hibernate Validator URLs
 
-## Getting Help
-GitHub [issues][sdk-issues] is the preferred channel to interact with our team. Also check these community resources for getting help:
-
-* Ask a question on [StackOverflow][stack-overflow] and tag it with `aws-java-sdk`
-* Come join the AWS Java community chat on [Gitter][gitter]
-* Articulate your feature request or upvote existing ones on our [Issues][features] page
-* Take a look at the [blog] for plenty of helpful walkthroughs and tips
-* Open a case via the [AWS Support Center][support-center] in the [AWS console][console]
-* If it turns out that you may have found a bug, please open an [issue][sdk-issues]
-
-## Maintenance and Support for SDK Major Versions
-For information about maintenance and support for SDK major versions and their underlying dependencies, see the following in the AWS SDKs and Tools Shared Configuration and Credentials Reference Guide:
-
-* [AWS SDKs and Tools Maintenance Policy][maintenance-policy]
-* [AWS SDKs and Tools Version Support Matrix][version-matrix]
-
-## Supported Minor Versions
-
-* **1.12.x** - Recommended.
-
-* **1.11.x** - No longer supported, but migration to 1.12.x should require no code changes.
-
-## AWS SDK for Java 2.x
-A version 2.x of the SDK is generally available. It is a major rewrite of the 1.x code base, built on top of Java 8+ and adds several frequently requested features. These include support for non-blocking I/O, improved start-up performance, automatic iteration over paginated responses and the ability to plug in a different HTTP implementation at run time.
-
-For more information see the [AWS SDK for Java 2.x Developer Guide][sdk-v2-dev-guide] or check the project repository in https://github.com/aws/aws-sdk-java-v2.
-
-[aws-iam-credentials]: http://docs.aws.amazon.com/java-sdk/v1/developer-guide/java-dg-roles.html
-[aws]: http://aws.amazon.com/
-[blog]: https://aws.amazon.com/blogs/developer/category/java/
-[docs-api]: http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/index.html
-[docs-guide]: http://docs.aws.amazon.com/java-sdk/v1/developer-guide/welcome.html
-[docs-guide-source]: https://github.com/awsdocs/aws-java-developer-guide
-[docs-java-env]: http://docs.aws.amazon.com/java-sdk/v1/developer-guide/setup-install.html#installing-a-java-development-environment
-[docs-signup]: http://docs.aws.amazon.com/java-sdk/v1/developer-guide/signup-create-iam-user.html
-[docs-setup]: http://docs.aws.amazon.com/java-sdk/v1/developer-guide/setup-install.html
-[install-jar]: http://sdk-for-java.amazonwebservices.com/latest/aws-java-sdk.zip
-[sdk-forum]: http://developer.amazonwebservices.com/connect/forum.jspa?forumID=70
-[sdk-issues]: https://github.com/aws/aws-sdk-java/issues
-[sdk-license]: http://aws.amazon.com/apache2.0/
-[sdk-website]: http://aws.amazon.com/sdkforjava
-[aws-java-sdk-bom]: https://github.com/aws/aws-sdk-java/tree/master/aws-java-sdk-bom
-[release-notes-catalog]: https://aws.amazon.com/releasenotes/Java?browse=1
-[changes-file]: ./CHANGELOG.md
-[stack-overflow]: http://stackoverflow.com/questions/tagged/aws-java-sdk
-[gitter]: https://gitter.im/aws/aws-sdk-java
-[features]: https://github.com/aws/aws-sdk-java/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature-request%22
-[support-center]: https://console.aws.amazon.com/support/
-[console]: https://console.aws.amazon.com
-[jackson-deserialization-gadget]: https://medium.com/@cowtowncoder/on-jackson-cves-dont-panic-here-is-what-you-need-to-know-54cd0d6e8062
-[sdk-v2-dev-guide]: https://docs.aws.amazon.com/sdk-for-java/v2/developer-guide/welcome.html
-[maintenance-policy]: https://docs.aws.amazon.com/credref/latest/refdocs/maint-policy.html
-[version-matrix]: https://docs.aws.amazon.com/credref/latest/refdocs/version-support-matrix.html
+* [Home Page](http://hibernate.org/validator/)
+* [Jakarta Bean Validation Home](http://beanvalidation.org/)
+* [Downloads](http://hibernate.org/validator/downloads/)
+* [Mailing Lists](http://hibernate.org/community/)
+* [Issue Tracking](https://hibernate.atlassian.net/browse/HV)
+* [Continuous Integration](http://ci.hibernate.org/view/Validator/) | [![Build Status](http://ci.hibernate.org/view/Validator/job/hibernate-validator-main/badge/icon)](http://ci.hibernate.org/view/Validator/job/hibernate-validator-main/)
