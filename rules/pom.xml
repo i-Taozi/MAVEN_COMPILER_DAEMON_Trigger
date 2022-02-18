@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.tanaguru</groupId>
+        <artifactId>tanaguru</artifactId>
+        <version>7.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>rules</artifactId>
+    <packaging>pom</packaging>
+    <version>7.0.0-SNAPSHOT</version>
+    <name>rules</name>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>false</skipTests>
+                    <testFailureIgnore>true</testFailureIgnore>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <modules>
+        <module>rules-commons</module>
+<!--        <module>accessiweb2.2</module>
+        <module>rgaa2.2</module>
+        <module>rgaa3.0</module>
+        <module>rgaa3-2016</module>-->
+        <module>rgaa3-2017</module>
+        <module>rgaa4-2019</module>
+        <module>rules-creation-demo</module>
+        <module>rules-resources</module>
+    </modules>
+
+</project>

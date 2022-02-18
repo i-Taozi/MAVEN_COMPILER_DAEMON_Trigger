@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+      http://www.springframework.org/schema/security
+      http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+
+    <http auto-config="true" disable-url-rewriting="true">
+<!--        <intercept-url pattern="/*.html*" requires-channel="https"/>-->
+<!--        <intercept-url pattern="/login.html*" filters="none"/>-->
+        <csrf disabled="true"></csrf>
+        <access-denied-handler error-page="/access-denied.html"/>
+        <intercept-url pattern="/admin.html" access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/admin/add*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/admin/edit*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/admin/delete*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/admin/manage*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/admin/manage-contracts/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/admin/manage-contracts/add*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/admin/manage-contracts/delete*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/admin/manage-contracts/edit*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/home.html" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/home/contract*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/home/contract/*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/home/contract/audit*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <intercept-url pattern="/home/contract/page*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"/>
+        <form-login login-page="/login.html" authentication-failure-url="/login.html?error=errorOnLogin" login-processing-url="/perform_login" default-target-url="/dispatch.html"/>
+        <logout delete-cookies="JSESSIONID" invalidate-session="true" logout-url="/perform_logout" logout-success-url="/"/>
+        <session-management invalid-session-url="/login.html"  >
+            <concurrency-control max-sessions="100" error-if-maximum-exceeded="true"  />
+        </session-management>
+    </http>
+
+    <beans:bean id="password-encoder" class="org.tanaguru.webapp.util.MD5PasswordEncoder"/>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="tgolAuthenticationProvider">
+            <password-encoder ref="password-encoder"/>
+        </authentication-provider>
+    </authentication-manager>
+
+
+
+    <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+        <beans:constructor-arg name="decisionVoters">
+            <beans:list>
+                <beans:bean class="org.springframework.security.access.vote.RoleVoter"/>
+                <beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+            </beans:list>
+        </beans:constructor-arg>
+    </beans:bean>
+    
+    <beans:bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
+   
+    <beans:bean id="tgolAuthenticationProvider" class="org.tanaguru.webapp.security.userdetails.TgolUserDetailsService">
+        <beans:property name="dataSource" ref="dataSource"/>
+        <beans:property name="usersByUsernameQuery">
+            <beans:value>SELECT Email1, Password, Activated as enabled
+                    FROM TGSI_USER
+                    WHERE LOWER(Email1)=LOWER(?)</beans:value>
+        </beans:property>
+        <beans:property name="authoritiesByUsernameQuery">
+            <beans:value>SELECT TGSI_USER.Email1, TGSI_ROLE.Role_Name as authorities
+                    FROM TGSI_USER, TGSI_ROLE
+                    WHERE LOWER(TGSI_USER.Email1) = LOWER(?) AND TGSI_USER.ROLE_Id_Role=TGSI_ROLE.Id_Role</beans:value>
+        </beans:property>
+    </beans:bean>
+
+</beans:beans>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+      xmlns="http://java.sun.com/xml/ns/persistence"
+      xmlns:xsi="http://www.w3.com/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+      http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+    <persistence-unit name="tanaguruPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <non-jta-data-source>jdbc/tanaguruDS</non-jta-data-source>
+        <class>org.tanaguru.webapp.entity.user.UserImpl</class>
+        <class>org.tanaguru.webapp.entity.user.RoleImpl</class>
+        <class>org.tanaguru.webapp.entity.option.OptionImpl</class>
+        <class>org.tanaguru.webapp.entity.option.OptionElementImpl</class>
+        <class>org.tanaguru.webapp.entity.option.OptionFamilyImpl</class>
+        <class>org.tanaguru.webapp.entity.contract.ContractImpl</class>
+        <class>org.tanaguru.webapp.entity.contract.ActImpl</class>
+        <class>org.tanaguru.webapp.entity.contract.TgsiScopeImpl</class>
+        <class>org.tanaguru.webapp.entity.referential.ReferentialImpl</class>
+        <class>org.tanaguru.webapp.entity.scenario.ScenarioImpl</class>
+        <class>org.tanaguru.webapp.entity.functionality.FunctionalityImpl</class>
+        <class>org.tanaguru.entity.subject.WebResourceImpl</class>
+        <class>org.tanaguru.entity.subject.SiteImpl</class>
+        <class>org.tanaguru.entity.subject.PageImpl</class>
+        <class>org.tanaguru.entity.audit.AuditImpl</class>
+        <class>org.tanaguru.entity.reference.CriterionImpl</class>
+        <class>org.tanaguru.entity.reference.DecisionLevelImpl</class>
+        <class>org.tanaguru.entity.reference.LevelImpl</class>
+        <class>org.tanaguru.entity.reference.NomenclatureCssUnitImpl</class>
+        <class>org.tanaguru.entity.reference.NomenclatureElementImpl</class>
+        <class>org.tanaguru.entity.reference.NomenclatureImpl</class>
+        <class>org.tanaguru.entity.reference.ReferenceImpl</class>
+        <class>org.tanaguru.entity.reference.ScopeImpl</class>
+        <class>org.tanaguru.entity.reference.StandardMessageImpl</class>
+        <class>org.tanaguru.entity.reference.RuleImpl</class>
+        <class>org.tanaguru.entity.reference.TestImpl</class>
+        <class>org.tanaguru.entity.reference.AccedewebImpl</class>
+        <class>org.tanaguru.entity.reference.ThemeImpl</class>
+        <class>org.tanaguru.entity.audit.ProcessResultImpl</class>
+        <class>org.tanaguru.entity.audit.DefiniteResultImpl</class>
+        <class>org.tanaguru.entity.audit.IndefiniteResultImpl</class>
+        <class>org.tanaguru.entity.audit.ContentImpl</class>
+        <class>org.tanaguru.entity.audit.ProcessRemarkImpl</class>
+        <class>org.tanaguru.entity.audit.EvidenceElementImpl</class>
+        <class>org.tanaguru.entity.audit.EvidenceImpl</class>
+        <class>org.tanaguru.entity.parameterization.ParameterImpl</class>
+        <class>org.tanaguru.entity.parameterization.ParameterElementImpl</class>
+        <class>org.tanaguru.entity.parameterization.ParameterFamilyImpl</class>
+        <class>org.tanaguru.webapp.presentation.data.FailedPageInfo</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="dialect" value="org.hibernate.dialect.HSQLDialect"/>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+        </properties>
+    </persistence-unit>
+</persistence>
