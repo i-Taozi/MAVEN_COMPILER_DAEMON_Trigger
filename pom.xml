@@ -1,252 +1,374 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.mage</groupId>
-    <artifactId>mage-root</artifactId>
-    <version>1.4.50</version>
+    <groupId>com.h3xstream.findsecbugs</groupId>
+    <artifactId>findsecbugs-root-pom</artifactId>
+
     <packaging>pom</packaging>
-    <name>Mage Root</name>
-    <description>Mage Root POM</description>
+    <version>1.12.0-SNAPSHOT</version>
+
+    <name>OWASP Find Security Bugs root</name>
+
+    <description>Root project file that aggregate the different modules of Find Security Bugs.</description>
+
+    <properties>
+        <!-- Encoding configuration -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
 
     <build>
         <plugins>
+            <!-- Force the use the compatibility to Java 8 -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>2.3.2</version>
+                <!-- Be careful before updating this plugin..
+                    The current deployment process will fail.
+                    (https://github.com/find-sec-bugs/find-sec-bugs/wiki/Compiling#release-process) -->
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                    <!--
-                    Because of known error in maven-compiler-plugin 3.2 useIncrementalCompilation is inverted
-                    so remove this arg with update that fixes the problem
-                    https://jira.codehaus.org/browse/MCOMPILER-209
-                    -->
-                    <useIncrementalCompilation>false</useIncrementalCompilation>
-                	<fork>true</fork>
-                    <!--                    <compilerArgument>-Xlint:all</compilerArgument> -->
                 </configuration>
             </plugin>
 
+            <!-- Update automatically the header of the source code to the LGPL header. -->
             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>2.11</version>
                 <configuration>
-                    <encoding>UTF-8</encoding>
+                    <header>file:///${session.executionRootDirectory}/LGPL-3.0-header.txt</header>
+                    <aggregate>true</aggregate>
+                    <strictCheck>true</strictCheck>
+                    <includes>
+                        <include>**/**.java</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/SMAPSourceDebugExtension.java</exclude>
+                        <exclude>**/testcode/**/**.java</exclude>
+                        <exclude>**/testcasesupport/**/**.java</exclude>
+                        <exclude>**/testcases/**/**.java</exclude>
+                        <exclude>**/package-info.java</exclude>
+                        <!-- Package that contains stub api -->
+                        <exclude>**/java/android/**/**.java</exclude>
+                        <exclude>**/com/hazelcast/**/**.java</exclude>
+                        <exclude>**/javax/**/**.java</exclude>
+                        <exclude>**/org/opensaml/xml/**/**.java</exclude>
+                        <exclude>**/org/acegisecurity/**/**.java</exclude>
+                        <exclude>**/org/apache/**/**.java</exclude>
+                        <exclude>**/org/bouncycastle/**/**.java</exclude>
+                        <exclude>**/org/hibernate/**/**.java</exclude>
+                        <exclude>**/org/eclipse/jetty/**/**.java</exclude>
+                        <exclude>**/org/slf4j/**/**.java</exclude>
+                        <exclude>**/org/sonarqube/**/**.java</exclude>
+                        <exclude>**/org/owasp/**/**.java</exclude>
+                        <exclude>**/io/dropwizard/**/**.java</exclude>
+                        <exclude>**/org/jboss/**/**.java</exclude>
+                        <exclude>**/org/springframework/**/**.java</exclude>
+                        <exclude>**/com/unboundid/ldap/**/**.java</exclude>
+                        <exclude>**/java/scala/util/**/**.java</exclude>
+                        <exclude>**/groovy/lang/**.java</exclude>
+                        <exclude>**/scala/**.java</exclude>
+                        <exclude>**/scala/**/**.java</exclude>
+                        <exclude>**/**/ReadMe.java</exclude>
+                        <exclude>**/freemarker/template/**/**.java</exclude>
+                        <exclude>**/pebble/**/**/**.java</exclude>
+                        <exclude>**/PluginDepsClassPathFinder.java</exclude>
+                        <exclude>**/java/flexjson/**.java</exclude>
+                        <exclude>**/java/com/typesafe/**/**.java</exclude>
+                        <exclude>**/java/com/fasterxml/jackson/**/**.java</exclude>
+                        <exclude>**/java/ognl/**/**.java</exclude>
+                        <exclude>**/com/sun/**/**.java</exclude>
+                        <exclude>**/sun/security/**/**.java</exclude>
+                        <exclude>**/com/opensymphony/**/**.java</exclude>
+                        <exclude>**/com/google/**/**.java</exclude>
+                        <exclude>**/com/jcraft/**/**.java</exclude>
+                        <exclude>**/io/vertx/**/**.java</exclude>
+                        <exclude>**/java/kotlin/**</exclude>
+                        <exclude>**/org/jetbrains/**</exclude>
+                    </excludes>
+                    <properties>
+                        <project>Find Security Bugs</project>
+                        <owner>Philippe Arteau</owner>
+                    </properties>
                 </configuration>
-            </plugin>
-
-            <!-- default manifest settings (parent) -->
-            <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Built-By>MageTeam</Built-By>
-                            <Build-Time>${maven.build.timestamp}</Build-Time>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <!-- JaCoCo Code Coverage report generation -->
-            <!-- Examples: http://tdongsi.github.io/blog/2017/09/23/jacoco-in-maven-project/ -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
                 <executions>
                     <execution>
-                        <!-- prepare command line to inject in java agent (collect code executing stats) -->
+                        <id>regen_lgpl</id>
                         <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <!-- generate current module's report -->
-                        <id>generate-code-coverage-report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <!-- generate combined report (current and dependency modules) -->
-                        <id>report-aggregate</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-aggregate</goal>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+                <configuration>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+            </plugin>
+
         </plugins>
 
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M5</version>
-                    <!--
-                    for compatible with jacoco code coverage - argLine moved to properties section
-                    <configuration>
-                        <argLine>-Dfile.encoding=UTF-8</argLine>
-                    </configuration>
-                    -->
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 
+    <profiles>
+        <profile>
+            <id>travisci</id> <!-- Profile that is specific for the cloud service Travis-CI (travis-ci.com) -->
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.20</version>
+                        <configuration>
+                            <argLine>@{argLine} -Xmx3000m -Dbcel.dontCache=true</argLine>
+		           <enableAssertions>true</enableAssertions>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+
+        <profile>
+            <id>signjars</id>
+            <activation>
+                <property>
+                    <name>gpg.passphrase</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+
+        <profile>
+            <id>jacoco</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.8.2</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <!-- attached to Maven test phase -->
+                            <execution>
+                                <id>report</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- SpotBugs for general static code analysis -->
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>3.1.12</version>
+                        <configuration>
+                            <xmlOutput>true</xmlOutput>
+                            <failOnError>false</failOnError>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+
     <modules>
-        <module>Mage</module>
-        <module>Mage.Common</module>
-        <module>Mage.Server</module>
-        <module>Mage.Sets</module>
-        <module>Mage.Client</module>
-        <module>Mage.Plugins</module>
-        <module>Mage.Server.Plugins</module>
-        <module>Mage.Server.Console</module>
-        <module>Mage.Tests</module>
-        <module>Mage.Verify</module>
+        <module>findsecbugs-test-util</module>
+        <module>findsecbugs-plugin</module>
+        <module>findsecbugs-samples-deps</module>
+        <module>findsecbugs-samples-kotlin</module>
+        <module>findsecbugs-samples-java</module>
+        <module>findsecbugs-samples-jsp</module>
     </modules>
 
-    <repositories>
-        <repository>
-            <id>jboss-public-repository</id>
-            <name>JBoss Repository</name>
-            <url>https://repository.jboss.org/nexus/content/groups/public</url>
-            <!-- These optional flags are designed to speed up your builds by reducing remote server calls -->
-            <releases>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>local-project-repo</id>
-            <url>file://${basedir}/repository</url>
-        </repository>
-    </repositories>
 
-    <properties>
-        <mage-version>1.4.50</mage-version>
-        <argLine>-Dfile.encoding=UTF-8</argLine>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
-
-        <!--
-            JaCoCo code coverage disabled by default. If you need to generate
-            execute stats and reports then run tests by maven command
-            like "mvn install -Djacoco.skip=false".
-            Stats:
-            - load coverage data for IntelliJ IDEA from ./target/jacoco.exec
-            - web report in ./target/site/jacoco/index.html
-            - for sonar support see below
-        -->
-        <jacoco.skip>true</jacoco.skip>
-
-        <!-- Sonar settings for code coverage. Must be only one report for all modules (use report-aggregate goal report from JaCoCo) -->
-        <aggregate.report.dir>Mage.Verify/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
-    </properties>
-
-    <dependencies>
-        <!-- GLOBAL dependencies - used in all xmage modules (no need to add it to child modules) -->
-        <dependency>
-            <!-- logs support (log4j as engine + slf4j as facade) -->
-            <!-- TODO: migrate from log4j to logback code usage (see SLF4J Migrator http://www.slf4j.org/migrator.html) -->
-            <!-- TODO: migrate log4j configs to logback xml (see properties to xml translation http://logback.qos.ch/translator/ -->
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.32</version>
-        </dependency>
-
-        <dependency>
-            <!-- database support - ORM -->
-            <groupId>com.j256.ormlite</groupId>
-            <artifactId>ormlite-jdbc</artifactId>
-            <version>5.7</version>
-        </dependency>
-        <dependency>
-            <!-- database support - H2 db engine (main db) -->
-            <!-- WARNING, do not update db engine (stable: 1.4.197) cause compatibility issues, see https://github.com/h2database/h2database/issues/2078 -->
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.197</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <!-- junit 4 tests -->
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>5.8.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <!-- junit 5 tests -->
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.8.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <!-- write asserts in unit tests like a real language -->
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.21.0</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
+    <!-- All the dependencies are declare here. Modules will refer to those without specifying the version. -->
     <dependencyManagement>
-        <!-- OTHER dependencies - you must add it to child modules manually (copy groupId and artifactId without scope and version) -->
-        <!-- write shared libs from all childs here to version control -->
         <dependencies>
+
             <dependency>
-                <!-- junit compatible dependencies (xmage uses junit 5 platform for all v4 and v5 tests) -->
-                <groupId>org.junit</groupId>
-                <artifactId>junit-bom</artifactId>
-                <version>5.8.1</version>
-                <type>pom</type>
-                <scope>import</scope>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs</artifactId>
+                <version>3.1.12</version>
+            </dependency>
+
+            <!-- Artefact definition of the module -->
+
+            <dependency>
+                <groupId>com.h3xstream.findsecbugs</groupId>
+                <artifactId>findsecbugs-test-util</artifactId>
+                <type>test-jar</type>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <!-- json support -->
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-                <version>2.8.8</version>
+                <groupId>com.h3xstream.findsecbugs</groupId>
+                <artifactId>findsecbugs-samples-kotlin</artifactId>
+                <type>test-jar</type>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <!-- extended lib from google (collections, io, etc) -->
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>30.1.1-jre</version>
+                <groupId>com.h3xstream.findsecbugs</groupId>
+                <artifactId>findsecbugs-samples-java</artifactId>
+                <type>test-jar</type>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <!-- escape/unescape html in texts -->
-                <groupId>org.unbescape</groupId>
-                <artifactId>unbescape</artifactId>
-                <version>1.1.6.RELEASE</version>
+                <groupId>com.h3xstream.findsecbugs</groupId>
+                <artifactId>findsecbugs-samples-jsp</artifactId>
+                <type>test-jar</type>
+                <version>${project.version}</version>
             </dependency>
+
             <dependency>
-                <!-- zip files support -->
-                <groupId>net.java.truevfs</groupId>
-                <artifactId>truevfs-profile-base</artifactId>
-                <version>0.14.0</version>
+                <groupId>com.h3xstream.findsecbugs</groupId>
+                <artifactId>findsecbugs-samples-deps</artifactId>
+                <version>${project.version}</version>
             </dependency>
+
+
             <dependency>
-                <!-- lib with useful code and utils -->
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>3.12.0</version>
+                <groupId>com.h3xstream.findsecbugs</groupId>
+                <artifactId>findsecbugs-plugin</artifactId>
+                <version>${project.version}</version>
             </dependency>
+
+            <!-- Test dependencies -->
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.10.19</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-core</artifactId>
+                <version>2.2</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>7.4.0</version>
+                <scope>test</scope>
+            </dependency>
+
+
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.11.0</version>
+                <scope>test</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.26</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
+                <scope>test</scope>
+            </dependency>
+
+
+
+
         </dependencies>
+
     </dependencyManagement>
+
+
+    <!--
+    The following meta data are present to comply with Maven Central.
+    Ref: https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-6.CentralSyncRequirement
+    -->
+
+    <url>https://find-sec-bugs.github.io/</url>
+
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/copyleft/lesser.html</url>
+            <distribution>repo</distribution>
+            <comments />
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/find-sec-bugs/find-sec-bugs.git</connection>
+        <developerConnection>scm:git:git@github.com:find-sec-bugs/find-sec-bugs.git</developerConnection>
+        <url>git@github.com:find-sec-bugs/find-sec-bugs.git</url>
+  </scm>
+
+    <developers>
+        <developer>
+            <id>h3xstream</id>
+            <name>Philippe Arteau</name>
+            <url>http://www.h3xstream.com/</url>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Sonatype staging repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype snapshot repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
