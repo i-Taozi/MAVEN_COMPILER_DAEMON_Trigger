@@ -1,77 +1,42 @@
-[![Build Status](https://travis-ci.com/cpesch/RouteConverter.svg?branch=master)](https://travis-ci.com/cpesch/RouteConverter)
-[![Test Coverage](https://codecov.io/gh/cpesch/RouteConverter/branch/master/graph/badge.svg)](https://codecov.io/gh/cpesch/RouteConverter)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.cpesch.slash/RouteConverter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.cpesch.slash/RouteConverter)
-<a href="https://hosted.weblate.org/engage/routeconverter/?utm_source=widget"><img src="https://hosted.weblate.org/widgets/routeconverter/-/svg-badge.svg" alt="Translation status"/></a>
+# orientdb-gremlin
 
-What is RouteConverter?
-=======================
+[![Build Status](https://travis-ci.org/orientechnologies/orientdb-gremlin.svg?branch=develop)](https://travis-ci.org/orientechnologies/orientdb-gremlin?branch=develop) [![Coverage Status](https://coveralls.io/repos/mpollmeier/orientdb-gremlin/badge.svg?branch=master)](https://coveralls.io/r/mpollmeier/orientdb-gremlin?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.michaelpollmeier/orientdb-gremlin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.michaelpollmeier/orientdb-gremlin/) 
 
-RouteConverter is a popular open source tool to display, edit, enrich and convert
-routes, tracks and waypoints licensed under the GNU Public License.
-See http://www.routeconverter.com/about/ for details about features, supported formats
-and languages, screenshots, frequently asked questions and how you can help.
+[Apache TinkerPop](https://tinkerpop.apache.org/) 3 graph structure implementation for OrientDB. This started off as just a proof of concept, but thanks to a lot of help it's now in a really good shape and it has been officially adopted by the OrientDB team to be part of OrientDB `v3.x` and should eventually replace OrientDB's `graphdb` implementation that is still on TinkerPop 2. 
 
-Downloads
-=========
+The main area that need some more work is index lookups - currently it does find the right index for a simple case, e.g. `g.V.hasLabel("myLabel").has("someKey", "someValue")`. However if there are multiple indexes on the same property, or if there the traversal should better use a composite index, that's not handled well yet. If you feel inclined you can add these cases to the `OrientGraphIndexTest.java`. The function that looks up indexes is `OrientGraphStep.findIndex`.
 
-Stable releases are available at http://www.routeconverter.com/releases/
+## Tests
+* you can run the standard tinkerpop test suite with `mvn install -P release`
+* there are some additional tests that you can run independently with `mvn test`
+* additionally there is a separate suite of tests in the `tests-scala` directory which you can run using `sbt test`
+* to automatically format the code (travis CI enforces a format check), just run `mvn clean install`
 
-Prereleases are frequently offered at http://www.routeconverter.com/prereleases/
+## Usage
+Have a look at the tests-scala which demonstrates the usage. There's also an orientdb example project in [gremlin-scala-examples](https://github.com/mpollmeier/gremlin-scala-examples).
 
-If you want to contribute
-=========================
+## Labels and classes
+Vertices and Edges are stored as classes based on their label. In order to allow vertices and edges to use the same label, the implementation prepends `V_` or `E_` in the class name:
+* vertex with label `user` -> classname `V_user`
+* edge with label `user` -> classname `E_user`
 
-Patches and pull requests are always welcome. If you minimize your diff, it's more
-likely that your contribution will be applied to the code base. Please stick to the
-code standards and formatting that you run across. And don't forget to add tests for
-your changes ;-)
+## Migrations
+You might want to use [orientdb-migrations](https://github.com/springnz/orientdb-migrations) to create a schema with indexes etc. 
 
-CONTRIBUTORS.txt provides a list of the people who helped developing RouteConverter.
-
-How to develop for RouteConverter
-=================================
-
-1. Install a recent Java SDK, version 8 or later, from http://www.oracle.com/technetwork/java/javase/downloads/
-
-2. Clone RouteConverter from github:
-   
-       git clone git://github.com/cpesch/RouteConverter.git
-
-3. Open RouteConverter sources in an Integrated Development Environment (IDE)
-
-   IntelliJ
-   * Install IntelliJ IDEA Community Edition from http://www.jetbrains.com/idea/download/
-   * Choose "File/Open Project..." and the root pom.xml.
-
-   Eclipse
-   * Install Eclipse IDE for Java Developers from http://www.eclipse.org/downloads/
-   * Install m2eclipse from http://m2eclipse.sonatype.org/sites/m2e/
-   * Choose "File/Import..." and "General/Maven Projects" and the root directory.
-
-   NetBeans
-   * Install NetBeans IDE Java SE from http://netbeans.org/downloads/
-   * Install Git via "My NetBeans > Install Plugins"
-   * Choose "Open Project..." and the root directory.
-
-4. Let JAVA_HOME refer to the Java SDK
-   
-       set JAVA_HOME=c:\Programm Files\Java\jdk1.8.0_271
-
-   Put JAVA_HOME into your PATH
-
-       set %PATH%=%JAVA_HOME%:%PATH%
-
-5. Build RouteConverter with the Maven wrapper
-    
-       mvnw clean package
-
-6. Run RouteConverter
-    
-       java -jar RouteConverterCmdLine/target/RouteConverterCmdLine.jar
-       java -jar RouteConverterLinuxOpenSource/target/RouteConverterLinuxOpenSource.jar
-       java -jar RouteConverterMacOpenSource/target/RouteConverterMacOpenSource.jar
-       java -jar RouteConverterWindowsOpenSource/target/RouteConverterWindowsOpenSource.jar
-
-Have fun!
-
-Christian
+## Release
+* upgrade version: remove SNAPSHOT (driver/pom.xml and tests-scala/build.sbt)
+* commit on branch, push, create PR on github
+* await green light from travis
+* merge PR on github
+* then execute
+```
+* mvn pull
+* mvn clean deploy -Prelease
+* git tag VERSION
+```
+* bump versions to next SNAPSHOT (pom.xml, build.sbt)
+* then
+```
+* git push
+* git push --tags
+```
