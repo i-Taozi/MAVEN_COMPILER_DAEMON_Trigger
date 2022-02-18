@@ -393,9 +393,6 @@
             </configuration>
           </execution>
         </executions>
-        <configuration>
-        	<fork>true</fork>
-        </configuration>
       </plugin>
  
       <plugin>
