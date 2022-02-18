@@ -1,2 +1,0 @@
-http://archive.ics.uci.edu/ml/
-kaviar: http://trac.clermont.cemagref.fr/projets/Kaviar/wiki

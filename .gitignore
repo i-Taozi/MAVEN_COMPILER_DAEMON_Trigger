@@ -1,28 +1,34 @@
-dist
-build
-doc/javadoc
-target
-.settings
-.DS_Store
-.classpath
-.project
-*.class
-*.log
-*~/
-*~
-.idea/
-**/.idea/
+/ws/*
+/target/*
+/bin/*
+/*/target/*
+/*/bin/*
+/*.bat
+*.iml
+*.ipr
+*.iws
+/lib/java/target/*
 
-**/dragon.obj
-#*.obj
-#!jzy3d-core/data/objfiles/bunny.obj
+# Hidden files
+.*
+!.travis.yml
+!.gitignore
+!.gitattributes
+!.gitmodules
 
-*/.classpath
-*/.project
-*/.settings
-*/.DS_Store
+# Node rules:
+## Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
 
-jzy3d-api/data/objfiles/dragon.obj
+## Dependency directory
+## Commenting this out is preferred by some people, see
+## https://docs.npmjs.com/misc/faq#should-i-check-my-node_modules-folder-into-git
+node_modules
 
-*.releaseBackup
-*.versionsBackup
+# Book build output
+_book
+
+# eBook build output
+*.epub
+*.mobi
+*.pdf

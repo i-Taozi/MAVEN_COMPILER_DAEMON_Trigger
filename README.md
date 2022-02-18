@@ -1,325 +1,103 @@
-Jzy3d
-=========
-
-Jzy3d is a framework for easily drawing 3d and 2d charts in Java, using either fast native GPU rendering or CPU based rendering to enhance portability across combination of OS/JVM/GPU.
-
-The framework targets simplicity and portability across Java windowing toolkits (AWT, SWT, NEWT, Swing, JavaFX, Offscreen rendering), running either on MacOS, Windows and Linux. Jzy3d is available for other languages or platforms such as [Scala, Groovy, Matlab](http://jzy3d.org/community.php), [C#](https://github.com/jzy3d/nzy3d-api), and even [Python](https://github.com/jzy3d/pyzy3d).  
-
-The API can be used [freely in commercial applications](license.txt). You can explore the [tutorials](jzy3d-tutorials). an then purchase the [extended developper guide](http://jzy3d.org/guide.php) to support the development effort.
-
-
-
-# How to use
-
-Refer to the [tutorial README](jzy3d-tutorials/README.md) file to get help on creating your first chart project with the help of example code.
-
-<table markdown=1>
-  <tr>
-    <td><img src="jzy3d-tutorials/doc/demo-scatter.png"></td>
-    <td><img src="jzy3d-tutorials/doc/demo-surface.png"></td>
-    <td><img src="jzy3d-tutorials/doc/demo-waterfall.png"></td>
-    <!--<td colspan="2"><img src="jzy3d-tutorials/doc/demo-volume.png"></td>-->
-
-  </tr>
-  <tr>
-<!--      <td><img src="jzy3d-tutorials/doc/demo-line-2d.png"></td>
-    <td><img src="jzy3d-tutorials/doc/demo-debug-gl.png"></td>
--->
-<td colspan="2"><img src="jzy3d-tutorials/doc/demo-volume-rotated.png"></td>
-<td><img src="jzy3d-tutorials/doc/demo-debug-gl.png" width="500"></td>
-  </tr>
-</table>
-
-As this library focuses on portability of the charts, the `org.jzy3d.demos.surface` package in [jzy3d-tutorials](jzy3d-tutorials) demonstrates the same chart running on AWT, SWT, Swing using native OpenGL powered by JOGL and jGL CPU rendering.
-
-```java
-public class SurfaceDemoAWT extends AWTAbstractAnalysis {
-  public static void main(String[] args) throws Exception {
-    SurfaceDemoAWT d = new SurfaceDemoAWT();
-    AnalysisLauncher.open(d);
-  }
-
-  @Override
-  public void init() {
-    // Define a function to plot
-    Mapper mapper = new Mapper() {
-      @Override
-      public double f(double x, double y) {
-        return x * Math.sin(x * y);
-      }
-    };
-
-    // Define range and precision for the function to plot
-    Range range = new Range(-3, 3);
-    int steps = 80;
-
-    // Create the object to represent the function over the given range.
-    final Shape surface = new SurfaceBuilder().orthonormal(new OrthonormalGrid(range, steps), mapper);
-    surface.setColorMapper(new ColorMapper(new ColorMapRainbow(), surface, new Color(1, 1, 1, .5f)));
-    surface.setFaceDisplayed(true);
-    surface.setWireframeDisplayed(true);
-    surface.setWireframeColor(Color.BLACK);
-
-    // Create a chart
-    GLCapabilities c = new GLCapabilities(GLProfile.get(GLProfile.GL2));
-    IPainterFactory p = new AWTPainterFactory(c);
-    IChartFactory f = new AWTChartFactory(p);
-
-    chart = f.newChart(Quality.Advanced);
-    chart.getScene().getGraph().add(surface);
-  }
-}
-```
-
-# What's inside
-
-## Features
-
-Multiple chart types
-* Surface charts
-* Scatter charts
-* Volume charts
-* Bar charts
-* 3D and 2D graphs charts
-* Many primitives to build custom charts (spheres, triangles, polygons, ...)
+<img src="https://github.com/dianping/cat/raw/master/cat-home/src/main/webapp/images/logo/cat_logo03.png" width="50%">
 
+**CAT**
+ [![GitHub stars](https://img.shields.io/github/stars/dianping/cat.svg?style=social&label=Star&)](https://github.com/dianping/cat/stargazers)
+ [![GitHub forks](https://img.shields.io/github/forks/dianping/cat.svg?style=social&label=Fork&)](https://github.com/dianping/cat/fork)
 
+### CAT 简介 
 
-<table>
-<tr>
-<td><img src="http://jzy3d.org/js/slider/images/HistogramDemo.png"></td>
-<td><img src="http://jzy3d.org/js/slider/images/ScatterDemo.png"></td>
-<td><img src="http://jzy3d.org/js/slider/images/ColorWaveDemo.png"></td>
-</tr>
-</table>
+- CAT 是基于 Java 开发的实时应用监控平台，为美团点评提供了全面的实时监控告警服务。
+- CAT 作为服务端项目基础组件，提供了 Java, C/C++, Node.js, Python, Go 等多语言客户端，已经在美团点评的基础架构中间件框架（MVC框架，RPC框架，数据库框架，缓存框架等，消息队列，配置系统等）深度集成，为美团点评各业务线提供系统丰富的性能指标、健康状况、实时告警等。
+- CAT 很大的优势是它是一个实时系统，CAT 大部分系统是分钟级统计，但是从数据生成到服务端处理结束是秒级别，秒级定义是48分钟40秒，基本上看到48分钟38秒数据，整体报表的统计粒度是分钟级；第二个优势，监控数据是全量统计，客户端预计算；链路数据是采样计算。
 
+### Cat 产品价值
 
-Flexible layout
-* Colorbars
-* Colormappers for coloring objects
-* Axis box layout with detailed tick definition and tick rendering tools
-* Contour functions
-* Tooltips
-* Background images
-* 2D post renderers
-* Lights
+- 减少故障发现时间
+- 降低故障定位成本
+- 辅助应用程序优化
 
-<table>
-<tr>
-<td><img src="http://jzy3d.org/js/slider/images/WireSurfaceDemo.png"></td>
-<td><img src="http://jzy3d.org/js/slider/images/AxeRendererDemo.png"></td>
-<td><img src="http://jzy3d.org/js/slider/images/ContourPlotsDemo.png"></td>
-</tr>
-</table>
+### Cat 优势
 
+- 实时处理：信息的价值会随时间锐减，尤其是事故处理过程中
+- 全量数据：全量采集指标数据，便于深度分析故障案例
+- 高可用：故障的还原与问题定位，需要高可用监控来支撑
+- 故障容忍：故障不影响业务正常运转、对业务透明
+- 高吞吐：海量监控数据的收集，需要高吞吐能力做保证
+- 可扩展：支持分布式、跨 IDC 部署，横向扩展的监控系统
 
-Algorithms
-* Grid based and Delaunay surface tesselation methods
-* 3d line strip interpolation to smooth pathes (Bernstein 3d)
-* 2d envelopes (Convex hulls)
-* Polygon ordering for improved transparency rendering
-* Dual depth peeling: scene graph order independent transparency (expected for 1.0)
-* Matlab-like array processors and statistics tools
-* Experimental Support Vector Machine integration (Svm3d)
+### 更新日志
 
-<table>
-<tr>
-<td><img src="http://jzy3d.org/js/slider/images/GeneratedDelaunaySurfaceDemo.png"></td>
-<td><img src="http://jzy3d.org/js/slider/images/InterpolationDemo.png"></td>
-<td><img src="http://jzy3d.org/js/slider/images/SvmDemo.png"></td>
-</tr>
-</table>
+- [**最新版本特性一览**](https://github.com/dianping/cat/wiki/new)
 
+    - 注意cat的3.0代码分支更新都发布在master上，包括最新文档也都是这个分支
+    - 注意文档请用最新master里面的代码文档作为标准，一些开源网站上面一些老版本的一些配置包括数据库等可能遇到不兼容情况，请以master代码为准，这份文档都是美团点评内部同学为这个版本统一整理汇总。内部同学已经核对，包括也验证过，如果遇到一些看不懂，或者模糊的地方，欢迎提交PR。
+    - 多语言客户端：Java、C/C++、Node.js、Python、Go [传送门](https://github.com/dianping/cat/tree/master/lib)
+        
+        * [**Java**](https://github.com/dianping/cat/blob/master/lib/java)
+        * [**C**](https://github.com/dianping/cat/blob/master/lib/c)
+        * [**C++**](https://github.com/dianping/cat/blob/master/lib/cpp)
+        * [**Python**](https://github.com/dianping/cat/blob/master/lib/python)
+        * [**Go**](https://github.com/dianping/cat/blob/master/lib/go)
+        * [**Node.js**](https://github.com/dianping/cat/blob/master/lib/node.js)
+        
+    - 消息采样聚合
+    - 序列化协议升级
+    - 全新文件存储引擎
+   
 
-Interactions
-* Mouse interaction with objects (selection & picking methods)
-* Mouse interaction with chart (rotation, zoom, scale)
-* Key interaction with chart (rotation, zoom, scale)
-* Thread Controllers
-* Animation of objects' structures (surface, series of lines, etc)
+### 监控模型：
 
-High and low level OpenGL programming
-* Hide complexity and provide out of the box solutions for common low level OpenGL tasks
-* Fully cutomizable framework with access to all OpenGL native features through JOGL
+支持 Transaction、Event、Heartbeat、Metric 四种消息模型。 [**模型设计**](https://github.com/dianping/cat/wiki/model)
 
-Cross platforms and compatible
-* Straightforward integration to either AWT, Swing, Eclipse RCP (SWT), or JavaFX
-* Windows, Unix, and MacOS. Android supposed to work if enable appropriate JOGL jars
-* Offscreen rendering
-* Multiple file formats (Ply, Obj, Matlab, CSV)
-* [C#](https://github.com/jzy3d/nzy3d-api) port
-* [Python](https://github.com/jzy3d/pyzy3d) binding
-* [Scala](https://github.com/jzy3d/jzy3d-sbt) example
-* [Matlab](https://fr.mathworks.com/matlabcentral/fileexchange/35026-opengl-3d-graphics-in-matlab-using-jzy3d-a-demo) integration
+### 模块简介
 
-Extensions
-* <a href="https://github.com/jzy3d/jzy3d-graphs">jzy3d-graph</a> : 3d graphs layout and rendering using Gephi toolkit
-* <a href="https://github.com/jzy3d/jzy3d-spectro">jzy3d-spectro</a> : 3d spectrogram
-* <a href="https://github.com/jzy3d/bigpicture">jzy3d-bigpicture</a> : drivers to few big data storage to draw massive amount of points
+#### 功能模块
 
+- cat-client: 客户端，上报监控数据
+- cat-consumer: 服务端，收集监控数据进行统计分析，构建丰富的统计报表
+- cat-alarm: 实时告警，提供报表指标的监控告警
+- cat-hadoop: 数据存储，logview 存储至 Hdfs
+- cat-home: 管理端，报表展示、配置管理等
 
-## Architecture
+> 1. 根目录下 cat-client 模块以后不再维护，下个大版本更新计划移除。新版Java客户端参考：lib/java
+> 2. 管理端、服务端、告警服务均使用 cat-home 模块部署即可
 
-Creating a chart implies building and wiring the below high-level components.
+#### 其他模块
 
-<img src="doc/Components.png"/>
+- integration：cat和一些第三方工具集成的内容（此部分一部分是由社区贡献，一部分官方贡献）
+- lib：CAT 的客户端，包括 Java、C/C++、Python、Node.js、Go
+- script：CAT 数据库脚本
 
+### Quick Start
 
-### Customize chart with factories
+- [部署FAQ](https://github.com/dianping/cat/wiki/cat_faq)
 
-The ```IChartFactory``` builds all objects that will define how the chart will look (```Axis```, ```View```, ```Camera```, ```Chart```).
+#### 服务端
 
-The ```IPainterFactory``` builds every objects that allow compatibility across windowing toolkits and GPU/CPU. The chart factories and drawable have no knowledge of concrete AWT, SWT, Swing, etc. This is all powered by the painter factory introduced in Jzy3d 2.0.
+- [集群部署](https://github.com/dianping/cat/wiki/readme_server)
+- [报表介绍](https://github.com/dianping/cat/wiki/readme_report)
+- [配置手册](https://github.com/dianping/cat/wiki/readme_config)
 
-The ```Drawable``` class hierarchy defines geometries able to use a ```IPainter``` to draw something.
+### 项目设计
 
-<img src="doc/Factories.png"/>
+- [项目架构](https://github.com/dianping/cat/wiki/overall)
+- [客户端设计](https://github.com/dianping/cat/wiki/client)
+- [服务端设计](https://github.com/dianping/cat/wiki/server)
+- [模型设计](https://github.com/dianping/cat/wiki/model)
 
+### Copyright and License
 
-### Native and emulated elements
+[Apache 2.0 License.](/LICENSE)
 
-<img src="doc/Interop.png"/>
+### CAT 接入公司
 
-## Dependent libraries
+![Alt text](cat-home/src/main/webapp/images/logo/companys.png)
 
-Jzy3d depends on the following libraries that are available on [Jzy3d Maven repository](http://maven.jzy3d.org) (See tutorials for recommended Maven setup)
-* [jGL](https://github.com/jzy3d/jGL) provides a pure Java implementation of OpenGL hence allowing CPU rendering as an alternative to GPU rendering (JOGL)
-* [jPLY](https://github.com/jzy3d/jPLY) supports the PLY format for loading 3d objects
-* [vecmath](https://github.com/jzy3d/vecmath) is a clone of a former java package
+更多接入公司，欢迎在 <https://github.com/dianping/cat/issues/753> 登记
 
-# How to add to your project
+### 联系我们
 
-The tutorial provides the code [samples you need to add the library to a Maven project](https://github.com/jzy3d/jzy3d-api/tree/master/jzy3d-tutorials#adding-dependencies).
+我们需要知道你对Cat的一些看法以及建议：
 
-### Download sources & javadocs in IDE
-
-If you did not built the framework yourself and depend on Jzy3D Maven Repository, then you may wish to see sources and javadoc in your IDE. Simply call :
-
-```
-mvn dependency:resolve -Dclassifier=javadoc
-mvn dependency:resolve -Dclassifier=sources
-```
-
-
-
-# How to build
-
-## From command line
-
-### Build all
-
-#### Run unit tests only
-
-This will run all test named `**/Test*.java` or `**/*Test.java`.
-
-```
-mvn clean install
-```
-
-#### Run unit tests and integration tests
-
-Integration tests compare charts to baseline images pixel wise. They are important in te toolbelt but have the drawback of being less portable accross computers
-* Different OS have different frame insets (changing actual rendering area size) leading to chart screenshots of different size accross OS.
-* Different OS have different frame insets (changing actual rendering area size) leading to chart a different layout (colorbar position)
-* Different OS have different font rasterization (despite using the JVM font raterizer to minimize OS impact), hence text labels do not match despite having only a few pixel difference.
-* A non HiDPI chart screenshot will not have the same size than the baseline that was generated on a Retina display (x2 pixel ratio). Integration tests that may be impacted by HiDPI are gathered in `jzy3d-tests-java9` since at lest Java 9 JREs are required to detect HiDPI for EmulGL charts. 
-
-This will run all test named `**/ITTest*.java` and unit tests.
-
-```
-mvn clean install -Pintegration-tests
-```
-
-
-
-#### Skip tests
-
-This will skip all tests (unit and integration)
-```
-mvn clean install -DskipTests
-```
-
-### Deploy source & javadocs
-```
-mvn clean source:jar javadoc:jar deploy
- ```
-
-### Generate javadoc site
-
-Comment module jzy3d-tutorial manually
-
-```
-mvn compile javadoc:javadoc javadoc:aggregate
-```
-
-## From intellij
-
-Follow these steps to import in IntelliJ
-* open an existing unrelated project
-* file->new project from version control
-* close the imported project window
-* from the unrelated project ->file-> new project from existing sources -> select the new projects location
-* from new project select top -> file -> add framework-> maven
-* file -> set module language level
-
-## From eclipse
-
-`Import Maven project` or `Import Maven project from SCM`
-
-
-# How to get help
-
-* Google [Discussion group](https://groups.google.com/g/jzy3d?pli=1)
-* Gitlab [Discussions](https://github.com/jzy3d/jzy3d-api/discussions)
-* StackOverflow [Tag](https://stackoverflow.com/questions/tagged/jzy3d)
-* If you are looking for professional services related to 3d rendering, contact [me](martin@jzy3d.org)
-
-
-# Changes in 2.0 version
-
-Version 2.0 is a major refactor to allow using multiple OpenGL implementations, which opened the door to EmulGL. To ease porting your 1.* charts, we add the following cheatsheet.
-
-## Renamings
-
-| Class name in 1.* | Class name in 2.0 |
-|-------------------|-------------------|
-| Quality.Advanced, Intermediate | Quality.Advanced(), Intermediate() |
-| AbstractDrawable | Drawable |
-| AbstractWireframeable | Wireframeable |
-| AxeBox | AxisBox |
-| DrawableTexture | NativeDrawableImage & EmulGLDrawableImage |
-|||
-| _IChartComponentFactory_ | _IChartFactory_ |
-| AWTChartComponentFactory | AWTChartFactory |
-| NewtChartComponentFactory | NewtChartFactory |
-| JavaFXChartComponentFactory | :exclamation: JavaFXChartFactory |
-| SwingChartComponentFactory | SwingChartFactory |
-| SWTChartComponentFactory | SWTChartFactory |
-|  | FallbackChartFactory |
-|||
-| ColorbarViewportLayout | ViewAndColorbarsLayout |
-| ViewMouseController | NewtViewCameraController |
-| Halign | Horizontal |
-| Valign | Vertical |
-| Surface | SurfaceBuilder |
-
-:exclamation: work in progress.
-
-SurfaceBuilder is not static anymore to be overridable.
-
-
-## Additions
-
-* `IPainter`
-* `IPainterFactory`
-* `EmulGLPainterFactory`
-* `IAnimator`
-* `IImageWrapper` and `SymbolHandler`
-
-
-## Deletions
-
-
-
-
-<!--Travis build status : [![Build Status](https://travis-ci.org/jzy3d/jzy3d-api.svg?branch=master)](https://travis-ci.org/jzy3d/jzy3d-api)-->
+- Mail: cat@dianping.com，
+- [**Issues**](https://github.com/dianping/cat/issues)
