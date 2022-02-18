@@ -1,6 +1,23 @@
+.classpath
+.project
+.settings
+target
+*~
 *.class
-
-# Package Files #
 *.jar
-*.war
-*.ear
+*.zip
+*.orig
+*.swp
+.directory
+.idea
+*.iml
+extras/export
+extras/export/libs
+dbs/copy_to_gp.sh
+install_into_stage.sh
+*.tar.gz
+apps/*.so
+gpserver/*.so
+bin/
+.DS_Store
+.vscode
