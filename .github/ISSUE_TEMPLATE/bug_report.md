@@ -1,35 +1,37 @@
 ---
 name: Bug report
-about: Create a report to help us improve the project
+about: Create a report to help us improve
 
 ---
 
-**Expected behavior**
+**Describe the bug**
+A clear and concise description of what the bug is.
 
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
+
+**Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Actual behavior**
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
 
-A clear and concise description of what you observe.
+**System configuration:**
+-- SARL version:	
+-- SARL compiler:	
+-  - [x] Eclipse compiler without Maven	
+-  - [ ] Eclipse compiler with Maven	
+-  - [ ] Maven compiler on the command line	
+-  - [ ] sarlc compiler	
+-- Java JDK version (with the manufacturer name):	
+-- Operating System:	
+-  - [x] Linux 64bits	
+-  - [ ] Windows 64bits	
+-  - [ ] MacOS 64bits	
 
-**Steps to reproduce**
-
-Steps to reproduce the behavior.
-
-**Minimal yet complete reproducer code (or URL to code)**
-
-```java
-
-```
-
-**Environment**
-
- - Atomix: [e.g. 3.0.0]
- - OS: [e.g. `uname -a`]
- - JVM [e.g. `java -version`]
-
-<sup>:warning:️ Please verify that your issue still occurs on the latest version of Atomix before reporting. 
-The documentation is currently work-in-progress and is not yet complete.</sup>
-
------------------------------------------------------------------------------------------
-*Have you searched the CLOSED issues already? How about checking in with the [Atomix Google Group](https://groups.google.com/forum/#!forum/atomixio)?*
+**Additional context**
+Add any other context about the problem here.

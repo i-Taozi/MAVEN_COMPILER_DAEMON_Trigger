@@ -1,489 +1,1409 @@
-<!--
-  ~ Copyright 2017-present Open Networking Foundation
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
-  </parent>
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.atomix</groupId>
-  <artifactId>atomix-parent</artifactId>
-  <version>3.2.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>Atomix Parent Pom</name>
-  <description>Distributed systems framework.</description>
-  <url>http://github.com/atomix/atomix</url>
-  <inceptionYear>2013</inceptionYear>
+	<groupId>io.sarl</groupId>
+	<artifactId>io.sarl</artifactId>
+	<version>0.13.0-SNAPSHOT</version>
 
-  <properties>
-    <jv>${project.version}</jv>
+	<name>SARL Agent Oriented Programming Language</name>
+	<url>${sarlUrl}</url>
+	<inceptionYear>2014</inceptionYear>
 
-    <!-- Java -->
-    <java.version>1.8</java.version>
-    <java.releaseVersion>8</java.releaseVersion>
+	<packaging>pom</packaging>
 
-    <!-- Logging -->
-    <slf4j.version>1.7.7</slf4j.version>
+	<description>SARL is a general-purpose agent-oriented language.
+	SARL aims at providing the fundamental abstractions for dealing with concurrency,
+	distribution, interaction, decentralization, reactivity, autonomy and dynamic
+	reconfiguration.</description>
 
-    <!-- Testing -->
-    <junit.version>4.12</junit.version>
-    <hamcrest.version>1.3</hamcrest.version>
-    <mockito.version>1.10.19</mockito.version>
-    <concurrentunit.version>0.4.2</concurrentunit.version>
-    <logback.version>1.1.2</logback.version>
+	<!-- ======================================= -->
+	<!-- ==== Main properties === -->
+	<!-- ======================================= -->
 
-    <!-- Core dependencies -->
-    <guava.version>22.0</guava.version>
-    <kryo.version>4.0.2</kryo.version>
-    <commons.lang3.version>3.7</commons.lang3.version>
-    <commons.math3.version>3.6.1</commons.math3.version>
-    <netty.version>4.1.27.Final</netty.version>
-    <vertx.version>3.5.0</vertx.version>
-    <jaxrs.version>2.0</jaxrs.version>
-    <jackson.version>2.9.6</jackson.version>
-    <config.version>1.3.2</config.version>
-    <classgraph.version>4.2.3</classgraph.version>
-    <resteasy.version>3.1.4.Final</resteasy.version>
-    <rest-assured.version>3.0.7</rest-assured.version>
-    <argparse4j.version>0.7.0</argparse4j.version>
+	<properties>
+		<!-- Java Configuration for compiling this project (useful for the SARL 
+			development team) -->
+		<sarl-dsl.min.jdk.version>1.8</sarl-dsl.min.jdk.version>
+		<sarl-dsl.min.jre.environment>JavaSE-${sarl-dsl.min.jdk.version}</sarl-dsl.min.jre.environment>
+		<sarl-dsl.max.jdk.version>1.8</sarl-dsl.max.jdk.version>
+		<sarl-dsl.next.unsupported.jdk.version>1.9</sarl-dsl.next.unsupported.jdk.version>
 
-    <!-- Maven plugins -->
-    <maven.source.plugin.version>2.2.1</maven.source.plugin.version>
-    <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-    <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
-    <maven.failsafe.plugin.version>2.21.0</maven.failsafe.plugin.version>
-    <maven.surefire.plugin.version>2.22.0</maven.surefire.plugin.version>
-    <maven.clean.plugin.version>2.5</maven.clean.plugin.version>
-    <maven.resources.plugin.version>2.6</maven.resources.plugin.version>
-    <maven.dependency.plugin.version>2.7</maven.dependency.plugin.version>
-    <maven.assembly.plugin.version>2.4</maven.assembly.plugin.version>
-    <maven.javadoc.plugin.version>3.0.1</maven.javadoc.plugin.version>
-    <maven.bundle.plugin.version>2.5.3</maven.bundle.plugin.version>
-    <maven.checkstyle.plugin.version>2.17</maven.checkstyle.plugin.version>
-    <maven.dockerfile.plugin.version>1.4.3</maven.dockerfile.plugin.version>
+		<!-- Java Configuration for running the SARL tools (IDE, sarlc, sarldoc...): 
+			***********
+			* CAUTION *
+			***********
+			The versions below must include the versions 
+			for the properties "sarl-dsl.*" -->
+		<sarl-run.min.jdk.version>1.8</sarl-run.min.jdk.version>
+		<sarl-run.min.jre.environment>JavaSE-${sarl-run.min.jdk.version}</sarl-run.min.jre.environment>
+		<sarl-run.max.jdk.version>14</sarl-run.max.jdk.version>
+		<sarl-run.next.unsupported.jdk.version>15</sarl-run.next.unsupported.jdk.version>
 
-    <dockerfile.version>latest</dockerfile.version>
+		<!-- Java Configuration that should be used by the projects compiled with 
+			SARL IDE or sarlc:
+			***********
+			* CAUTION *
+			***********
+			The versions below must include the versions for the properties "sarl-run.*" -->
+		<user.min.jdk.version>1.8</user.min.jdk.version>
+		<user.min.jre.environment>JavaSE-${user.min.jdk.version}</user.min.jre.environment>
+		<user.max.jdk.version>14</user.max.jdk.version>
+		<user.next.unsupported.jdk.version>15</user.next.unsupported.jdk.version>
 
-    <argLine.common>-Xss256k -Xms512m -Xmx2G -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -Dio.atomix.whitelistPackages=io.atomix</argLine.common>
-    <argLine.extras /> <!-- Overridden in some profiles -->
-    <argLine.javadocs />
-  </properties>
+		<!-- Version of the SARL API -->
+		<sarl.version>0.13.0-SNAPSHOT</sarl.version>
+		<janus.version>3.${sarl.version}</janus.version>
+		<sarl.maven.compiler.version>${sarl.version}</sarl.maven.compiler.version>
 
-  <profiles>
-    <!-- JDK9+ -->
-    <profile>
-      <id>java9</id>
-      <properties>
-        <argLine.common>-Xss256k -Xms512m -Xmx2G -Dio.atomix.whitelistPackages=io.atomix</argLine.common>
-        <argLine.extras>--add-modules jdk.unsupported --add-opens=java.base/java.nio=ALL-UNNAMED</argLine.extras>
-        <argLine.javadocs>-html5</argLine.javadocs>
-        <!-- coverall version 4.3.0 does not work with java 9, see https://github.com/trautonen/coveralls-maven-plugin/issues/112 -->
-        <coveralls.skip>true</coveralls.skip>
-      </properties>
-      <activation>
-        <jdk>[1.9,)</jdk>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <release>${java.releaseVersion}</release>
-            	<fork>true</fork>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>sonatype-oss-release</id>
-      <properties>
-        <dockerfile.version>${project.version}</dockerfile.version>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>2.1.2</version>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.7</version>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.1</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
+		<!-- The versions of the following Xtext libraries are available at: https://eclipse.org/Xtext/documentation/350_continuous_integration.html -->
 
-  <licenses>
-    <license>
-      <name>Apache License, Version 2.0</name>
-      <url>http://apache.org/licenses/LICENSE-2.0</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+		<!-- Version of the Xtext API -->
+		<xtext.version>2.22.0</xtext.version>
+		<xtext.version.current>2.22.0</xtext.version.current>
+		<xtext.version.next>2.22.1</xtext.version.next>
+		<xtext.version.javadoc>2.22</xtext.version.javadoc>
 
-  <developers>
-    <developer>
-      <name>Jordan Halterman</name>
-      <url>https://www.github.com/kuujo</url>
-    </developer>
-  </developers>
+		<!-- Version of the MWE2 library (used for accessing the mwe2 P2 http://download.eclipse.org/modeling/emft/mwe/updates/releases/, 
+			see compositeContent.{xml,jar,xz,xml.xz} file) -->
+		<mwe2.version>2.11.3</mwe2.version>
+		<!-- Version of the Xpand library (used for accessing the Xpand P2 http://download.eclipse.org/modeling/m2t/xpand/updates/releases/, 
+			see compositeContent.{xml,jar,xz,xml.xz} file) -->
+		<xpand.version>R201605260315</xpand.version>
+		<!-- Version of Guice (package: com.google.inject:guice). -->
+		<guice.version>4.2.3</guice.version>
+		<!-- Version of the OSGi module that provides the NLS (package: osgi) -->
+		<osgi.nls.version>3.10.0-v20140606-1445</osgi.nls.version>
+		<!-- Version of the Arakhne Foundation classes -->
+		<afc.version>16.0</afc.version>
+		<afc.osgi.version>${afc.version}.0</afc.osgi.version>
+		<!-- Version of the Guava API -->
+		<guava.version>28.0-jre</guava.version>
+		<!-- Version of the javax.inject module -->
+		<javaxinject.version>1</javaxinject.version>
+		<!-- Version of the Tycho module, (search for tycho-maven-plugin on Maven 
+			central) -->
+		<tycho.version>1.7.0</tycho.version>
+		<!-- Version of the SWT library (search for org.eclipse.platform:org.eclipse.swt.gtk.linux.x86_64) -->
+		<swt.version>3.114.100</swt.version>
+		<!-- Version of JavaFX (search for org.openjfx:*) -->
+		<openjfx.version>11.0.2</openjfx.version>
+		<!-- Version of Checkstyle. Must be the same version as inside Eclipse IDE (com.puppycrawl.tools:checkstyle) -->
+		<checkstyle.version>8.32</checkstyle.version>
+		<checkstyle.full.version>${checkstyle.version}.0</checkstyle.full.version>
+		<!-- Version of Hazelcast that is used by Maven and Tycho -->
+		<hazelcast.version>4.1.1</hazelcast.version>
+		<hazelcast.osgi.version>${hazelcast.version}</hazelcast.osgi.version>
 
-  <scm>
-    <connection>scm:git:git@github.com:atomix/atomix.git</connection>
-    <developerConnection>scm:git:git@github.com:atomix/atomix.git</developerConnection>
-    <url>git@github.com:atomix/atomix.git</url>
-  </scm>
+		<!-- Build ID Format (used in Eclipse about dialog) -->
+		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+		<buildId>${maven.build.timestamp}</buildId>
+		<!-- Year of the release of SARL (used in Eclipse about, license management 
+			and documentation) -->
+		<year>2021</year>
+		<!-- URL of the SARL project (use in POM, Eclipse about and documentation) -->
+		<sarlUrl>http://www.sarl.io</sarlUrl>
+		<!-- Default encoding of the source files -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- Maven API version. This version should be supported by m2e. Search 
+			for maven-core on central (maven-core) -->
+		<maven.api.version>3.6.3</maven.api.version>
+		<!-- Version of the Maven Java compiler (maven-compiler-plugin). -->
+		<mavencompiler.version>3.8.1</mavencompiler.version>
+		<!-- String to put after the copyright sign -->
+		<copyrighters>the original authors or authors</copyrighters>
+		<!-- URL of the Maven repositories of SARL (use in POM and documentation) -->
+		<sarl.maven.repository.url>http://maven.sarl.io</sarl.maven.repository.url>
+		<!-- Version of Junit 5 library (junit-jupiter-engine) -->
+		<junit5.version>5.7.0-M1</junit5.version>
+		<!-- The following Jackson declaration are temporary fix for issue #1007 -->
+		<jacksonapi.version>2.10.0</jacksonapi.version>
+		<!-- Google error prone library -->
+		<google.error_prone_annotations.version>2.4.0</google.error_prone_annotations.version>
+	</properties>
 
-  <issueManagement>
-    <system>GitHub</system>
-    <url>http://github.com/atomix/atomix/issues</url>
-  </issueManagement>
+	<!-- ======================================= -->
+	<!-- ==== Organization and License details === -->
+	<!-- ======================================= -->
 
-  <modules>
-    <module>agent</module>
-    <module>cluster</module>
-    <module>core</module>
-    <module>dist</module>
-    <module>primitive</module>
-    <module>protocols</module>
-    <module>rest</module>
-    <module>storage</module>
-    <module>tests</module>
-    <module>utils</module>
-  </modules>
+	<organization>
+		<name>SARL Consortium</name>
+		<url>${sarlUrl}</url>
+	</organization>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>io.netty</groupId>
-        <artifactId>netty-bom</artifactId>
-        <version>${netty.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson</groupId>
-        <artifactId>jackson-bom</artifactId>
-        <version>${jackson.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-all</artifactId>
-      <version>${hamcrest.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava-testlib</artifactId>
-      <version>${guava.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>net.jodah</groupId>
-      <artifactId>concurrentunit</artifactId>
-      <version>${concurrentunit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>${mockito.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>${logback.version}</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+	<!-- ======================================= -->
+	<!-- ==== Organization Information === -->
+	<!-- ======================================= -->
 
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>buildnumber-maven-plugin</artifactId>
-          <version>1.4</version>
-          <configuration>
-            <revisionOnScmFailure>N/A</revisionOnScmFailure>
-            <format>{0} (revision {1} built on {2,date,yyyy-MM-dd HH:mm:ss})</format>
-            <items>
-              <item>${project.version}</item>
-              <item>scmVersion</item>
-              <item>timestamp</item>
-            </items>
-            <shortRevisionLength>6</shortRevisionLength>
-            <doCheck>false</doCheck>
-            <doUpdate>false</doUpdate>
-          </configuration>
-          <executions>
-            <execution>
-              <id>configure-buildnumber</id>
-              <phase>validate</phase>
-              <goals>
-                <goal>create</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.surefire.plugin.version}</version>
-        <configuration>
-          <useSystemClassLoader>false</useSystemClassLoader>
-          <forkCount>1</forkCount>
-          <testFailureIgnore>true</testFailureIgnore>
-          <shutdown>kill</shutdown>
-          <argLine>@{argLine} ${argLine.extras} ${argLine.common}</argLine>
-        </configuration>
-      </plugin>
+	<developers>
+		<developer>
+			<id>sgalland</id>
+			<name>St&amp;eacute;phane Galland</name>
+			<email>stephane.galland@utbm.fr</email>
+			<url>http://www.ciad-lab.fr/author-10836/</url>
+			<organization>
+				Universit&amp;eacute; de Bourgogne Franche-Comt&amp;eacute;.
+				Universit&amp;eacute; de Technologie de Belfort-Montb&amp;eacute;liard.
+			</organization>
+			<organizationUrl>http://www.ciad-lab.fr</organizationUrl>
+			<roles>
+				<role>Co-founder</role>
+				<role>Architect</role>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>ngaud</id>
+			<name>Nicolas Gaud</name>
+			<email>nicolas.gaud@utbm.fr</email>
+			<url>http://www.ciad-lab.fr/author-10834/</url>
+			<organization>
+				Universit&amp;eacute; de Bourgogne Franche-Comt&amp;eacute;.
+				Universit&amp;eacute; de Technologie de Belfort-Montb&amp;eacute;liard.
+			</organization>
+			<organizationUrl>http://www.ciad-lab.fr</organizationUrl>
+			<roles>
+				<role>Co-founder</role>
+				<role>Architect</role>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>alombard</id>
+			<name>Alexandre Lombard</name>
+			<email>alexandre.lombard@utbm.fr</email>
+			<url>https://github.com/alexandrelombard</url>
+			<organization>
+				Universit&amp;eacute; de Bourgogne Franche-Comt&amp;eacute;.
+				Universit&amp;eacute; de Technologie de Belfort-Montb&amp;eacute;liard.
+			</organization>
+			<organizationUrl>http://www.ciad-lab.fr</organizationUrl>
+			<roles>
+				<role>Architect</role>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>srodriguez</id>
+			<name>Sebastian Rodriguez</name>
+			<email>sebastian.rodriguez@rmit.edu.au</email>
+			<url>http://www.sebastianrodriguez.com.ar/</url>
+			<organization>
+				Royal Melbourne Institute of Technology
+			</organization>
+			<organizationUrl>http://www.rmit.edu.au/</organizationUrl>
+			<roles>
+				<role>Co-founder</role>
+				<role>Architect</role>
+				<role>Developer</role>
+			</roles>
+		</developer>
+	</developers>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>${maven.source.plugin.version}</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+	<contributors>
+		<contributor>
+			<name>Antoine Bartuccio</name>
+			<email>contact@klmp200.net</email>
+			<url>https://github.com/klmp200</url>
+			<roles>
+				<role>Fireworks and Sierpinski fractal examples</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>J&amp;eacute;r&amp;ocirc;me Boulmier</name>
+			<url>https://github.com/Lomadriel/</url>
+			<roles>
+				<role>Game of Life example</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Greg Bowering</name>
+			<url>https://github.com/gb96</url>
+			<roles>
+				<role>Fixes for localization support within the fireworks example</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Mohamed Ezzat</name>
+			<email>mohamed.ezzat@devfactory.com</email>
+			<url>https://github.com/m-ezzat</url>
+			<roles>
+				<role>Code cleaning and optimization</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Thomas Farrenkopf</name>
+			<url>https://github.com/ThomasFarrenkopf</url>
+			<roles>
+				<role>Documentation Contributor</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>James Foster</name>
+			<email>github@jgfoster.net</email>
+			<url>https://github.com/jgfoster</url>
+			<roles>
+				<role>Documentation Contributor</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>J&amp;eacute;r&amp;eacute;mie Jost</name>
+			<email>jeremiejost@gmail.com</email>
+			<url>https://github.com/jjst</url>
+			<roles>
+				<role>Documentation Contributor</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Ludovico de Nittis</name>
+			<email>aasonykk@gmail.com</email>
+			<url>https://github.com/RyuzakiKK</url>
+			<roles>
+				<role>Documentation Contributor</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Maxime Pinard</name>
+			<url>https://github.com/pinam45/</url>
+			<roles>
+				<role>Game of Life example</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Thomas Piotrowski</name>
+			<email>thomas.piotrowski@utbm.fr</email>
+			<url>https://github.com/tpiotrow</url>
+			<roles>
+				<role>Maven Configuration</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Sebastian Sardina</name>
+			<email>sebastian.sardina@rmit.edu.au</email>
+			<url>https://github.com/ssardina</url>
+			<roles>
+				<role>Documentation Contributor</role>
+			</roles>
+		</contributor>
+	</contributors>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven.compiler.plugin.version}</version>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-            	<fork>true</fork>
-        </configuration>
-      </plugin>
+	<!-- =================== -->
+	<!-- ==== Deployment === -->
+	<!-- =================== -->
 
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>${maven.bundle.plugin.version}</version>
-        <extensions>true</extensions>
-      </plugin>
+	<distributionManagement>
+		<repository>
+			<id>io.sarl.maven.upload</id>
+			<url>${MAVENSARLIO_URL}</url>
+			<name>SARL Maven Repository</name>
+		</repository>
+		<snapshotRepository>
+			<id>io.sarl.maven.upload</id>
+			<url>${MAVENSARLIO_URL}</url>
+			<name>SARL Maven Repository</name>
+		</snapshotRepository>
+	</distributionManagement>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven.javadoc.plugin.version}</version>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <verbose>false</verbose>
-          <!-- workaround for https://bugs.openjdk.java.net/browse/JDK-8212233 -->
-          <javaApiLinks>
-            <property>
-              <name>foo</name>
-              <value>bar</value>
-            </property>
-          </javaApiLinks>
-          <quiet>true</quiet>
-          <additionalparam>${argLine.javadocs}</additionalparam>
-          <show>public</show>
-          <doctitle>Atomix API Reference (${jv})</doctitle>
-          <windowtitle>Atomix API Reference (${jv})</windowtitle>
-          <groups>
-            <group>
-              <title>Core</title>
-              <packages>io.atomix.core*</packages>
-            </group>
-            <group>
-              <title>Primitives</title>
-              <packages>io.atomix.core.barrier:io.atomix.core.collection:io.atomix.core.counter:io.atomix.core.idgenerator:io.atomix.core.election:io.atomix.core.iterator:io.atomix.core.list:io.atomix.core.lock:io.atomix.core.map:io.atomix.core.multimap:io.atomix.core.multiset:io.atomix.core.queue:io.atomix.core.semaphore:io.atomix.core.set:io.atomix.core.transaction:io.atomix.core.tree:io.atomix.core.value:io.atomix.core.workqueue</packages>
-            </group>
-            <group>
-              <title>Cluster Management</title>
-              <packages>io.atomix.cluster*:io.atomix.cluster.discovery*:io.atomix.cluster.messaging*</packages>
-            </group>
-            <group>
-              <title>Primitive API</title>
-              <packages>io.atomix.primitive:io.atomix.primitive.config:io.atomix.primitive.event:io.atomix.primitive.operation:io.atomix.primitive.partition:io.atomix.primitive.proxy:io.atomix.primitive.resource:io.atomix.primitive.service:io.atomix.primitive.session</packages>
-            </group>
-            <group>
-              <title>Protocol API</title>
-              <packages>io.atomix.primitive.protocol*</packages>
-            </group>
-            <group>
-              <title>Raft Protocol</title>
-              <packages>io.atomix.protocols.raft*</packages>
-            </group>
-            <group>
-              <title>Primary-Backup Protocol</title>
-              <packages>io.atomix.protocols.backup*</packages>
-            </group>
-            <group>
-              <title>Gossip Protocol</title>
-              <packages>io.atomix.protocols.gossip</packages>
-            </group>
-            <group>
-              <title>Storage</title>
-              <packages>io.atomix.storage*</packages>
-            </group>
-            <group>
-              <title>Utilities</title>
-              <packages>io.atomix.utils*</packages>
-            </group>
-          </groups>
-          <stylesheetfile>${project.basedir}/docs/style.css</stylesheetfile>
-          <excludePackageNames>*.impl*:io.atomix.core.config.jackson:io.atomix.core.utils:io.atomix.rest*:io.atomix.agent*:io.atomix.storage.buffer:io.atomix.storage.journal*:io.atomix.storage.statistics:io.atomix.protocols.raft.utils:io.atomix.utils.serializer.serializers:io.atomix.utils.concurrent:io.atomix.utils.logging:io.atomix.utils.misc:io.atomix.utils.memory:io.atomix.protocols.raft.roles:io.atomix.protocols.raft.protocol:io.atomix.protocols.raft.storage:io.atomix.protocols.raft.cluster:io.atomix.protocols.raft.test:io.atomix.protocols.backup.roles:io.atomix.protocols.backup.protocol:io.atomix.protocols.gossip.*
-          </excludePackageNames>
-        </configuration>
-      </plugin>
+	<!-- ==================== -->
+	<!-- ==== Development === -->
+	<!-- ==================== -->
+	<scm>
+		<connection>scm:git:git@github.com:sarl/sarl.git</connection>
+		<developerConnection>scm:git:git@github.com:sarl/sarl.git</developerConnection>
+		<url>git@github.com:sarl/sarl.git</url>
+	</scm>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.1</version><!--$NO-MVN-MAN-VER$ -->
-        <configuration>
-          <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
-          <arguments>-Psonatype-oss-release -DskipTests=${env.SKIP_TESTS}</arguments>
-        </configuration>
-      </plugin>
+	<!-- ======================================= -->
+	<!-- ==== Dependency Management === -->
+	<!-- ======================================= -->
 
-      <!-- Coding standards -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.0.0</version>
-        <configuration>
-          <propertyExpansion>basedir=${maven.multiModuleProjectDirectory}</propertyExpansion>
-          <configLocation>src/main/resources/checkstyle.xml</configLocation>
-          <includeTestSourceDirectory>true</includeTestSourceDirectory>
-          <consoleOutput>true</consoleOutput>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <configuration>
-              <failsOnError>true</failsOnError>
-              <failOnViolation>true</failOnViolation>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.sarl.lang</groupId>
+				<artifactId>io.sarl.lang.core</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl.lang</groupId>
+				<artifactId>io.sarl.lang</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl</groupId>
+				<artifactId>io.sarl.lang.ui</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl</groupId>
+				<artifactId>io.sarl.eclipse</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl</groupId>
+				<artifactId>io.sarl.core</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl</groupId>
+				<artifactId>io.sarl.util</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl</groupId>
+				<artifactId>io.sarl.api.naming</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl</groupId>
+				<artifactId>io.sarl.api.probing</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl</groupId>
+				<artifactId>io.sarl.api.bootiquebase</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl</groupId>
+				<artifactId>io.sarl.javafx</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl.maven</groupId>
+				<artifactId>io.sarl.maven.baselib</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl.maven</groupId>
+				<artifactId>io.sarl.maven.sdk</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl.maven</groupId>
+				<artifactId>io.sarl.maven.batchcompiler</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl.maven</groupId>
+				<artifactId>io.sarl.maven.bootiqueapp</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl.maven</groupId>
+				<artifactId>io.sarl.maven.bootiquebatchcompiler</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl</groupId>
+				<artifactId>io.sarl.tests.api</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl</groupId>
+				<artifactId>io.sarl.sre.test.framework</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl.lang</groupId>
+				<artifactId>io.sarl.lang.tests</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl</groupId>
+				<artifactId>io.sarl.lang.sarlc</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl</groupId>
+				<artifactId>io.sarl.sarldoc</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl.docs</groupId>
+				<artifactId>io.sarl.docs.doclet</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl.maven</groupId>
+				<artifactId>sarl-maven-plugin</artifactId>
+				<version>${sarl.maven.compiler.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl.maven</groupId>
+				<artifactId>io.sarl.maven.docs.generator</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl.maven</groupId>
+				<artifactId>io.sarl.maven.docs.testing</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.sarl.pythongenerator</groupId>
+				<artifactId>io.sarl.pythongenerator.generator</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.janusproject</groupId>
+				<artifactId>io.janusproject.network</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.janusproject</groupId>
+				<artifactId>io.janusproject.kernel</artifactId>
+				<version>${janus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.janusproject</groupId>
+				<artifactId>io.janusproject.kernel.network</artifactId>
+				<version>${janus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.janusproject.sre</groupId>
+				<artifactId>io.janusproject.test.framework</artifactId>
+				<version>${sarl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.xtext</groupId>
+				<artifactId>org.eclipse.xtext.xbase.lib</artifactId>
+				<version>${xtext.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>org.eclipse.xtend.core</artifactId>
+				<version>${xtext.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.xtext</groupId>
+				<artifactId>org.eclipse.xtext.testing</artifactId>
+				<version>${xtext.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.xtext</groupId>
+				<artifactId>org.eclipse.xtext.xbase.testing</artifactId>
+				<version>${xtext.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.inject</groupId>
+				<artifactId>javax.inject</artifactId>
+				<version>${javaxinject.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.arakhne.afc.core</groupId>
+				<artifactId>vmutils</artifactId>
+				<version>${afc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.arakhne.afc.bootique</groupId>
+				<artifactId>bootique-synopsishelp</artifactId>
+				<version>${afc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.arakhne.afc.bootique</groupId>
+				<artifactId>bootique-variables</artifactId>
+				<version>${afc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.arakhne.afc.bootique</groupId>
+				<artifactId>bootique-applicationdata2</artifactId>
+				<version>${afc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.arakhne.afc.bootique</groupId>
+				<artifactId>bootique-printconfig</artifactId>
+				<version>${afc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.arakhne.afc.core</groupId>
+				<artifactId>util</artifactId>
+				<version>${afc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.inject</groupId>
+				<artifactId>guice</artifactId>
+				<version>${guice.version}</version>
+				<classifier>no_aop</classifier>
+			</dependency>
+			<dependency>
+				<groupId>commons-cli</groupId>
+				<artifactId>commons-cli</artifactId>
+				<version>1.4</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.7</version>
+			</dependency>
+			<!--<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>2.8.6</version>
+			</dependency>-->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava-testlib</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.bootique</groupId>
+				<artifactId>bootique</artifactId>
+				<version>1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>3.27.0-GA</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.plugin-tools</groupId>
+				<artifactId>maven-plugin-annotations</artifactId>
+				<version>3.6.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-core</artifactId>
+				<version>${maven.api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${mavencompiler.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-engine</artifactId>
+				<version>${junit5.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-api</artifactId>
+				<version>${junit5.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-params</artifactId>
+				<version>${junit5.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse</groupId>
+				<artifactId>osgi</artifactId>
+				<version>${osgi.nls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.shared</groupId>
+				<artifactId>maven-verifier</artifactId>
+				<version>1.7.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-plugin-api</artifactId>
+				<version>${maven.api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>3.3.3</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hazelcast</groupId>
+				<artifactId>hazelcast</artifactId>
+				<version>${hazelcast.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.vladsch.flexmark</groupId>
+				<artifactId>flexmark</artifactId>
+				<version>0.62.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>1.13.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.10</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.shared</groupId>
+				<artifactId>maven-shared-utils</artifactId>
+				<version>3.2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>3.0.2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.errorprone</groupId>
+				<artifactId>error_prone_annotations</artifactId>
+				<version>${google.error_prone_annotations.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>me.tongfei</groupId>
+				<artifactId>progressbar</artifactId>
+				<version>0.8.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm</artifactId>
+				<version>8.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm-commons</artifactId>
+				<version>8.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm-tree</artifactId>
+				<version>8.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm-analysis</artifactId>
+				<version>8.0.1</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
-      <!-- Coverage -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.5</version>
-        <executions>
-          <execution>
-            <id>jacoco-prepare-agent</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>jacoco-prepare-agent-integration</id>
-            <goals>
-              <goal>prepare-agent-integration</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>jacoco-report</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.eluder.coveralls</groupId>
-        <artifactId>coveralls-maven-plugin</artifactId>
-        <version>4.3.0</version>
-      </plugin>
-    </plugins>
-  </build>
+	<!-- ======================================= -->
+	<!-- ==== Plugins Building Management === -->
+	<!-- ======================================= -->
+
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav-jackrabbit</artifactId>
+				<version>3.4.1</version>
+			</extension>
+		</extensions>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>io.sarl.maven</groupId>
+					<artifactId>sarl-maven-plugin</artifactId>
+					<version>${sarl.maven.compiler.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>io.sarl.maven</groupId>
+					<artifactId>io.sarl.maven.docs.generator</artifactId>
+					<version>${sarl.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${mavencompiler.version}</version>
+					<configuration>
+						<source>${sarl-dsl.min.jdk.version}</source>
+						<target>${sarl-dsl.min.jdk.version}</target>
+						<testSource>${sarl-dsl.min.jdk.version}</testSource>
+						<testTarget>${sarl-dsl.min.jdk.version}</testTarget>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<showDeprecation>false</showDeprecation>
+						<showWarnings>false</showWarnings>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>3.2.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>3.2.0</version>
+				</plugin>
+
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>3.3.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>3.1.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.1.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>3.2.1</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>3.0.0-M1</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>3.0.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>wagon-maven-plugin</artifactId>
+					<version>2.0.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.gmavenplus</groupId>
+					<artifactId>gmavenplus-plugin</artifactId>
+					<!-- version 1.6 does not work because a function is not found -->
+					<version>1.9.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>com.google.code.maven-replacer-plugin</groupId>
+					<artifactId>replacer</artifactId>
+					<version>1.5.3</version>
+				</plugin>
+
+				<plugin>
+					<groupId>sh.tak.appbundler</groupId>
+					<artifactId>appbundle-maven-plugin</artifactId>
+					<version>1.2.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>net.jsign</groupId>
+					<artifactId>jsign-maven-plugin</artifactId>
+					<version>3.1</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>3.0.0-M5</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.junit.jupiter</groupId>
+							<artifactId>junit-jupiter-engine</artifactId>
+							<version>${junit5.version}</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<statelessTestsetReporter
+							implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+							<usePhrasedFileName>false</usePhrasedFileName>
+							<usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
+							<usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
+							<usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
+						</statelessTestsetReporter>
+						<consoleOutputReporter
+							implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
+							<usePhrasedFileName>false</usePhrasedFileName>
+						</consoleOutputReporter>
+						<statelessTestsetInfoReporter
+							implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
+							<usePhrasedFileName>false</usePhrasedFileName>
+							<usePhrasedClassNameInRunning>true</usePhrasedClassNameInRunning>
+							<usePhrasedClassNameInTestCaseSummary>true</usePhrasedClassNameInTestCaseSummary>
+						</statelessTestsetInfoReporter>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.jasig.maven</groupId>
+					<artifactId>maven-notice-plugin</artifactId>
+					<version>1.1.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-plugin-plugin</artifactId>
+					<version>3.6.0</version>
+					<executions>
+						<execution>
+							<id>generated-helpmojo</id>
+							<goals>
+								<goal>helpmojo</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>com.akathist.maven.plugins.launch4j</groupId>
+					<artifactId>launch4j-maven-plugin</artifactId>
+					<version>1.7.25</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>3.1.1</version>
+					<executions>
+						<execution>
+							<phase>process-classes</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<!-- config is inside one of the dependencies -->
+						<configLocation>/checkstyle/sarl/checkstyle.xml</configLocation>
+						<suppressionsLocation>/checkstyle/sarl/suppressions.xml</suppressionsLocation>
+						<!-- force absolute path of the config file -->
+						<propertyExpansion>${checkstyle.config_loc}</propertyExpansion>
+						<consoleOutput>true</consoleOutput>
+						<detail>true</detail>
+						<failsOnError>true</failsOnError>
+						<failOnViolation>true</failOnViolation>
+						<includeResources>false</includeResources>
+						<includeTestSourceDirectory>false</includeTestSourceDirectory>
+						<includeTestResources>false</includeTestResources>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>io.sarl</groupId>
+							<artifactId>build-tools</artifactId>
+							<version>${sarl.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>com.puppycrawl.tools</groupId>
+							<artifactId>checkstyle</artifactId>
+							<version>${checkstyle.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>3.3.0</version>
+					<configuration>
+						<doclet>io.sarl.docs.doclet.SarlDoclet</doclet>
+						<docletArtifact>
+							<groupId>io.sarl.docs</groupId>
+							<artifactId>io.sarl.docs.doclet</artifactId>
+							<version>${sarl.version}</version>
+						</docletArtifact>
+						<docencoding>${project.build.sourceEncoding}</docencoding>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<charset>${project.build.sourceEncoding}</charset>
+						<show>protected</show>
+						<detectJavaApiLink>true</detectJavaApiLink>
+						<links>
+							<link>http://download.eclipse.org/modeling/tmf/xtext/javadoc/${xtext.version.javadoc}/</link>
+						</links>
+						<docfilessubdirs>true</docfilessubdirs>
+						<excludePackageNames></excludePackageNames>
+						<nohelp>true</nohelp>
+						<notree>true</notree>
+						<bottom>&lt;small&gt;Copyright &amp;copy; ${year}
+							${copyrighters}.
+						</bottom>
+						<groups>
+							<group>
+								<title>Standard Development Kit and Other Utilities</title>
+								<packages>io.sarl.core*:io.sarl.util*:io.sarl.api*:io.sarl.maven.bootiqueapp*:io.sarl.maven.compiler*:io.sarl.javafx*</packages>
+							</group>
+							<group>
+								<title>SARL Language</title>
+								<packages>io.sarl.lang*</packages>
+							</group>
+							<group>
+								<title>Generic Tools for SARL Run-time Environments</title>
+								<packages>io.sarl.bootstrap*:io.sarl.sarlspecification</packages>
+							</group>
+							<group>
+								<title>Janus Run-time Environment</title>
+								<packages>io.sarl.sre*</packages>
+							</group>
+							<group>
+								<title>API Documentation Generator</title>
+								<packages>io.sarl.maven.docs*</packages>
+							</group>
+						</groups>
+						<tags>
+							<tag>
+								<name>mavengroupid</name>
+								<placement>pt</placement>
+								<head>Maven Group Id:</head>
+							</tag>
+							<tag>
+								<name>mavenartifactid</name>
+								<placement>pt</placement>
+								<head>Maven Artifact Id:</head>
+							</tag>
+							<tag>
+								<name>fires</name>
+								<placement>mc</placement>
+								<head>Fired Events:</head>
+							</tag>
+							<tag>
+								<name>generated</name>
+								<placement>a</placement>
+								<head>Generated element</head>
+							</tag>
+							<tag>
+								<name>model</name>
+								<placement>a</placement>
+								<head>Model element</head>
+							</tag>
+							<tag>
+								<name>privateapi</name>
+								<placement>a</placement>
+								<head>Private API</head>
+							</tag>
+							<tag>
+								<name>optionalparam</name>
+								<placement>X</placement>
+							</tag>
+							<tag>
+								<name>ExcludeFromApidoc</name>
+								<placement>X</placement>
+							</tag>
+						</tags>
+					</configuration>
+				</plugin>
+
+				<!-- This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.google.code.maven-replacer-plugin</groupId>
+										<artifactId>replacer</artifactId>
+										<versionRange>[1.5.3,)</versionRange>
+										<goals>
+											<goal>replace</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.gmavenplus</groupId>
+										<artifactId>gmavenplus-plugin</artifactId>
+										<versionRange>[1.5,)</versionRange>
+										<goals>
+											<goal>execute</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-plugin-plugin</artifactId>
+										<versionRange>[3.3,)</versionRange>
+										<goals>
+											<goal>descriptor</goal>
+											<goal>helpmojo</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute></execute>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-assembly-plugin</artifactId>
+										<versionRange>[0.0.1,)</versionRange>
+										<goals>
+											<goal>single</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<!-- Compute additional version numbers for the SARL (specification, release, 
+				buildId) -->
+			<plugin>
+				<groupId>org.codehaus.gmavenplus</groupId>
+				<artifactId>gmavenplus-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>compute-sarl-properties</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<scripts>
+						<script><![CDATA[
+						    def now = session.getStartTime();
+						    //************************
+						    // Detect root directory
+						    def currentDirectory = project.basedir;
+						    def previousDirectory = null;
+					            def fileObj = new File(currentDirectory, "pom.xml");
+						    while (fileObj.isFile()) {
+						        previousDirectory = currentDirectory;
+						        currentDirectory = fileObj.getParent();
+						        currentDirectory = new File(currentDirectory).getParent();
+					                fileObj = new File(currentDirectory, "pom.xml");
+						    }
+						    if (previousDirectory == null || !(new File(previousDirectory, "pom.xml").isFile())) {
+						    	throw new Exception("Unable to detect root directory");
+						    }
+						    project.properties["mainbasedir"] = previousDirectory;
+						    log.info("set mainbasedir to: " + project.properties["mainbasedir"]);
+							//************************
+							// Bug in Jenkins/Hudson
+							// The buildId property is not correctly set since
+							// "maven.build.timestamp" is skipped by Jenkins/Hudson.
+							if (project.properties["buildId"] == "\${maven.build.timestamp}"
+								|| project.properties["buildId"] == "\$maven.build.timestamp") {
+								project.properties["buildId"] = (new java.text.SimpleDateFormat("yyyyMMddHHmmss")).format(now);
+								log.info("reset buildId to: " + project.properties["buildId"]);
+							}
+							//************************
+							// Compute version and snapshot tag
+							def snapshotTag = "-SNAPSHOT";
+							def version;
+							def releaseStatus;
+							def isSnapshot;
+							def endOfVersion;
+							def p2UploadToDir;
+							def projectVersion = project.properties["sarl.version"]
+							def isDevelVersion = projectVersion.endsWith(snapshotTag)
+							if (isDevelVersion) {
+								def len = projectVersion.size() - snapshotTag.size();
+								version = projectVersion.substring(0, len);
+								releaseStatus = "Draft Release";
+								isSnapshot = true;
+								endOfVersion = snapshotTag;
+								p2UploadToDir = "/snapshots/"+version+"/R"+project.properties["buildId"]
+								project.properties["sarl.buildId"] = version + "-BETA"
+							} else {
+								version = projectVersion;
+								releaseStatus = "Stable Release";
+								isSnapshot = false;
+								endOfVersion = "";
+								p2UploadToDir = "/releases/"+version
+								project.properties["sarl.buildId"] = project.properties["buildId"]
+							}
+							log.info("set sarl.buildId to: " + project.properties["sarl.buildId"]);
+							versionFields = version.split("\\.");
+							//************************
+							// Set SARL properties
+							project.properties["sarl.specification.release_version"] = versionFields[0] + "." + versionFields[1];
+							project.properties["sarl.release_version"] = project.properties["sarl.specification.release_version"] + "." + versionFields[2];
+							if (isDevelVersion) {
+								project.properties["sarl.release_version.osgi"] = project.properties["sarl.release_version"]+".qualifier";
+							} else {
+								project.properties["sarl.release_version.osgi"] = project.properties["sarl.release_version"];
+							}
+							project.properties["sarl.release_version.maven"] = project.properties["sarl.release_version"]+endOfVersion;
+							project.properties["sarl.specification.release_date"] = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(now);
+							project.properties["sarl.specification.release_status"] = releaseStatus;
+							project.properties["sarl.is_stable_version"] = Boolean.toString(!isSnapshot);
+							project.properties["janus.version"] = versionFields[0]+"."+versionFields[1]+"."+versionFields[2]+endOfVersion;
+							project.properties["janus.release_version"] = "3."+versionFields[0]+"."+versionFields[1]+"."+versionFields[2];
+							project.properties["janus.version2"] = "3."+project.properties["janus.version"];
+
+							log.debug("set sarl.specification.release_version to: " + project.properties["sarl.specification.release_version"]);
+							log.debug("set sarl.release_version to: " + project.properties["sarl.release_version"]);
+							log.debug("set sarl.release_version.osgi to: " + project.properties["sarl.release_version.osgi"]);
+							log.debug("set sarl.release_version.maven to: " + project.properties["sarl.release_version.maven"]);
+							log.debug("set sarl.specification.release_date to: " + project.properties["sarl.specification.release_date"]);
+							log.debug("set sarl.specification.release_status to: " + project.properties["sarl.specification.release_status"]);
+							log.debug("set sarl.is_stable_version to: " + project.properties["sarl.is_stable_version"]);
+							log.debug("set janus.version to: " + project.properties["janus.version"]);
+							log.debug("set janus.release_version to: " + project.properties["janus.release_version"]);
+							log.debug("set janus.version2 to: " + project.properties["janus.version2"]);
+							//************************
+							// P2 properties
+							project.properties["p2UploadToDir"] = p2UploadToDir;
+							log.debug("set p2UploadToDir to: " + project.properties["p2UploadToDir"]);
+							//************************
+							// Set Checkstyle properties
+						    def config_loc = project.properties["mainbasedir"];
+						    ["build-tools", "src", "main", "resources", "checkstyle", "sarl"].each {
+						    	config_loc = new File(config_loc, it);
+						    }
+						    project.properties["checkstyle.config_loc"] = "config_loc=" + config_loc.getAbsolutePath() + File.separator;
+						    log.debug("set checkstyle.config_loc to: " + project.properties["checkstyle.config_loc"]);
+							//************************
+							// Change the SARL Build ID
+
+						]]></script>
+					</scripts>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-all-minimal</artifactId>
+						<version>1.5.8</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<!-- Enforce that the JDK used for compiling this project is with an expected 
+				version -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M3</version>
+				<executions>
+					<execution>
+						<id>enforce-jdk-versions</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireJavaVersion>
+									<version>${sarl-dsl.min.jdk.version}</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Automatic creation of the Jar archive with the source code inside. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Copy the licencing files into the target folder. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-license-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<encoding>${project.build.sourceEncoding}</encoding>
+							<outputDirectory>${project.basedir}/target/classes/META-INF</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.basedir}</directory>
+									<filtering>true</filtering>
+									<includes>
+										<include>NOTICE</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Generating the licencing files. -->
+			<plugin>
+				<groupId>org.jasig.maven</groupId>
+				<artifactId>maven-notice-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generateChildNotices>true</generateChildNotices>
+							<noticeTemplate>${mainbasedir}/build-tools/licenses/NOTICE.template</noticeTemplate>
+							<licenseMapping>
+								<param>${mainbasedir}/build-tools/licenses/license-mappings-sarl.xml</param>
+								<param>${mainbasedir}/build-tools/licenses/license-mappings.xml</param>
+							</licenseMapping>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Remove temporary folders created by testing modules. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>clean-temp-workspace</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+						<configuration>
+							<filesets>
+								<fileset>
+									<directory>workspace</directory>
+								</fileset>
+							</filesets>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<!-- ======================================= -->
+	<!-- ==== Profile configuration === -->
+	<!-- ======================================= -->
+
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<!-- Tools for building the project -->
+				<module>build-tools</module>
+				<!-- The shared Rtcho configuration -->
+				<module>tycho-parent</module>
+				<!-- Main modules of the project -->
+				<module>main</module>
+				<!-- Tools for developers -->
+				<module>dev-tools</module>
+				<!-- External Tests -->
+				<module>tests</module>
+				<!-- SREs -->
+				<module>sre</module>
+				<!-- Developer contributions -->
+				<module>contribs</module>
+				<!-- Products and update site -->
+				<module>products</module>
+				<!-- Documentation -->
+				<module>docs</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>public-sarl-api-module-set</id>
+			<activation>
+				<property>
+					<name>publicSarlApiModuleSet</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>tycho-parent</module>
+				<module>main</module>
+				<module>sre</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>release-tasks</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<!--<repository> <id>org.eclipse.xtext-snapshot</id> <snapshots> <enabled>true</enabled> 
+			</snapshots> <releases> <enabled>true</enabled> </releases> <url>https://oss.sonatype.org/content/repositories/snapshots</url> 
+			</repository> -->
+		<!--<repository> <id>org.arakhne-snapshot</id> <snapshots> <enabled>true</enabled> 
+			</snapshots> <releases> <enabled>true</enabled> </releases> <url>http://download.tuxfamily.org/arakhne/maven</url> 
+			</repository> -->
+	</repositories>
+
 </project>
