@@ -1,59 +1,41 @@
-*.swp
-.idea
-*.iml
+logs
+project/project
+project/target
 target
-tests-scala/databases
-.ensime
-
-
-### Eclipse ###
-*.pydevproject
-.metadata
-.gradle
-tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
+legacyTarget
+tmp
+.history
+dist
+.DS_Store
+.idea/
+.idea_modules/
+*.iml
 .settings/
-.loadpath
+plugins-ide.sbt
+*~
+files
+*/debian/sphere-cli-*
+.*.swp
+*.substvars
+*.log
+*.dsc
+*.deb
+*.tgz
+*.gz
+*.changes
 
-# Eclipse Core
+java-client/.classpath
+
+java-client/.project
+
+play-sdk/.classpath
+
+play-sdk/.project
+
 .project
 
-# External tool builders
-.externalToolBuilders/
-
-# Locally stored "Eclipse launch configurations"
-*.launch
-
-# CDT-specific
-.cproject
-
-# JDT-specific (Eclipse Java Development Tools)
 .classpath
 
-# Java annotation processor (APT)
-.factorypath
-
-# PDT-specific
-.buildpath
-
-# sbteclipse plugin
-.target
-
-# TeXlipse plugin
-.texlipse
-
-
-### m2e ###
-.classpath
-.project
-
-
-### jvm (https://github.com/caarlos0/jvm) ###
+integrationtest.properties
+.secrets
 .java-version
-
-### 
-databases

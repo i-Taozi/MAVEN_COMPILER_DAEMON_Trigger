@@ -1,21 +1,18 @@
 language: java
-
-os:
-  - linux
-
-branches:
-  only:
-  - develop
-  
 jdk:
   - openjdk8
-
-before_script:
-  - echo "MAVEN_OPTS='-Xmx3g'" > ~/.mavenrc
-
-install:
-#  - mvn install dependency:go-offline -Pskip-formatter -DskipTests=true -q -f driver/pom.xml -Dfailsafe.timeout=0
-
-script:
-  - travis_wait 30 mvn install -f driver/pom.xml -Dfailsafe.timeout=0
-  - travis_wait 30 mvn install -f server/pom.xml -Dfailsafe.timeout=0
+cache:
+  directories:
+  - $HOME/.m2
+script: >
+  mvn clean install  javadoc:aggregate -DskipTests
+  && mvn exec:java -pl commercetools-internal-docs -Dexec.mainClass="introspection.rules.RulesMain" -Dexec.classpathScope="test"
+  && mvn exec:java -pl commercetools-models -Dexec.mainClass="io.sphere.sdk.client.MainMethodThreadLeakTest" -Dexec.classpathScope="test"
+  && mvn test verify
+env:
+  global:
+  - secure: NtzrTSpGRmHIeK+Ojhv/xrHE+3k2iq36MnS04hwoJJRtlA1sSCs6Wrw+JKWcIfdscPSxqCZy9UkLVUvSm05Qav4mcsDhQ/hdHc7htqT1+mQ1bFs0HdvYUGJsYpL1yV/fd9vZPBKyfbkIPv4+5luYhbGUG5+0mv8PflcO+rCDGH8=
+notifications:
+  email:
+    on_success: change
+    on_failure: change
