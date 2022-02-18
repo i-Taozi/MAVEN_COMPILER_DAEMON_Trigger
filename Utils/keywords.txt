@@ -1,0 +1,117 @@
+Afflict|number|
+Afterlife|number|
+Annihilator|number|
+Ascend|new|
+Assist|new|
+Basic landcycling|cost|
+Battle cry|new|
+Bestow|card, manaString|
+Bloodthirst|number|
+Bushido|number|
+Buyback|manaString|
+Cascade|new|
+Changeling|new|
+Cleave|card, manaString|
+Convoke|new|
+Crew|number|
+Cumulative upkeep|cost|
+Cycling|cost|
+Dash|card, manaString|
+Daybound|new|
+Deathtouch|instance|
+Demonstrate|new|
+Delve|new|
+Dethrone|new|
+Devoid|color|
+Defender|instance|
+Disturb|cost|
+Dredge|number|
+Double Strike|instance|
+Dredge|number|
+Echo|manaString|
+Embalm|cost, card|
+Enchant|type|
+Encore|cost|
+Entwine|manaString|
+Eternalize|cost, card|
+Evoke|manaString|
+Evolve|new|
+Exalted|new|
+Exploit|new|
+Extort|new|
+Fabricate|number|
+Fear|instance|
+First strike|instance|
+Flanking|new|
+Flash|instance|
+Flashback|card, cost|
+Flying|instance|
+Forestcycling|cost|
+Forestwalk|new|
+Foretell|card, manaString|
+Friends forever|instance|
+Haste|instance|
+Hexproof|instance|
+Improvise|new|
+Indestructible|instance|
+Infect|instance|
+Intimidate|instance|
+Ingest|new|
+Islandcycling|cost|
+Islandwalk|new|
+Jump-start|card|
+Kicker|manaString|
+Level up|cost|
+Lifelink|instance|
+Living weapon|new|
+Madness|card, cost|
+Melee|new|
+Menace|new|
+Mentor|new|
+Miracle|cost|
+Modular|card, number|
+Mountaincycling|cost|
+Mountainwalk|new|
+Morph|card, cost|
+Mutate|card, manaString|
+Myriad|new|
+Nightbound|new|
+Ninjutsu|manaString|
+Outlast|cost|
+Partner|instance|
+Persist|new|
+Phasing|instance|
+Plainscycling|cost|
+Plainswalk|new|
+Poisonous|number|
+Provoke|new|
+Prowess|new|
+Reach|instance|
+Rebound|new|
+Renown|number|
+Replicate|card, manaString|
+Riot|new|
+Scavenge|cost|
+Shadow|instance|
+Shroud|instance|
+Soulbond|new|
+Soulshift|number|
+Skulk|new|
+Spectacle|card, cost|
+Storm|new|
+Sunburst|new|
+Suspend|number, cost, card|
+Swampcycling|cost|
+Swampwalk|new|
+Totem armor|new|
+Training|new|
+Trample|instance|
+Tribute|number|
+Unblockable|new|
+Undaunted|new|
+Undying|new|
+Unearth|cost|
+Unleash|new|
+Vigilance|instance|
+Ward|cost|
+Wither|instance|

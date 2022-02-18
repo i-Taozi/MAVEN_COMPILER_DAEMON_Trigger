@@ -1,8 +1,0 @@
-{
-  "key": "demo-key",
-  "container": "demo-container",
-  "value": {
-    "baz": 22,
-    "bar": "hello"
-  }
-}
