@@ -1,1553 +1,422 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-        <relativePath>
-        </relativePath>
-    </parent>
-
-    <groupId>it.unibz.inf.ontop</groupId>
-    <artifactId>ontop</artifactId>
-    <version>4.3.0-SNAPSHOT</version>
+    <groupId>edu.stanford.protege</groupId>
+    <artifactId>webprotege</artifactId>
+    <version>5.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <url>http://ontop-vkg.org/</url>
-
-    <inceptionYear>2009</inceptionYear>
-    <organization>
-        <name>Free University of Bozen-Bolzano</name>
-    </organization>
-
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <id>ghxiao</id>
-            <name>Guohui Xiao</name>
-        </developer>
-        <developer>
-            <id>bcogrel</id>
-            <name>Benjamin Cogrel</name>
-        </developer>
-        <developer>
-            <id>fracorco</id>
-            <name>Francesco Corcoglioniti</name>
-        </developer>
-        <developer>
-            <id>juliencorman</id>
-            <name>Julien Corman</name>
-        </developer>
-        <developer>
-            <id>konchakov</id>
-            <name>Roman Konchakov</name>
-        </developer>
-        <developer>
-            <id>tirrolo</id>
-            <name>Davide Lanti</name>
-        </developer>
-        <developer>
-            <id>alpano-on</id>
-            <name>Albulen Pano</name>
-        </developer>
-        <developer>
-            <id>skomlaebri</id>
-            <name>Sarah Komla-Ebri</name>
-        </developer>
-    </developers>
-
-    <modules>
-        <module>binding</module>
-        <module>build</module>
-        <module>client</module>
-        <module>core</module>
-        <module>db</module>
-        <module>engine</module>
-        <module>mapping</module>
-        <module>ontology</module>
-        <module>test</module>
-    </modules>
-
-    <scm>
-        <connection>scm:git:git@github.com:ontop/ontop.git</connection>
-        <developerConnection>scm:git:git@github.com:ontop/ontop.git</developerConnection>
-        <tag>ontop-4.0.0</tag>
-        <url>git@github.com:ontop/ontop.git</url>
-    </scm>
 
     <properties>
-        <!-- Build-related properties (overridden in child modules) -->
-        <!--  <maven.javadoc.failOnError>false</maven.javadoc.failOnError>-->
-        <finalName>${project.artifactId}-${project.version}</finalName>
-        <filter.main.resources>false</filter.main.resources>
-        <filter.test.resources>false</filter.test.resources>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <assembly.cli.skip>true</assembly.cli.skip>
-        <assembly.webapps.skip>true</assembly.webapps.skip>
-        <assembly.protege.skip>true</assembly.protege.skip>
-        <bundle.protege.phase>none</bundle.protege.phase>
-        <maven.war.skip>true</maven.war.skip>
-        <metadata.git.skip>true</metadata.git.skip>
-        <metadata.buildInfo.phase>none</metadata.buildInfo.phase>
-        <thirdparty.skip>true</thirdparty.skip>
-        <ignoreNonCompile>true</ignoreNonCompile>
-
-        <!-- Plugin versions -->
-        <antlr4-maven-plugin.version>4.8-1</antlr4-maven-plugin.version>
-        <formatter-maven-plugin.version>2.14.0</formatter-maven-plugin.version>
-        <git-commit-id-plugin-version>4.0.3</git-commit-id-plugin-version>
-        <license-maven-plugin.version>2.0.0</license-maven-plugin.version>
-        <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
-        <maven-bundle-plugin.version>5.1.2</maven-bundle-plugin.version>
-        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
-        <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
-        <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
-        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-        <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
-        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
-        <maven-jxr-plugin.version>3.0.0</maven-jxr-plugin.version>
-        <maven-project-info-reports-plugin.version>3.1.0</maven-project-info-reports-plugin.version>
-        <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
-        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
-        <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
-        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-        <maven-surefire-report-plugin.version>3.0.0-M5</maven-surefire-report-plugin.version>
-        <maven-war-plugin.version>3.3.1</maven-war-plugin.version>
-        <sortpom-maven-plugin.version>2.13.1</sortpom-maven-plugin.version>
-        <spring-boot-maven-plugin.version>2.3.2.RELEASE</spring-boot-maven-plugin.version>
-        <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version>
-
-        <!-- Dependency versions: core dependencies -->
-        <airline.version>2.8.0</airline.version>
-        <antlr4.version>4.8-1</antlr4.version>
-        <commons-codec.version>1.14</commons-codec.version>
-        <commons-collections4.version>4.2</commons-collections4.version>
-        <commons-lang3.version>3.11</commons-lang3.version>
-        <commons-rdf.version>0.5.0</commons-rdf.version>
-        <functionaljava.version>4.8.1</functionaljava.version>
-        <gson.version>2.8.6</gson.version>
-        <guava-failureaccess.version>1.0.1</guava-failureaccess.version>
-        <guava.version>30.1.1-jre</guava.version>
-        <guice.version>5.0.1</guice.version>
-        <h2gis.version>1.3.2</h2gis.version>
-        <h2.version>1.4.196</h2.version>
-        <hamcrest.version>1.3</hamcrest.version>
-        <hikari-cp.version>3.4.5</hikari-cp.version>
-        <httpclient.version>4.5.13</httpclient.version>
-        <httpcore.version>4.4.14</httpcore.version>
-        <icu4j.version>58.2</icu4j.version>
-        <jackson.version>2.12.1</jackson.version>
-        <javax-inject.version>1</javax-inject.version>
-        <javax-json.version>1.0.4</javax-json.version>
-        <jgrapht.version>0.9.3</jgrapht.version>
-        <jsqlparser.version>3.1</jsqlparser.version>
-        <jsr305.version>3.0.2</jsr305.version>
-        <junit.version>4.13.1</junit.version>
-        <logback.version>1.2.9</logback.version>
-        <opencsv.version>4.6</opencsv.version>
-        <owlapi.version>4.5.19</owlapi.version>
-        <owlapi-osgi.version>4.5.9</owlapi-osgi.version>
-        <proj4j.version>1.1.1</proj4j.version>
-        <protege.version>5.5.0</protege.version>
-        <protege-xmlcatalog.version>1.0.5</protege-xmlcatalog.version>
-        <r2rml-api.version>0.8.0</r2rml-api.version>
-        <rdf4j.version>3.3.0</rdf4j.version>
-        <servlet2-api.version>2.5</servlet2-api.version>
-        <servlet4-api.version>4.0.1</servlet4-api.version>
-        <slf4j-jcl.version>1.7.30</slf4j-jcl.version>
-        <slf4j.version>1.7.13</slf4j.version>
-        <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
-        <thrift.version>[0.12.0,)</thrift.version>
-        <tomcat-jdbc.version>10.0.0-M7</tomcat-jdbc.version>
-        <toml4j.version>0.7.2</toml4j.version>
-        <treelayout.version>1.0.3</treelayout.version>
-        <urlbuilder.version>2.0.9</urlbuilder.version>
-        <xerces.version>2.12.0</xerces.version>
-        <xml-apis.version>1.4.01</xml-apis.version>
-
-        <!-- Dependency versions: indirectly used & pinned for enforcer plugin -->
-        <checkerframework.version>3.8.0</checkerframework.version>
-        <commons-io.version>2.7</commons-io.version>
-        <commons-logging.version>1.2</commons-logging.version>
-        <errorprone.version>2.5.1</errorprone.version>
-        <jsonld-java.version>0.13.0</jsonld-java.version>
-        <junit-jupiter-api.version>5.6.2</junit-jupiter-api.version>
-        <osgi.version>6.0.0</osgi.version>
-        <semargl-sesame.version>0.6.1</semargl-sesame.version>
-        <semargl.version>0.7</semargl.version>
-        <sesame.version>2.7.16</sesame.version>
-        <tomcat-embed-core.version>9.0.43</tomcat-embed-core.version>
+        <guava.version>28.0</guava.version>
+        <dagger.version>2.20</dagger.version>
+        <owlapi.version>4.5.13</owlapi.version>
+        <widgetmap.version>4.0.1</widgetmap.version>
+        <graphtree.version>1.1.1</graphtree.version>
+        <autovalue.version>1.7.1</autovalue.version>
+        <jackson.version>2.11.0</jackson.version>
+        <commons.io.version>2.7</commons.io.version>
+        <!-- WebProtege Specific Properties -->
+        <mail.smtp.host/>
+        <mail.smtp.auth/>
+        <mail.smtp.port/>
+        <application.analytics/>
+        <build.timestamp>${maven.build.timestamp}</build.timestamp>
+        <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+        <auto-factory.version>1.0-beta7</auto-factory.version>
+        <junit.version>4.12</junit.version>
+        <commonmark.version>0.11.0</commonmark.version>
     </properties>
+
+    <scm>
+        <connection>scm:git:https://github.com/protegeproject/webprotege.git</connection>
+        <url>https://github.com/webprotege/webprotege.git</url>
+    </scm>
+
+    <prerequisites>
+        <maven>3.5.0</maven>
+    </prerequisites>
 
     <dependencyManagement>
         <dependencies>
-            <!-- Ontop modules -->
             <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-model</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-obda-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-optimization</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-mapping</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-mapping-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-engine</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-reformulation</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-reformulation-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-system</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-system-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-ontology</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-ontology-owlapi</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-system-owlapi</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-db</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-rdb</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-reformulation-sql</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-mapping-sql</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-mapping-sql-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-mapping-native</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-mapping-r2rml</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-mapping-sql-all</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-system-sql</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-system-sql-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-mapping-owlapi</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-mapping-sql-owlapi</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-system-sql-owlapi</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-binding</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-owlapi</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-rdf4j</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-endpoint</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-cli</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-rdf4j-webapps</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-rdf4j-config-sql</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-rdf4j-server</artifactId>
-                <version>${project.version}</version>
-                <type>war</type>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-rdf4j-workbench</artifactId>
-                <version>${project.version}</version>
-                <type>war</type>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-protege</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-build</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-distribution</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-test</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-docker-tests</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-rdb2rdf-compliance</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-semantic-index</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ontop-sparql-compliance</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!-- JSqlParser -->
-            <dependency>
-                <groupId>com.github.jsqlparser</groupId>
-                <artifactId>jsqlparser</artifactId>
-                <version>${jsqlparser.version}</version>
-            </dependency>
-
-            <!-- JDBC pools (HikariCP, Tomcat) -->
-            <dependency>
-                <groupId>com.zaxxer</groupId>
-                <artifactId>HikariCP</artifactId>
-                <version>${hikari-cp.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat</groupId>
-                <artifactId>tomcat-jdbc</artifactId>
-                <version>${tomcat-jdbc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat</groupId>
-                <artifactId>tomcat-juli</artifactId>
-                <version>${tomcat-jdbc.version}</version>
-            </dependency>
-
-            <!-- Protégé -->
-            <dependency>
-                <groupId>edu.stanford.protege</groupId>
-                <artifactId>protege-editor-core</artifactId>
-                <version>${protege.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>edu.stanford.protege</groupId>
-                <artifactId>protege-editor-owl</artifactId>
-                <version>${protege.version}</version>
-            </dependency>
-
-            <!-- Protégé XML Catalog -->
-            <dependency>
-                <groupId>edu.stanford.protege</groupId>
-                <artifactId>org.protege.xmlcatalog</artifactId>
-                <version>${protege-xmlcatalog.version}</version>
-            </dependency>
-
-            <!-- Optique R2RML API -->
-            <dependency>
-                <groupId>eu.optique-project</groupId>
-                <artifactId>r2rml-api-core</artifactId>
-                <version>${r2rml-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>eu.optique-project</groupId>
-                <artifactId>r2rml-api-rdf4j-binding</artifactId>
-                <version>${r2rml-api.version}</version>
-            </dependency>
-
-            <!-- Semargl -->
-            <dependency>
-                <groupId>org.semarglproject</groupId>
-                <artifactId>semargl-core</artifactId>
-                <version>${semargl.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.semarglproject</groupId>
-                <artifactId>semargl-sesame</artifactId>
-                <version>${semargl-sesame.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.semarglproject</groupId>
-                <artifactId>semargl-rdfa</artifactId>
-                <version>${semargl.version}</version>
-            </dependency>
-
-            <!-- JSONLD-Java -->
-            <dependency>
-                <groupId>com.github.jsonld-java</groupId>
-                <artifactId>jsonld-java</artifactId>
-                <version>${jsonld-java.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>httpcore-osgi</artifactId>
-                        <groupId>org.apache.httpcomponents</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>httpclient-osgi</artifactId>
-                        <groupId>org.apache.httpcomponents</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <!-- Apache Commons RDF -->
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-rdf-api</artifactId>
-                <version>${commons-rdf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-rdf-simple</artifactId>
-                <version>${commons-rdf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-rdf-rdf4j</artifactId>
-                <version>${commons-rdf.version}</version>
-            </dependency>
-
-            <!-- OWL API -->
-            <dependency>
-                <groupId>net.sourceforge.owlapi</groupId>
-                <artifactId>owlapi-api</artifactId>
-                <version>${owlapi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.sourceforge.owlapi</groupId>
-                <artifactId>owlapi-apibinding</artifactId>
-                <version>${owlapi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.sourceforge.owlapi</groupId>
-                <artifactId>owlapi-impl</artifactId>
-                <version>${owlapi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.sourceforge.owlapi</groupId>
-                <artifactId>owlapi-parsers</artifactId>
-                <version>${owlapi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.sourceforge.owlapi</groupId>
-                <artifactId>owlapi-oboformat</artifactId>
-                <version>${owlapi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.sourceforge.owlapi</groupId>
-                <artifactId>owlapi-osgidistribution</artifactId>
-                <version>${owlapi-osgi.version}</version>
-            </dependency>
-
-            <!-- RDF4J API -->
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-repository-api</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-queryparser-sparql</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-util</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-sparql-compliance</artifactId>
-                <version>${rdf4j.version}</version>
-                <type>war</type>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-sparql-testsuite</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-model</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-rio-ntriples</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-rio-api</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-rio-nquads</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-rio-turtle</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-rio-rdfxml</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-rio-binary</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-sail-api</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-queryresultio-api</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-queryresultio-text</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-queryresultio-sparqlxml</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-queryalgebra-model</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-repository-sparql</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-repository-manager</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-repository-sail</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-query</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-queryparser-api</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-queryalgebra-evaluation</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-rio-datatypes</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-rio-languages</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-rio-nquad</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-rio-trig</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-rio-jsonld</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-queryrender</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-queryresultio-sparqljson</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-rio-rdfjson</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-sail-memory</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-queryparser-serql</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-http-server</artifactId>
-                <version>${rdf4j.version}</version>
-                <type>war</type>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-http-workbench</artifactId>
-                <version>${rdf4j.version}</version>
-                <type>war</type>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.rdf4j</groupId>
-                <artifactId>rdf4j-config</artifactId>
-                <version>${rdf4j.version}</version>
-            </dependency>
-
-            <!-- Spring Boot -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-autoconfigure</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-thymeleaf</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-actuator</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-devtools</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <!-- Servlet API -->
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>${servlet2-api.version}</version>
+                <groupId>com.google.gwt</groupId>
+                <artifactId>gwt</artifactId>
+                <version>2.8.2</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
-                <version>${servlet4-api.version}</version>
+                <version>3.1.0</version>
             </dependency>
-
-            <!-- Apache HttpClient -->
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient-osgi</artifactId>
-                <version>${httpclient.version}</version>
-            </dependency>
-
-            <!-- Apache HttpCore -->
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpcore-osgi</artifactId>
-                <version>${httpcore.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpcore-nio</artifactId>
-                <version>${httpcore.version}</version>
-            </dependency>
-
-            <!-- ICU4J -->
-            <dependency>
-                <groupId>com.ibm.icu</groupId>
-                <artifactId>icu4j</artifactId>
-                <version>${icu4j.version}</version>
-            </dependency>
-
-            <!-- Proj4J -->
-            <dependency>
-                <groupId>org.locationtech.proj4j</groupId>
-                <artifactId>proj4j</artifactId>
-                <version>${proj4j.version}</version>
-            </dependency>
-
-            <!-- JGraphT -->
-            <dependency>
-                <groupId>org.javabits.jgrapht</groupId>
-                <artifactId>jgrapht-core</artifactId>
-                <version>${jgrapht.version}</version>
-            </dependency>
-
-            <!-- ANTLR -->
-            <dependency>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr4</artifactId>
-                <version>${antlr4.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr4-runtime</artifactId>
-                <version>${antlr4.version}</version>
-            </dependency>
-
-            <!-- abego TreeLayout -->
-            <dependency>
-                <groupId>org.abego.treelayout</groupId>
-                <artifactId>org.abego.treelayout.core</artifactId>
-                <version>${treelayout.version}</version>
-            </dependency>
-
-            <!-- Dependency Injection (Guice, javax-inject API) -->
-            <dependency>
-                <groupId>com.google.inject</groupId>
-                <artifactId>guice</artifactId>
-                <version>${guice.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.inject.extensions</groupId>
-                <artifactId>guice-assistedinject</artifactId>
-                <version>${guice.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.inject</groupId>
-                <artifactId>javax.inject</artifactId>
-                <version>${javax-inject.version}</version>
-            </dependency>
-
-            <!-- OSGI Specification -->
-            <dependency>
-                <groupId>org.osgi</groupId>
-                <artifactId>org.osgi.core</artifactId>
-                <version>${osgi.version}</version>
-            </dependency>
-
-            <!-- Javax Annotations (JSR 305) -->
-            <dependency>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>jsr305</artifactId>
-                <version>${jsr305.version}</version>
-            </dependency>
-
-            <!-- Guava -->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>failureaccess</artifactId>
-                <version>${guava-failureaccess.version}</version>
-            </dependency>
-
-            <!-- Airline CLI library -->
-            <dependency>
-                <groupId>com.github.rvesse</groupId>
-                <artifactId>airline</artifactId>
-                <version>${airline.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.rvesse</groupId>
-                <artifactId>airline-help-bash</artifactId>
-                <version>${airline.version}</version>
-            </dependency>
-
-            <!-- URL builder -->
-            <dependency>
-                <groupId>io.mikael</groupId>
-                <artifactId>urlbuilder</artifactId>
-                <version>${urlbuilder.version}</version>
-            </dependency>
-
-            <!-- Functional JAVA -->
-            <dependency>
-                <groupId>org.functionaljava</groupId>
-                <artifactId>functionaljava</artifactId>
-                <version>${functionaljava.version}</version>
-            </dependency>
-
-            <!-- Apache Commons IO -->
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
+                <version>2.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm</artifactId>
+                <version>7.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-commons</artifactId>
+                <version>7.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-analysis</artifactId>
+                <version>7.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-tree</artifactId>
+                <version>7.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-util</artifactId>
+                <version>7.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-xml</artifactId>
+                <version>7.0</version>
             </dependency>
 
-            <!-- Apache Commons Codec -->
             <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${commons-codec.version}</version>
+                <groupId>edu.stanford.protege</groupId>
+                <artifactId>graphtree</artifactId>
+                <version>1.1.1</version>
             </dependency>
 
-            <!-- Apache Commons Lang 3 -->
+
+            <!-- Use specific version of guava for all subprojects -->
             <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}-jre</version>
             </dependency>
 
-            <!-- Apache Commons Collections 4 -->
             <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-collections4</artifactId>
-                <version>${commons-collections4.version}</version>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava-gwt</artifactId>
+                <version>${guava.version}-jre</version>
             </dependency>
 
-            <!-- Javax JSON Processing API (JSR 353) -->
+            <!-- Dependency Injection via Dagger -->
             <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>javax.json</artifactId>
-                <version>${javax-json.version}</version>
+                <groupId>com.google.dagger</groupId>
+                <artifactId>dagger</artifactId>
+                <version>${dagger.version}</version>
             </dependency>
 
-            <!-- Jackson -->
             <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-guava</artifactId>
-                <version>${jackson.version}</version>
+                <groupId>com.google.dagger</groupId>
+                <artifactId>dagger-spi</artifactId>
+                <version>${dagger.version}</version>
             </dependency>
 
-            <!-- Gson -->
             <dependency>
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-                <version>${gson.version}</version>
+                <groupId>com.google.dagger</groupId>
+                <artifactId>dagger-compiler</artifactId>
+                <version>${dagger.version}</version>
+                <scope>provided</scope>
             </dependency>
 
-            <!-- toml4j -->
             <dependency>
-                <groupId>com.moandjiezana.toml</groupId>
-                <artifactId>toml4j</artifactId>
-                <version>${toml4j.version}</version>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>2.7.0</version>
             </dependency>
 
-            <!-- Xerces -->
-            <dependency>
-                <groupId>xerces</groupId>
-                <artifactId>xercesImpl</artifactId>
-                <version>${xerces.version}</version>
-            </dependency>
+            <!-- Testing Dependencies -->
 
-            <!-- XML APIs -->
             <dependency>
-                <groupId>xml-apis</groupId>
-                <artifactId>xml-apis</artifactId>
-                <version>${xml-apis.version}</version>
-            </dependency>
-
-            <!-- Apache Thrift -->
-            <dependency>
-                <groupId>org.apache.thrift</groupId>
-                <artifactId>libthrift</artifactId>
-                <version>${thrift.version}</version>
-            </dependency>
-
-            <!-- OpenCSV -->
-            <dependency>
-                <groupId>com.opencsv</groupId>
-                <artifactId>opencsv</artifactId>
-                <version>${opencsv.version}</version>
-            </dependency>
-
-            <!-- SLF4J -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>3.0.2</version>
             </dependency>
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jcl-over-slf4j</artifactId>
-                <version>${slf4j-jcl.version}</version>
-            </dependency>
-
-            <!-- Logback -->
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-all</artifactId>
+                <version>1.3</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${logback.version}</version>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>2.23.0</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.hamcrest</groupId>
+                        <artifactId>hamcrest-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
-
-            <!-- JUnit -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
-            </dependency>
-
-            <!-- Hamcrest -->
-            <dependency>
-                <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-core</artifactId>
-                <version>${hamcrest.version}</version>
-            </dependency>
-
-            <!-- H2 -->
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>${h2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.orbisgis</groupId>
-                <artifactId>h2gis-ext</artifactId>
-                <version>${h2gis.version}</version>
-            </dependency>
-
-            <!-- Indirectly used & pinned (for maven-enforcer-plugin) -->
-            <dependency>
-                <groupId>org.openrdf.sesame</groupId>
-                <artifactId>sesame-model</artifactId>
-                <version>${sesame.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openrdf.sesame</groupId>
-                <artifactId>sesame-rio-api</artifactId>
-                <version>${sesame.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${httpclient.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient-cache</artifactId>
-                <version>${httpclient.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpmime</artifactId>
-                <version>${httpclient.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>fluent-hc</artifactId>
-                <version>${httpclient.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpcore</artifactId>
-                <version>${httpcore.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>${commons-logging.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>${junit-jupiter-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-core</artifactId>
-                <version>${tomcat-embed-core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.checkerframework</groupId>
-                <artifactId>checker-qual</artifactId>
-                <version>${checkerframework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.errorprone</groupId>
-                <artifactId>error_prone_annotations</artifactId>
-                <version>${errorprone.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>oss-sonatype</id>
+            <name>OSS Sonatype Snapshot Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <snapshots>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>edu.protege.stanford</id>
+            <name>Protege Project Maven Repo</name>
+            <url>https://github.com/protegeproject/mvn-repo/raw/master/releases</url>
+            <snapshots>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <build>
-        <defaultGoal>package</defaultGoal>
-        <finalName>${finalName}</finalName>
+
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>versions-maven-plugin</artifactId>
-                    <version>${versions-maven-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.antlr</groupId>
-                    <artifactId>antlr4-maven-plugin</artifactId>
-                    <version>${antlr4-maven-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>net.revelc.code.formatter</groupId>
-                    <artifactId>formatter-maven-plugin</artifactId>
-                    <version>${formatter-maven-plugin.version}</version>
-                    <configuration>
-                        <configXmlFile>${maven.multiModuleProjectDirectory}/build/settings/xml.properties</configXmlFile>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>pl.project13.maven</groupId>
-                    <artifactId>git-commit-id-plugin</artifactId>
-                    <version>${git-commit-id-plugin-version}</version>
-                    <configuration>
-                        <dotGitDirectory>${maven.multiModuleProjectDirectory}/.git</dotGitDirectory>
-                        <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-                        <failOnNoGitDirectory>false</failOnNoGitDirectory>
-                        <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>license-maven-plugin</artifactId>
-                    <version>${license-maven-plugin.version}</version>
-                    <configuration>
-                        <licenseName>apache_v2</licenseName>
-                        <roots>src/main/java,src/test/java</roots>
-                        <outputDirectory>${project.build.directory}</outputDirectory>
-                        <fileTemplate>${maven.multiModuleProjectDirectory}/build/settings/THIRD-PARTY.template.ftl</fileTemplate>
-                        <missingFile>${maven.multiModuleProjectDirectory}/build/settings/THIRD-PARTY.missing.properties</missingFile>
-                        <overrideUrl>file:${maven.multiModuleProjectDirectory}/build/settings/THIRD-PARTY.override.properties</overrideUrl>
-                        <!-- License IDs from https://spdx.org/licenses/ (WITH exception-id from https://spdx.org/licenses/exceptions-index.html) -->
-                        <licenseMergesUrl>file:${maven.multiModuleProjectDirectory}/build/settings/THIRD-PARTY.merges</licenseMergesUrl>
-                        <includedScopes>compile,runtime</includedScopes>
-                        <includedTypes>jar</includedTypes>
-                        <excludedGroups>it\.unibz\.inf\.ontop</excludedGroups>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>${maven-assembly-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>${maven-bundle-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>${maven-clean-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven-compiler-plugin.version}</version>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>${maven-dependency-plugin.version}</version>
-                    <configuration>
-                        <ignoreDirect>false</ignoreDirect>
-                        <ignoreNonCompile>${ignoreNonCompile}</ignoreNonCompile>
-                        <ignoredUsedUndeclaredDependencies>
-                            <!-- Spring deps are indirectly imported using starter deps -->
-                            <ignoredUsedUndeclaredDependency>org.springframework:::</ignoredUsedUndeclaredDependency>
-                        </ignoredUsedUndeclaredDependencies>
-                        <ignoredUnusedDeclaredDependencies>
-                            <!-- Spring Boot starter deps must be declared but being empty their content is never used in code -->
-                            <ignoredUnusedDeclaredDependency>org.springframework.boot:::</ignoredUnusedDeclaredDependency>
-                        </ignoredUnusedDeclaredDependencies>
-                        <outputXML>true</outputXML>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>${maven-deploy-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>${maven-enforcer-plugin.version}</version>
+                    <version>3.0.0-M2</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>${maven-gpg-plugin.version}</version>
+                    <groupId>edu.stanford.protege</groupId>
+                    <artifactId>webprotege-maven-plugin</artifactId>
+                    <version>1.1.1</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>${maven-install-plugin.version}</version>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>buildnumber-maven-plugin</artifactId>
+                    <version>1.4</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>${maven-jar-plugin.version}</version>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.0</version>
                     <configuration>
-                        <archive>
-                            <manifest>
-                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            </manifest>
-                        </archive>
+                        <release>11</release>
+                        <forceJavacCompilerUse>true</forceJavacCompilerUse>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${maven-javadoc-plugin.version}</version>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jxr-plugin</artifactId>
-                    <version>${maven-jxr-plugin.version}</version>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-maven-plugin</artifactId>
+                    <version>9.4.12.v20180830</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>${maven-project-info-reports-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>${maven-release-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>${maven-resources-plugin.version}</version>
+                    <groupId>net.ltgt.gwt.maven</groupId>
+                    <artifactId>gwt-maven-plugin</artifactId>
+                    <version>1.0.0</version>
+                    <extensions>true</extensions>
                     <configuration>
-                        <escapeString>\</escapeString>
+                        <sourceLevel>1.8</sourceLevel>
+                        <failOnError>true</failOnError>
+                        <classpathScope>compile+runtime</classpathScope>
+                        <moduleName>edu.stanford.bmir.protege.web.client.WebProtege</moduleName>
+                        <startupUrls>WebProtege.jsp</startupUrls>
+                        <launcherDir>${project.build.directory}/gwt/launcherDir</launcherDir>
+                        <style>DETAILED</style>
+                        <devmodeArgs>
+                            <arg>-style</arg><arg>DETAILED</arg>
+                        </devmodeArgs>
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>${maven-site-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>${maven-source-plugin.version}</version>
+                    <version>3.0.1</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <phase>process-classes</phase>
+                            <!--<phase>package</phase>-->
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.2.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${maven-surefire-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-report-plugin</artifactId>
-                    <version>${maven-surefire-report-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>${maven-war-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>com.github.ekryd.sortpom</groupId>
-                    <artifactId>sortpom-maven-plugin</artifactId>
-                    <version>${sortpom-maven-plugin.version}</version>
+                    <version>2.22.1</version>
                     <configuration>
-                        <createBackupFile>false</createBackupFile>
-                        <nrOfIndentSpace>4</nrOfIndentSpace>
-                        <keepTimestamp>true</keepTimestamp>
-                        <keepBlankLines>true</keepBlankLines>
+                        <argLine>
+                            --illegal-access=permit
+                        </argLine>
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot-maven-plugin.version}</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.22.0</version>
+                    <configuration>
+                        <argLine>
+                            --illegal-access=permit
+                        </argLine>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
+
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.5</version>
                 <configuration>
-                	<fork>true</fork>
+                    <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <!-- version should be inherited but doesn't work for this plugin (we get 1.0) -->
-                <version>${maven-enforcer-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <!-- This must be specified here and not in pluginManagement,
-                                         or the versions plugin will not pick up the constraint -->
-                                    <version>3.6.0</version>
-                                </requireMavenVersion>
-                                <dependencyConvergence>
-                                </dependencyConvergence>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
+                <configuration>
+                    <rules>
+                        <requireMavenVersion>
+                            <version>3.0</version>
+                        </requireMavenVersion>
+                    </rules>
+                </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${maven-jar-plugin.version}</version>
-            </plugin>
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>${maven-source-plugin.version}</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
                 <executions>
                     <execution>
-                        <id>attach-sources</id>
+                        <phase>validate</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>create</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <attach>true</attach>
+                    <shortRevisionLength>7</shortRevisionLength>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven-javadoc-plugin.version}</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>attach-javadocs</id>
+                        <id>parse-version</id>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>parse-version</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
-                <!-- explicitly define maven-deploy-plugin after to force exec order -->
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>${maven-deploy-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>deploy</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-git-metadata</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${metadata.git.skip}</skip>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>net.ltgt.gwt.maven</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <inherited>false</inherited>
+                <configuration>
+                    <moduleName>edu.stanford.bmir.protege.web.WebProtege</moduleName>
+                    <launcherDir>${project.build.directory}/gwt/launcherDir</launcherDir>
+                    <classpathScope>compile+runtime</classpathScope>
+                </configuration>
             </plugin>
         </plugins>
     </build>
 
     <profiles>
-        <!-- NOTE: profiles declared later take precedence in case of property/setting clashes,
-             so do not reorder the profiles listed below (or anyway take this aspect into account) -->
-
-        <!-- Manually activated profile to autoformat pom.xml files.
-             Can be invoked via mvn -Pformat, possibly combined with other manual profiles. -->
+        <!-- Profile for local development of WebProtege -->
         <profile>
-            <id>format</id>
-            <build>
-                <defaultGoal>process-sources</defaultGoal>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.ekryd.sortpom</groupId>
-                        <artifactId>sortpom-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>sort-pom-sections</id>
-                                <phase>process-sources</phase>
-                                <goals>
-                                    <goal>sort</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>net.revelc.code.formatter</groupId>
-                        <artifactId>formatter-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>format-pom</id>
-                                <phase>process-sources</phase>
-                                <goals>
-                                    <goal>format</goal>
-                                </goals>
-                                <configuration>
-                                    <sourceDirectory>.</sourceDirectory>
-                                    <includes>
-                                        <include>**/pom.xml</include>
-                                    </includes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <!-- Manually activated profile to generate build/distribution/target/THIRD-PARTY.txt
-             Can be invoked via mvn -Pthirdparty, possibly combined with other manual profiles. -->
-        <profile>
-            <id>thirdparty</id>
-            <build>
-                <defaultGoal>generate-resources</defaultGoal>
-            </build>
+            <id>development</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
-                <thirdparty.skip>false</thirdparty.skip>
+                <data.directory>/srv/webprotege</data.directory>
+            </properties>
+
+        </profile>
+        <profile>
+            <id>skip-gwt-compilation</id>
+            <properties>
+                <gwt.skipCompilation>true</gwt.skipCompilation>
             </properties>
         </profile>
-
-        <!-- Manually activated profile running various analysis plugins on the project.
-             Can be invoked via mvn -Panalyze, possibly combined with other manual profiles.
-             Can be extended with further plugins. Currently running:
-             - dependency:analyze-dep-mgt
-             - dependency:analyze-duplicate
-             - dependency:analyze-only
-             - versions:display-plugin-updates (root module only)
-             - versions:display-dependency-updates (root module only) -->
+        <!-- Profile for producing a deployment on a particular machine -->
         <profile>
-            <id>analyze</id>
-
+            <id>deployment</id>
+            <properties>
+                <data.directory>/srv/webprotege</data.directory>
+            </properties>
+        </profile>
+        <!-- Profile for producing a release of WebProtege that people can download and install locally -->
+        <profile>
+            <id>webprotege.release</id>
+            <properties>
+                <data.directory>/srv/webprotege</data.directory>
+            </properties>
             <build>
-                <defaultGoal>process-test-classes</defaultGoal>
                 <plugins>
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>versions-maven-plugin</artifactId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
-                                <id>display-plugin-updates</id>
-                                <phase>validate</phase>
+                                <id>attach-sources</id>
+                                <phase>package</phase>
                                 <goals>
-                                    <goal>display-plugin-updates</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>display-dependency-updates</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>display-dependency-updates</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <inherited>false</inherited>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>analyze-dep-mgt</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>analyze-dep-mgt</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>analyze-duplicate</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>analyze-duplicate</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>analyze-only</id>
-                                <phase>process-test-classes</phase>
-                                <goals>
-                                    <goal>analyze-only</goal>
+                                    <goal>jar-no-fork</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -1555,212 +424,37 @@
                 </plugins>
             </build>
         </profile>
-
-        <!-- Manually activated profiles to control generated artifacts (call via mvn -Pname)
-             - cli      generates build/distribution/target/ontop-cli-VERSION.zip
-             - protege  generates build/distribution/target/ontop-protege-bundle-PLATFORM-VERSION.zip files
-             - webapps  generates build/distribution/target/ontop-webapps-VERSION.zip
-             - release  generates all artifacts above, with testing, javadoc and jar metadata -->
+        <!-- Profile for deployment of WebProtege to webprotege.stanford.edu -->
         <profile>
-            <id>cli</id>
-            <build>
-                <defaultGoal>package</defaultGoal>
-            </build>
+            <id>webprotege.stanford.edu</id>
             <properties>
-                <metadata.git.skip>true</metadata.git.skip>
-                <metadata.buildInfo.phase>none</metadata.buildInfo.phase>
-                <maven.javadoc.skip>true</maven.javadoc.skip>
-                <maven.test.skip>true</maven.test.skip>
-                <assembly.cli.skip>false</assembly.cli.skip>
+                <!-- Insert the code for google analytics.  This code is not inserted by default. -->
+                <application.analytics>
+                    <![CDATA[
+                    <script type="text/javascript">
+                        var _gaq = _gaq || [];
+                        _gaq.push(['_setAccount', 'UA-32498293-1']);
+                        _gaq.push(['_trackPageview']);
+                        (function() {
+                        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                        })();
+                    </script>
+                    ]]>
+                </application.analytics>
             </properties>
-        </profile>
-        <profile>
-            <id>protege</id>
-            <build>
-                <defaultGoal>package</defaultGoal>
-            </build>
-            <properties>
-                <metadata.git.skip>true</metadata.git.skip>
-                <metadata.buildInfo.phase>none</metadata.buildInfo.phase>
-                <maven.javadoc.skip>true</maven.javadoc.skip>
-                <maven.test.skip>true</maven.test.skip>
-                <assembly.protege.skip>false</assembly.protege.skip>
-                <bundle.protege.phase>package</bundle.protege.phase>
-            </properties>
-        </profile>
-        <profile>
-            <id>webapps</id>
-            <build>
-                <defaultGoal>package</defaultGoal>
-            </build>
-            <properties>
-                <metadata.git.skip>true</metadata.git.skip>
-                <metadata.buildInfo.phase>none</metadata.buildInfo.phase>
-                <maven.javadoc.skip>true</maven.javadoc.skip>
-                <maven.test.skip>true</maven.test.skip>
-                <assembly.webapps.skip>false</assembly.webapps.skip>
-                <maven.war.skip>false</maven.war.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>release</id>
-            <build>
-                <defaultGoal>package</defaultGoal>
-            </build>
-            <properties>
-                <metadata.git.skip>false</metadata.git.skip>
-                <metadata.buildInfo.phase>prepare-package</metadata.buildInfo.phase>
-                <maven.javadoc.skip>false</maven.javadoc.skip>
-                <maven.test.skip>false</maven.test.skip>
-                <assembly.cli.skip>false</assembly.cli.skip>
-                <assembly.protege.skip>false</assembly.protege.skip>
-                <bundle.protege.phase>package</bundle.protege.phase>
-            </properties>
-        </profile>
-
-        <!-- Manually activated profile to sign (GPG) artifacts to be deployed -->
-        <profile>
-            <id>release-sign-artifacts</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <!-- Automatically activated profile for turning off Javadoc doclint on JDK8 -->
-        <profile>
-            <id>__auto_doclint_java8_disable__</id>
-            <activation>
-                <jdk>[1.8,</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <doclint>none</doclint>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <!-- Automatically activated profile for generating META-INF/build-info.properties, if
-             ${metadat.buildInfo.phase} != 'none' and if directory src/main/java exists -->
-        <profile>
-            <id>buildinfo</id>
-            <activation>
-                <file>
-                    <exists>src/main/java</exists>
-                </file>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>${metadata.buildInfo.phase}</phase>
-                                <goals>
-                                    <goal>build-info</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <!-- Automatically activated profiles to auto-configure standard resource directories:
-             - src/main/resources           filtering=${filter.main.resources}
-             - src/test/resources           filtering=${filter.test.resources}
-             - src/main/resources-filtered  filtering=true
-             - src/test/resources-filtered  filtering=true -->
-        <profile>
-            <id>__auto_main_resources__</id>
-            <activation>
-                <file>
-                    <exists>src/main/resources</exists>
-                </file>
-            </activation>
-            <build>
-                <resources>
-                    <resource>
-                        <filtering>${filter.main.resources}</filtering>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-        <profile>
-            <id>__auto_main_resources_filtered__</id>
-            <activation>
-                <file>
-                    <exists>src/main/resources-filtered</exists>
-                </file>
-            </activation>
-            <build>
-                <resources>
-                    <resource>
-                        <filtering>true</filtering>
-                        <directory>src/main/resources-filtered</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-        <profile>
-            <id>__auto_test_resources__</id>
-            <activation>
-                <file>
-                    <exists>src/test/resources</exists>
-                </file>
-            </activation>
-            <build>
-                <testResources>
-                    <testResource>
-                        <filtering>${filter.test.resources}</filtering>
-                        <directory>src/test/resources</directory>
-                    </testResource>
-                </testResources>
-            </build>
-        </profile>
-        <profile>
-            <id>__auto_test_resources_filtered__</id>
-            <activation>
-                <file>
-                    <exists>src/test/resources-filtered</exists>
-                </file>
-            </activation>
-            <build>
-                <testResources>
-                    <testResource>
-                        <filtering>true</filtering>
-                        <directory>src/test/resources-filtered</directory>
-                    </testResource>
-                </testResources>
-            </build>
         </profile>
     </profiles>
 
+    <modules>
+        <module>webprotege-shared</module>
+        <module>webprotege-server-api</module>
+        <module>webprotege-server-core</module>
+        <module>webprotege-server</module>
+        <module>webprotege-client</module>
+        <module>webprotege-shared-core</module>
+        <module>webprotege-cli</module>
+        <module>webprotege-server-lucene</module>
+    </modules>
 </project>

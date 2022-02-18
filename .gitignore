@@ -1,51 +1,19 @@
-# OS X generated files
-.DS_Store
+*.class
+target/
 
-# Maven generated file
-target
-*.versionsBackup
-*.releaseBackup
-release.properties
-
-# gradle generated files
-.gradle
-
-# Eclipse generated files
-.classpath
-.projecttmp.*
-.project
-.pydevproject
-bin
-.settings
-
-# Intellij generated files
+# IDE files
+.idea/
 *.iml
-.idea
+.classpath
+.project
+.settings/
+out/
 
-# Visual Studio Code
-.vscode
+logs/
 
-# Protege generated files
-catalog-v*.xml
-
-# Temp files
-*~
-\#*
-tmp.*
-**.swp
-**.swo
-
-# Antlr generated files
-*.tokens
-
-# Ontop specific
-plugin-runtime
-
-ontop-optique-test
-tmp
+velocity.log.*
 *.log
 
-.run
+dependency-reduced-pom.xml
 
-# vi
-*.sw[klmnop]
+.protegedata/

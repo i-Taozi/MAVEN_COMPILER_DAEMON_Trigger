@@ -1,1 +1,0 @@
-.\mvnw.cmd clean package -DskipTests -Prelease

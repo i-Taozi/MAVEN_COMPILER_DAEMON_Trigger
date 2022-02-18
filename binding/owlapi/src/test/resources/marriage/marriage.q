@@ -1,2 +1,0 @@
-[QueryItem="spouse"]
-
