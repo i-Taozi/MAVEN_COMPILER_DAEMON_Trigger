@@ -1,5 +1,0 @@
-<module>
-    <inherits name="org.luaj.VM2"/>
-    <inherits name="de.mirkosertic.gameengine.Annotations"/>
-    <source path="gameengine"/>
-</module>
